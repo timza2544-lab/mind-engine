@@ -23,5 +23,18 @@ calls=[];toasts.length=0;S.promptCap=undefined;m.scene='';S.cap={sample:async(te
 await C.scene(false,'him');ck('stops after the smallest level ('+calls.length+' tries)',calls.length>=2&&calls.length<=6);ck('says even the smallest was refused',toasts.some(x=>/แม้ย่อถึงระดับสุดท้าย/.test(x)));ck('not left busy after failing',!m.busy);
 // 4. another kind of error: no retry
 calls=[];toasts.length=0;S.cap={sample:async(text)=>{calls.push(1);throw new Error('boom');}};await C.scene(false,'him');ck('other errors: one try only',calls.length===1);
+// 5. v216: two more tiers below the library's five (the smallest level used to stay near 88K and was still refused)
+S.promptCap=undefined;const L4=C.prompt(m,{start:4}),L5=C.prompt(m,{start:5}),L6=C.prompt(m,{start:6});
+ck('tier sizes shrink: '+L4.size+' > '+L5.size+' > '+L6.size,L4.size>L5.size&&L5.size>L6.size&&L5.level===5&&L6.level===6);
+ck('tier 5 is at least 15% below tier 4',L5.size<L4.size*.85);ck('tier 6 under 60K',L6.size<60000);
+ck('tier 5: no closing-feelings block',/^<after>$/m.test(L4.text)?!/^<after>$/m.test(L5.text):true);
+ck('tier 6: no flood scene, no lexicon',!L6.text.includes('ฉากน้ำทะลักเข้ามดลูก')&&!L6.text.includes('คลังคำ:'));
+ck('the labels exist for the two new tiers',C.LEVEL_LABELS.length===7&&C.LEVEL_LABELS[5]&&C.LEVEL_LABELS[6]);
+S.promptCap=L5.size+500;ck('a lowered budget (just above tier 5) skips tiers 2-4 on its own',C.prompt(m,{}).level>=5);
+S.promptCap=L6.size+500;ck('a lower one reaches tier 6',C.prompt(m,{}).level===6);
+// the host refuses anything near the size of tier 5 and up: the retry walks down tier by tier until one goes through
+S.promptCap=undefined;m.scene='';calls=[];toasts.length=0;S.cap={sample:async(text)=>{calls.push(text.length);if(text.length>=L5.size+4000){const e=new Error('too long');e.code='prompt_too_large';throw e;}return {text:'ฉากทดสอบระดับห้า'};}};
+await C.scene(false,'him');ck('written after walking down ('+calls.join('>')+')',m.scene&&m.scene.includes('ระดับห้า')&&calls[calls.length-1]<L5.size+4000);
+ck('the writer saw the tier named',toasts.some(x=>/ย่อพิเศษ|ย่อสุด/.test(x)||/กำลังลองใหม่/.test(x)));
 ui.toast=t0;S.promptCap=undefined;
 o.push(bad?'TOTAL FAIL '+bad:'ALL OK');return o.join('\n')}catch(e){return 'THROW '+e.message+String(e.stack).slice(0,500)}}));console.log('ERRS',errs.join('|')||'none');await b.close()})();
