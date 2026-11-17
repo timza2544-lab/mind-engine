@@ -12,6 +12,11 @@ for(const m of ['inside','womb','mouth','hand']){const r=A.imgScene.compose(w,{n
  ck(m+': adults only, her sheet kept',/ผู้ใหญ่/.test(r.th)&&/\[ ใบหน้า \]/.test(r.th));
  ck(m+': negative blocks photoreal and minors',/photorealistic/.test(r.neg)&&/minor/.test(r.neg));}
 ck('moments differ from each other',new Set(['inside','womb','mouth','hand'].map(m=>A.imgScene.compose(w,{n:1,seed:'p',moment:m}).parts['ฉากเด็ด'])).size===4);
+const svgs=['inside','womb','mouth','hand'].map(m=>A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:m,preg:m==='womb'})));
+ck('pixelSVG: an inline svg per moment, crisp, 16 colours or fewer',svgs.every(x=>/^<svg/.test(x)&&/crispEdges/.test(x)&&new Set(x.match(/fill="#[0-9a-f]{6}"/g)).size<=16&&x.length>800));
+ck('pixelSVG: the four panels differ, same seed same panel',new Set(svgs).size===4&&svgs[0]===A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:'inside'})));
+ck('pixelSVG: nothing for a photo prompt',A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',pos:'ท่าช้อน',intimate:true}))==='');
+ck('pregnant womb shows the extra dot',A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:'womb',preg:true}))!==A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:'womb'})));
 const ph=A.imgScene.compose(w,{n:1,seed:'p',pos:'ท่าช้อน',intimate:true,moment:'inside',style:'photo'});ck("style:'photo' keeps the old photo prompt",!ph.pixel&&/ภาพถ่ายจริง/.test(ph.parts['สไตล์']));
 const no=A.imgScene.compose(w,{n:1,seed:'p',pos:'ท่าช้อน',intimate:true});ck('no moment: unchanged, not pixel',!no.pixel&&/ภาพถ่ายจริง/.test(no.parts['สไตล์']));
 const kid={id:'k',data:Object.assign({},w.data,{age:15,birthday:''})};if(A.minor(kid.data))ck('minor: no prompt',A.imgScene.compose(kid,{n:1,moment:'inside'})===null);
