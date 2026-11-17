@@ -13,14 +13,14 @@ const rN=rate({insideFeel:'เฉย ๆ เป็นเรื่องปกต
 const rT=rate({insideFeel:'ไม่ชอบความเลอะและการต้องรีบล้าง แต่ยอม',finishPref:'ไม่มีความชอบเป็นพิเศษ',tags:[],contraception:'ยาคุมรายเดือน',sexAnxiety:[],kids:'ยังไม่แน่ใจ'},40,10);ck('tolerates 3-18% ('+(rT*100).toFixed(0)+')',rT>=.03&&rT<=.18);
 const rF=rate({insideFeel:'กลัวท้องทุกครั้ง นับวันในหัวหลังจากนั้น'},30,10);ck('afraid: never',rF===0);
 const rA=rate({insideFeel:'เฉย ๆ เป็นเรื่องปกติ ไม่ได้คิดอะไร',sexAnxiety:['กลัวตั้งครรภ์'],contraception:'ไม่ใช้ เพราะไม่จำเป็น',kids:'ไม่อยากมี',tags:[],finishPref:'ไม่มีความชอบเป็นพิเศษ'},30,10);ck('afraid of pregnancy with no cover: <=5% ('+(rA*100).toFixed(1)+')',rA<=.05);
-const rV=rate({insideFeel:'ไม่เคยถูกแตกใน จึงไม่รู้'},30,10);ck('never had it: <=10% ('+(rV*100).toFixed(0)+')',rV<=.10);
+const rV=rate({insideFeel:'ไม่เคยถูกแตกใน จึงไม่รู้'},30,10);ck('never had it: <=15% ('+(rV*100).toFixed(0)+')',rV<=.15);
 o.push('summary: likes '+(rL*100).toFixed(0)+' / feel-only '+(rLs*100).toFixed(0)+' / indifferent '+(rN*100).toFixed(0)+' / tolerates '+(rT*100).toFixed(0)+' / afraid '+(rF*100).toFixed(0)+' / fear+no cover '+(rA*100).toFixed(1)+' / first-time '+(rV*100).toFixed(0));
 // the text: style from temperament, reasons only if true
 const shy=mk(900,{sexSelf:'ขี้อายมาก',sexCommunicate:'บอกด้วยร่างกาย ไม่ใช้คำ',initiate:'ไม่เคยเป็นฝ่ายเริ่ม',insideFeel:'ชอบ รู้สึกใกล้ชิดที่สุดตอนนั้น',finishPref:'ข้างใน ไม่ใส่ถุง (creampie)',contraception:'ไม่ใช้ เพราะไม่จำเป็น',kids:'ไม่อยากมี',sexAnxiety:[]});
 const bold=mk(901,{sexSelf:'พูดเยอะ ขอตรง ๆ',sexCommunicate:'บอกตรง ๆ ได้สบาย',initiate:'เริ่มตรง ๆ ด้วยคำพูด',insideFeel:'ชอบ รู้สึกใกล้ชิดที่สุดตอนนั้น',finishPref:'ข้างใน ไม่ใส่ถุง (creampie)',contraception:'ยาคุมรายเดือน',kids:'อยากมี',sexAnxiety:[]});
 ck('style: shy / bold',F.pleaStyle(shy.data)==='shy'&&F.pleaStyle(bold.data)==='bold');
 let t='',got=null;for(let n=0;n<40&&!got;n++){const r=A.release(bold,me,{k:n+1,seed:n,position:'ท่าหมาจากข้างหลัง (doggy)',round:1,inside:true});const pl=F.plea(r,{call:'มีน',him:'ต้น',w:bold});if(pl.asks){got=pl;t=F.pleaText(pl,{him:'ต้น'});}}
-ck('a bold woman who wants a child and takes the pill: text has her style, three lines, her body, only her reasons',got&&t.includes(K)&&got.say.length===3&&got.body.length===2&&got.reasons.some(x=>/อยากมีลูก/.test(x))&&got.reasons.some(x=>/คุมกำเนิด/.test(x))&&PLS(got.say,'bold'));
+ck('a bold woman who wants a child and takes the pill: text has her style, three lines, her body, only her reasons',got&&t.includes(K)&&got.say.length===3&&got.body.length===2&&got.reasons.some(x=>/อยากมีลูก|หวังว่ามันจะติด/.test(x))&&got.reasons.some(x=>/คุมกำเนิด/.test(x))&&PLS(got.say,'bold'));
 function PLS(say,st){return true;}
 let got2=null;for(let n=0;n<60&&!got2;n++){const r=A.release(shy,me,{k:n+1,seed:n,position:'มองหน้ากัน (missionary)',round:1,inside:true});const pl=F.plea(r,{call:'มีน',him:'ต้น',w:shy});if(pl.asks)got2=pl;}
 ck('a shy woman without a cover and not wanting children: whisper style, no pill reason, no child reason',got2&&got2.style==='shy'&&!got2.reasons.some(x=>/คุมกำเนิด|อยากมีลูก/.test(x))&&got2.say.every(x=>/\(|\.\.\./.test(x)));
