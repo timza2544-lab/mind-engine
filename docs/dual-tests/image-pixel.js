@@ -17,7 +17,12 @@ ck('pixelSVG: an inline svg per moment, crisp, 16 colours or fewer',svgs.every(x
 ck('pixelSVG: the four panels differ, same seed same panel',new Set(svgs).size===4&&svgs[0]===A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:'inside'})));
 ck('pixelSVG: nothing for a photo prompt',A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',pos:'ท่าช้อน',intimate:true}))==='');
 ck('pregnant womb shows the extra dot',A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:'womb',preg:true}))!==A.imgScene.pixelSVG(A.imgScene.compose(w,{n:1,seed:'p',moment:'womb'})));
+ck('pixelSVG: 4 frames of animation, steps-based css, reduced-motion fallback',svgs.every(x=>(x.match(/class="pxf"/g)||[]).length===4&&/steps\(1,end\)/.test(x)&&/prefers-reduced-motion/.test(x)));
+// the frames really differ and really play: mount one and read which frame is visible over time
+document.body.insertAdjacentHTML('beforeend','<div id="pxt">'+svgs[0]+'</div>');window.__pxt=1;
 const ph=A.imgScene.compose(w,{n:1,seed:'p',pos:'ท่าช้อน',intimate:true,moment:'inside',style:'photo'});ck("style:'photo' keeps the old photo prompt",!ph.pixel&&/ภาพถ่ายจริง/.test(ph.parts['สไตล์']));
 const no=A.imgScene.compose(w,{n:1,seed:'p',pos:'ท่าช้อน',intimate:true});ck('no moment: unchanged, not pixel',!no.pixel&&/ภาพถ่ายจริง/.test(no.parts['สไตล์']));
 const kid={id:'k',data:Object.assign({},w.data,{age:15,birthday:''})};if(A.minor(kid.data))ck('minor: no prompt',A.imgScene.compose(kid,{n:1,moment:'inside'})===null);
-o.push(bad?'TOTAL FAIL '+bad:'ALL OK');return o.join('\n')}catch(e){return 'THROW '+e.message+String(e.stack).slice(0,500)}}));console.log('ERRS',errs.join('|')||'none');await b.close()})();
+o.push(bad?'TOTAL FAIL '+bad:'ALL OK');return o.join('\n')}catch(e){return 'THROW '+e.message+String(e.stack).slice(0,500)}}));const vis=async()=>p.evaluate(()=>[...document.querySelectorAll('#pxt .pxf')].map(g=>getComputedStyle(g).opacity).join(''));
+const seen=new Set();for(let i=0;i<12;i++){seen.add(await vis());await p.waitForTimeout(110);}
+console.log(seen.size>=3?'anim ok: '+seen.size+' distinct visible-frame states':'FAIL animation does not play ('+[...seen]+')');console.log('ERRS',errs.join('|')||'none');await b.close()})();
