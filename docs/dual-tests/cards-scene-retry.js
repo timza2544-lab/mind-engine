@@ -28,7 +28,7 @@ S.promptCap=undefined;const L4=C.prompt(m,{start:4}),L5=C.prompt(m,{start:5}),L6
 ck('tier sizes shrink: '+L4.size+' > '+L5.size+' > '+L6.size,L4.size>L5.size&&L5.size>L6.size&&L5.level===5&&L6.level===6);
 ck('tier 5 is at least 15% below tier 4',L5.size<L4.size*.85);ck('tier 6 under 60K',L6.size<60000);
 ck('tier 5: no closing-feelings block',/^<after>$/m.test(L4.text)?!/^<after>$/m.test(L5.text):true);
-ck('tier 6: no flood scene, no lexicon',!L6.text.includes('ฉากน้ำทะลักเข้ามดลูก')&&!L6.text.includes('คลังคำ:'));
+ck('tier 6: no flood scene, no lexicon, and a conception scene (if any) does not claim a flood was told',!L6.text.includes('ฉากย่อยของตอนเสร็จ')&&!L6.text.includes('คลังคำ:')&&!L6.text.includes('เล่าจบไปก่อนแล้ว ฉากนี้เริ่มจากน้ำ'));
 ck('the labels exist for the two new tiers',C.LEVEL_LABELS.length===7&&C.LEVEL_LABELS[5]&&C.LEVEL_LABELS[6]);
 S.promptCap=L5.size+500;ck('a lowered budget (just above tier 5) skips tiers 2-4 on its own',C.prompt(m,{}).level>=5);
 S.promptCap=L6.size+500;ck('a lower one reaches tier 6',C.prompt(m,{}).level===6);

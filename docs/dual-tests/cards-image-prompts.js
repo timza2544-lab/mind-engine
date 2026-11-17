@@ -16,7 +16,7 @@ ck('one scene prompt per attempt ('+L.length+' of '+atts+')',L.length===atts&&L.
 ck('scene html shown after the deal',h.includes('พรอมต์ภาพของผู้หญิง '+L.length+' ภาพ'));
 ck('each scene: her sheet + place + position',L.every(it=>it.im.th.includes('[ ตัวละคร ]')&&it.im.th.includes('[ สถานที่ ]')&&it.im.th.includes('[ ท่าทาง ]')));
 for(const w of [wa,wb]){const mine=L.filter(it=>it.key.startsWith(w.id+':'));const outs=mine.map(it=>it.im.outfit);ck(A.callName(w.data)+': outfits differ between her pictures',new Set(outs).size===outs.length);}
-ck('scene prompt names the man of that night',L.every(it=>/กับ\S+/.test(it.im.parts['ท่าทาง'])));
+ck('each scene is labelled with the man of that night (the picture itself only shows a shoulder or a hand of him)',L.every(it=>/กับ\S+/.test(it.label)));
 ck('stable: same prompts on a second render',JSON.stringify(C.imgScenes(m).map(x=>x.im.th))===JSON.stringify(L.map(x=>x.im.th)));
 // adults only: a minor gets nothing, a missing tool never throws
 const kid={id:'kid',data:Object.assign({},wa.data,{age:15,birthday:''})};ck('minor: no body prompt',C.imgBody(kid)===null||!A.minor(kid.data));
