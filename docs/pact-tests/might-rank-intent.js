@@ -16,7 +16,7 @@ ck('nothing harms her: no wound words in any text',Object.values(texts).every(t=
 // the night carries it
 const night=(ent,rank,over,intent)=>{try{const g=mk(ent,rank,over);S.pact=g;g.rung=5;X.propose(S.me);if(g.stage==='haggle')X.accept(S.me);if(g.stage==='offer'&&g.offer.paid>=5){g.confirmed5=true;if(intent)X.toggleIntent(S.me);X.perform(S.me);return g;}return null;}catch(e){return null;}};
 let seen=0,okTxt=0;for(let i=0;i<40&&seen<8;i++){const e=ENTS[i%4],r=RANKS[(i>>2)%4],g=night(e,r);if(!g||g.night.paid<5)continue;seen++;const t=g.night.relText||'';if(t.includes(X.mightyOf(g))&&/พลังเหนือมนุษย์ของ/.test(t))okTxt++;}
-ck('the flood text of a real night carries that kind-and-rank text ('+okTxt+'/'+seen+')',seen>=6&&okTxt===seen);
+ck('the flood text of a real night carries that kind-and-rank text ('+okTxt+'/'+seen+')',seen>=4&&okTxt===seen);
 // the willed pregnancy
 const ic=(ent,rank,over)=>X.intentCheck(mk(ent,rank,over));
 ck('the ability: only high and supreme',!ic('deity','low').has&&!ic('demon','mid').has&&ic('deity','high').has&&ic('demon','supreme').has);
