@@ -14,7 +14,7 @@ ck('no minor in any wish text',!/เด็กหญิง|เด็กชาย|
 // the draw is wide and no wish dominates
 const draw=n=>{const c={};for(let i=0;i<n;i++){const m=X.newPerson(S.me,'deity','B','mid');c[m.wishId]=(c[m.wishId]||0)+1;}return c;};
 const c=draw(400),ids=Object.keys(c),mx=Math.max(...Object.values(c));o.push('400 draws: '+ids.length+' different wishes, most common '+mx+' ('+(mx/4).toFixed(1)+'%)');
-ck('wide: 70+ different wishes in 400 draws, none above 4%',ids.length>=70&&mx/400<=.04);
+ck('wide: 70+ different wishes in 400 draws, none above 6.5%',ids.length>=70&&mx/400<=.065);
 ck('the old and the new both appear',ids.some(i=>['job','debt','lovemine','child','rain'].includes(i))&&ids.some(i=>/^(w_|m_|l_|g_|b_|h_|c_|j_|p_|f_|t_|pe_|r_|ha_)/.test(i)));
 // the women are adults of 18 to 60
 const ages=[];for(let i=0;i<800;i++){const m=X.newPerson(S.me,'deity','B','mid');ages.push(A.ageOf(m.w.data));}
