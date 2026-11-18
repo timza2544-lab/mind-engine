@@ -16,15 +16,18 @@ const draw=n=>{const c={};for(let i=0;i<n;i++){const m=X.newPerson(S.me,'deity',
 const c=draw(400),ids=Object.keys(c),mx=Math.max(...Object.values(c));o.push('400 draws: '+ids.length+' different wishes, most common '+mx+' ('+(mx/4).toFixed(1)+'%)');
 ck('wide: 70+ different wishes in 400 draws, none above 4%',ids.length>=70&&mx/400<=.04);
 ck('the old and the new both appear',ids.some(i=>['job','debt','lovemine','child','rain'].includes(i))&&ids.some(i=>/^(w_|m_|l_|g_|b_|h_|c_|j_|p_|f_|t_|pe_|r_|ha_)/.test(i)));
+// the women are adults of 18 to 60
+const ages=[];for(let i=0;i<800;i++){const m=X.newPerson(S.me,'deity','B','mid');ages.push(A.ageOf(m.w.data));}
+const mn=Math.min(...ages),mxa=Math.max(...ages);o.push('ages: '+mn+'-'+mxa);ck('ages are 18 to 60 (800 women: '+mn+'-'+mxa+'), both ends and the middle occur',mn>=18&&mxa<=60&&ages.some(a=>a<=20)&&ages.some(a=>a>=57)&&ages.filter(a=>a>=35&&a<=45).length>=60);
 // phrasing varies for one wish
 const one=W.find(w=>w.id==='w_boss'),seen=new Set();for(let i=0;i<40;i++){const m=X.newPerson(S.me,'deity','B','mid',{seed:'v'+i,wishId:'w_boss'});seen.add(m.sit+'|'+m.ask);}ck('one wish, several phrasings ('+seen.size+')',seen.size>=3);
 ck('no placeholder left in what she says',(()=>{for(let i=0;i<150;i++){const m=X.newPerson(S.me,'deity','B','mid');if(/[{}]|undefined/.test(m.sit+m.ask+m.ctx.wish))return false;}return true;})());
 // who asks: a farmer / a fisher / a young graduate / an old woman
 const draws=(over,n,fn)=>{let k=0;for(let i=0;i<n;i++){const d=A.gameWoman({age:over.age||30});Object.assign(d,over);const m=X.newPerson(S.me,'deity','B','mid',{w:{id:'t'+i,data:d,sim:{},chat:[],ai:{}}});if(fn(m.wishId))k++;}return k/n;};
 const farm=draws({age:45,occupation:'เกษตรกร ทำนา'},200,id=>/^(rain|ha_)/.test(id)),plain=draws({age:45,occupation:'พนักงานออฟฟิศ'},200,id=>/^(rain|ha_)/.test(id));
-const old=draws({age:62,occupation:'เกษียณ'},1500,id=>id==='w_retire'),young=draws({age:30,occupation:'พนักงานออฟฟิศ'},200,id=>id==='w_retire');
+const old=draws({age:58,occupation:'เกษียณ'},1500,id=>id==='w_retire'),young=draws({age:30,occupation:'พนักงานออฟฟิศ'},200,id=>id==='w_retire');
 const first=draws({age:22,occupation:'ว่างงาน'},1000,id=>id==='w_firstjob'),mid=draws({age:48,occupation:'ข้าราชการ'},200,id=>id==='w_firstjob');
-o.push('farmer '+(farm*100).toFixed(0)+'% vs office '+(plain*100).toFixed(0)+'% farm wishes · age 62 '+(old*100).toFixed(1)+'% vs 30 '+(young*100).toFixed(1)+'% retire · age 22 '+(first*100).toFixed(1)+'% vs 48 '+(mid*100).toFixed(1)+'% first job');
+o.push('farmer '+(farm*100).toFixed(0)+'% vs office '+(plain*100).toFixed(0)+'% farm wishes · age 58 '+(old*100).toFixed(1)+'% vs 30 '+(young*100).toFixed(1)+'% retire · age 22 '+(first*100).toFixed(1)+'% vs 48 '+(mid*100).toFixed(1)+'% first job');
 ck('who asks matches the job and age (farmer, retirement, first job)',farm>plain*1.4&&old>young&&old>=.008&&first>mid&&first>=.01);
 // the last nights' wishes are avoided
 S.pactCodex=[];const base=draw(300);const topId=Object.keys(base).sort((a,b)=>base[b]-base[a])[0];const topT=W.find(w=>w.id===topId).t;

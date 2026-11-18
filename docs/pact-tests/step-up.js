@@ -17,6 +17,8 @@ ck('guard: 4 -> 5 only after the pregnancy risk is confirmed',(()=>{const q=at(m
 const rate=(ent,rank,lib,paid,limit,conf)=>{let c=0,viol=0;for(let i=0;i<300;i++){const q=at(mk(ent,rank,'r'+i,{libido:lib}),paid,limit);q.overOK=true;q.confirmed5=!!conf;const v=X.overstepOf(q);if(v){c++;if(v.to>limit||v.from!==paid||v.to!==paid+1)viol++;}}return {r:c/300,viol};};
 const lo=rate('deity','low',15,2,5),hi=rate('deity','low',95,2,5),dm=rate('demon','supreme',50,2,5),dt=rate('deity','low',50,2,5);o.push('chance: libido 15 '+(lo.r*100).toFixed(0)+'% · libido 95 '+(hi.r*100).toFixed(0)+'% · deity low 50 '+(dt.r*100).toFixed(0)+'% · demon supreme 50 '+(dm.r*100).toFixed(0)+'%');
 ck('the chance is higher for a woman with a high libido',hi.r>lo.r+.12);ck('a supreme demon pulls more than a low god',dm.r>dt.r+.08);ck('one step at a time, and never past her limit (4 -> 5 with limit 5 only, 2 -> 3 with limit 3 ok)',lo.viol===0&&hi.viol===0&&dm.viol===0&&rate('deity','low',99,2,3).viol===0&&rate('deity','low',99,2,3).r>0);
+const c12=rate('deity','mid',60,1,5),c23=rate('deity','mid',60,2,5),c34=rate('deity','mid',60,3,5),c45=rate('deity','mid',60,4,5,true);o.push('continuity: 1->2 '+(c12.r*100).toFixed(0)+'% · 2->3 '+(c23.r*100).toFixed(0)+'% · 3->4 '+(c34.r*100).toFixed(0)+'% · 4->5 '+(c45.r*100).toFixed(0)+'%');
+ck('2 -> 3 and 4 -> 5 (the same act continues) are likelier than 1 -> 2 and 3 -> 4 (a change of act)',c23.r>c12.r+.08&&c45.r>c34.r+.08&&c12.r>0&&c34.r>0);
 ck('between 10% and 70% always',lo.r>=.05&&hi.r<=.75);
 // 3. the night itself: 2 -> 3
 let n23=null;for(let i=0;i<60&&!n23;i++){const q=at(mk('demon','high','n'+i,{libido:90}),2,5);q.overOK=true;if(X.overstepOf(q)){try{X.perform(S.me);n23=q;}catch(e){}}}

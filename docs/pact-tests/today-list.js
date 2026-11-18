@@ -7,7 +7,7 @@ S.me={id:'me-profile',kind:'me',data:{age:34,nickname:'ต้น',firstName:'ต
 const day=n=>{X.dayKey=()=>'2031-03-'+String(n).padStart(2,'0');S.pactToday=null;return X.todayVisitors(S.me);};
 const entry=(i,paid)=>{const d=A.gameWoman({age:24+i});return {seed:'cx'+i+'-'+paid,at:Date.now()-86400000*(3+i),role:'give',her:A.callName(d),age:A.ageOf(d),occ:'งานประจำ',ent:'deity',mode:'B',wish:'งานใหม่',size:3,paid,tier:'เต็ม',w:{id:'pact-old'+i+paid,data:d,sim:{rel:'ยังไม่รู้จักกัน'},chat:[],ai:{}}};};
 // no codex: only new visitors
-S.pactCodex=[];let T=day(1);ck('empty codex: 3-5 new visitors ('+T.list.length+')',T.list.length>=3&&T.list.length<=5&&T.list.every(v=>v.kind==='new'&&v.w&&v.wishT&&v.her&&v.age>=20));
+S.pactCodex=[];let T=day(1);ck('empty codex: 3-5 new visitors ('+T.list.length+')',T.list.length>=3&&T.list.length<=5&&T.list.every(v=>v.kind==='new'&&v.w&&v.wishT&&v.her&&v.age>=18));
 // kept all day
 const again=X.todayVisitors(S.me);ck('same day: the very same list',again===T||JSON.stringify(again.list.map(v=>v.id))===JSON.stringify(T.list.map(v=>v.id)));
 // returners by how deep the night went
