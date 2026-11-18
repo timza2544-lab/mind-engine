@@ -9,7 +9,7 @@ let got=0,tot=0;const texts=[];
 for(let i=0;i<40&&got<12;i++){const c={id:'pd'+i,data:Object.assign(A.gameWoman({age:27+i%8}),LIKE),sim:{rel:'แฟน'},chat:[],ai:{}};A.state.chars=[c];const r=A.release(c,me,{k:i+1,seed:i*7,position:'มองหน้ากัน (missionary)',round:1,inside:true});const pl=F.plea(r,{call:'มีน',him:'ต้น',w:c});tot++;if(pl&&pl.asks){got++;texts.push({pl,t:F.pleaText(pl,{him:'ต้น'})});}}
 ck('got asking nights ('+got+' of '+tot+')',got>=6);
 const DIRECT=/แตก|เอาออก|ชักออก|ฉีด|เติม|อัด|น้ำรัก|ท้อง|เสร็จข้างใน/;
-ck('every prompt carries a direct word stock with direct words in it',texts.every(x=>/คำตรงที่ต้องใช้เป็นคำขอของเธอ/.test(x.t)&&x.pl.ask.length>=6&&x.pl.ask.some(a=>DIRECT.test(a))));
+ck('every prompt carries a direct word stock with direct words in it',texts.every(x=>/คำตรงที่ต้องใช้เป็นคำขอของเธอ/.test(x.t)&&x.pl.ask.length>=8&&x.pl.ask.some(a=>DIRECT.test(a))));
 ck('every prompt carries the speech rule: spoken words, written words banned by name',texts.every(x=>/กฎคำพูด/.test(x.t)&&/ภาษาพูด ไม่ใช่ภาษาเขียน/.test(x.t)&&/จบ ปล่อย ถอย ถอด ถอน/.test(x.t)));
 ck('the old "do not copy the words" wording is gone',texts.every(x=>!/ไม่ต้องคัดลอกตรง ๆ/.test(x.t)&&/ห้ามแปลงคำหลักให้อ้อมหรือสละสลวย/.test(x.t)));
 // no spoken line anywhere uses the written-style words
@@ -24,4 +24,8 @@ const mk=(over,i)=>{const c={id:'pk'+i,data:Object.assign(A.gameWoman({age:30}),
 const sw=mk({swear:80,kids:'อยากมี'},1),shy=mk({swear:90,kids:'อยากมี',sexSelf:'ขี้อายมาก',sexCommunicate:'พูดไม่เป็นเลย',initiate:'ไม่เคยเป็นฝ่ายเริ่ม'},2);
 ck('a swearing woman who wants a child gets coarse and child words ('+(sw&&sw.ask.length)+' words)',sw&&sw.ask.length>=11&&sw.ask.some(a=>/หี|ควย/.test(a))&&sw.ask.some(a=>/ท้อง|ลูก/.test(a)));
 ck('a shy woman gets plain words only',!shy||!shy.ask.some(a=>/หี|ควย|ท้อง/.test(a)));
+ck('asks are split by moment (before / while he comes / after) and the prompt says so',texts.every(x=>x.pl.askBy&&x.pl.askBy.before.length===3&&x.pl.askBy.during.length===3&&x.pl.askBy.after.length===2&&/ก่อนเขาถึง:/.test(x.t)&&/ตอนเขากำลังแตก:/.test(x.t)&&/หลังแตกแล้ว:/.test(x.t)&&/ไม่ใช่ "ควยอย่าเอาออกนะ"/.test(x.t)));
+ck('word order is spoken order: no "ควยอย่า..." in any ask line',said.every(l=>!/ควยอย่า|ควยห้าม|หีอย่า/.test(l)));
+const big=new Set();for(let i=0;i<80;i++){const q=mk({swear:80,kids:'อยากมี'},100+i);if(q)q.ask.forEach(a=>big.add(a));}
+ck('wide variety over many nights ('+big.size+' different words)',big.size>=70);
 o.push(bad?'TOTAL FAIL '+bad:'ALL OK');return o.join('\n')}catch(e){return 'THROW '+e.message+String(e.stack).slice(0,500)}}));console.log('ERRS',errs.join('|')||'none');await b.close()})();
