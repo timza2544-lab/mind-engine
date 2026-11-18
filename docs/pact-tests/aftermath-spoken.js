@@ -10,7 +10,7 @@ ck('spoken stocks, aftermath and return lines have no written-style word ('+all.
 ck('act labels use แตก, not ปล่อย',/แตกนอก/.test(D.RUNG_ASK[4])&&/แตกใน/.test(D.RUNG_ASK[5])&&!/ปล่อย/.test(D.RUNG_ASK.join()));
 ck('ritual texts say แตกใน / แตกนอก for the act',!/ปล่อย(ใน|ข้างใน|นอก|บน)/.test(JSON.stringify(D.RITUAL))&&!/ปล่อย(ใน|ข้างใน|นอก|บน)/.test(JSON.stringify(D.RITUAL_ASK)));
 // the giver mode, ceremonies of different length
-const givenight=(rung,ent)=>{Object.assign(pk,{role:'give',mode:'B',ent:ent||'deity'});const g=X.newPerson(S.me,ent||'deity','B','mid');S.pact=g;g.rung=rung;X.propose(S.me);if(g.stage==='haggle')X.accept(S.me);if(g.stage==='offer'){if(g.offer.paid>=5)g.confirmed5=true;X.perform(S.me);return g;}return null;};
+const givenight=(rung,ent)=>{try{Object.assign(pk,{role:'give',mode:'B',ent:ent||'deity'});const g=X.newPerson(S.me,ent||'deity','B','mid');S.pact=g;g.rung=rung;X.propose(S.me);if(g.stage==='haggle')X.accept(S.me);if(g.stage==='offer'){if(g.offer.paid>=5)g.confirmed5=true;X.perform(S.me);return g;}return null;}catch(e){return null;}}; // she may refuse: that night does not count
 const g5=givenight(5);if(g5){const rp=X.ripplePrompt(S.me),sp=X.scenePrompt(S.me),K=g5.night.paid;
  ck('give: scene prompt has the spoken rule and a stock for the last step ('+K+')',/ภาษาพูดในคำพูดทุกคำ/.test(sp)&&X.SPOKEN[K].some(l=>sp.includes(l))&&/ห้ามภาษาเขียนหรือคำอ้อม/.test(sp));
  ck('give: ripple prompt has <aftermath> tied to the last step ('+K+') and her own lines',/<aftermath>/.test(rp)&&new RegExp('ขั้น '+K+': ').test(rp)&&X.AFTER.give[K].some(l=>rp.includes(l)));
