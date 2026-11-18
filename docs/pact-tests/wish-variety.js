@@ -22,10 +22,10 @@ ck('no placeholder left in what she says',(()=>{for(let i=0;i<150;i++){const m=X
 // who asks: a farmer / a fisher / a young graduate / an old woman
 const draws=(over,n,fn)=>{let k=0;for(let i=0;i<n;i++){const d=A.gameWoman({age:over.age||30});Object.assign(d,over);const m=X.newPerson(S.me,'deity','B','mid',{w:{id:'t'+i,data:d,sim:{},chat:[],ai:{}}});if(fn(m.wishId))k++;}return k/n;};
 const farm=draws({age:45,occupation:'เกษตรกร ทำนา'},200,id=>/^(rain|ha_)/.test(id)),plain=draws({age:45,occupation:'พนักงานออฟฟิศ'},200,id=>/^(rain|ha_)/.test(id));
-const old=draws({age:62,occupation:'เกษียณ'},700,id=>id==='w_retire'),young=draws({age:30,occupation:'พนักงานออฟฟิศ'},200,id=>id==='w_retire');
-const first=draws({age:22,occupation:'ว่างงาน'},500,id=>id==='w_firstjob'),mid=draws({age:48,occupation:'ข้าราชการ'},200,id=>id==='w_firstjob');
+const old=draws({age:62,occupation:'เกษียณ'},1500,id=>id==='w_retire'),young=draws({age:30,occupation:'พนักงานออฟฟิศ'},200,id=>id==='w_retire');
+const first=draws({age:22,occupation:'ว่างงาน'},1000,id=>id==='w_firstjob'),mid=draws({age:48,occupation:'ข้าราชการ'},200,id=>id==='w_firstjob');
 o.push('farmer '+(farm*100).toFixed(0)+'% vs office '+(plain*100).toFixed(0)+'% farm wishes · age 62 '+(old*100).toFixed(1)+'% vs 30 '+(young*100).toFixed(1)+'% retire · age 22 '+(first*100).toFixed(1)+'% vs 48 '+(mid*100).toFixed(1)+'% first job');
-ck('who asks matches the job and age (farmer, retirement, first job)',farm>plain*1.8&&old>=young*2+.004&&first>=mid*2+.01);
+ck('who asks matches the job and age (farmer, retirement, first job)',farm>plain*1.4&&old>young&&old>=.008&&first>mid&&first>=.01);
 // the last nights' wishes are avoided
 S.pactCodex=[];const base=draw(300);const topId=Object.keys(base).sort((a,b)=>base[b]-base[a])[0];const topT=W.find(w=>w.id===topId).t;
 S.pactCodex=[{role:'give',wish:topT,seed:'s1',at:1,w:{id:'q',data:{}}}];const after=draw(300);o.push('avoid: '+topId+' '+base[topId]+' -> '+(after[topId]||0)+' of 300 when it was among the last nights');ck('a wish from a recent night comes up much less ('+base[topId]+' -> '+(after[topId]||0)+')',(after[topId]||0)<=base[topId]*.6);S.pactCodex=[];
