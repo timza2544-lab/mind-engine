@@ -24,11 +24,19 @@ ck('lived and told from the same woman live side by side',A.storyShared(c).lengt
 txt=A.storyPrompt(c,me,mine,{}).text;ck('told wording: she was not there',/ไม่ได้อยู่ในเหตุการณ์/.test(txt)&&/มินตรา/.test(txt));
 // the same mode again replaces, not duplicates
 A.storyShareAdd(c,a,{mode:'told'});ck('same source and mode replaces the earlier entry',A.storyShared(c).length===2);
+// who she is in that story: beside (present, not his partner that night) with a role she names
+const e3=A.storyShareAdd(c,a,{mode:'beside',role:'เพื่อนสนิทที่นั่งอยู่ในห้อง'});ck('beside: entry with her chosen role',e3&&e3.mode==='beside'&&e3.role==='เพื่อนสนิทที่นั่งอยู่ในห้อง'&&e3.eps.every(x=>x.text.includes('มินตรา')));
+txt=A.storyPrompt(c,me,mine,{}).text;ck('beside wording: present in that role, not his partner that night',/อยู่ในฐานะเพื่อนสนิทที่นั่งอยู่ในห้อง/.test(txt)&&/ไม่ใช่คู่ของต้นในตอนเหล่านี้/.test(txt)&&/ห้ามเขียนให้เธอเป็นคนที่ทำกับต้นในตอนนั้น/.test(txt));
+const e4=A.storyShareAdd(c,mkc('sr',29,'รินรดา'),{mode:'told',role:'x'});ck('empty source still refused with a role',e4===null);
+ck('three modes live side by side',A.storyShared(c).length===3&&['lived','told','beside'].every(m=>A.storyShared(c).some(x=>x.mode===m)));
+// the role she names also rides on lived / told
+const e5=A.storyShareAdd(c,a,{mode:'told',role:'มินตราเล่าให้ฟังเองตอนกินข้าว'});txt=A.storyPrompt(c,me,mine,{}).text;ck('told with a role: how she knows it is in the prompt',/บทบาทของพลอยใสในเรื่องนี้ \(เธอเลือกเอง\): มินตราเล่าให้ฟังเองตอนกินข้าว/.test(txt)&&A.storyShared(c).length===3);
+ck('the rule explains all three',/"อยู่ด้วย"/.test(txt)&&/"จำร่วมกัน"/.test(txt)&&/"รู้เรื่อง"/.test(txt));
 // the interview
 const note=A.storyChatNote(c,me);ck('interview hears the shared memory',/ความทรงจำร่วมของพลอยใสกับต้น/.test(note)&&/สิ่งที่พลอยใสรู้เกี่ยวกับต้นกับมินตรา/.test(note));
 c.story.eps=[];const note2=A.storyChatNote(c,me);ck('interview with no episodes of her own still hears it (told memory + the rule)',/สิ่งที่พลอยใสรู้เกี่ยวกับต้นกับมินตรา/.test(note2)&&/ไม่ขัดกับ <history>/.test(note2));
 // remove
-ck('remove works',A.storyShareRemove(c,e1.id)&&A.storyShared(c).length===1&&!A.storyShareRemove(c,'nope'));
+ck('remove works',A.storyShareRemove(c,e1.id)&&A.storyShared(c).length===2&&!A.storyShareRemove(c,'nope'));
 // refusals
 const kid={id:'kd',data:Object.assign({},a.data,{age:15,birthday:''}),story:{eps:[ep(1)]}};if(A.minor(kid.data)){ck('minor source refused',A.storyShareAdd(c,kid,{mode:'told'})===null);ck('minor target refused',A.storyShareAdd(kid,a,{mode:'told'})===null);}
 ck('empty source refused',A.storyShareAdd(c,mkc('sz',30,'ว่าง'),{mode:'told'})===null);ck('self refused',A.storyShareAdd(c,c,{mode:'told'})===null);
@@ -41,9 +49,9 @@ const a=U.createChar(Object.assign(A.gameWoman({age:27}),{nickname:'มินต
 const e={k:1,at:1000,id:'e1',kind:'night',plan:{scope:'full'},days:3};e.roll=A.storyRoll(a,me,e,{});e.scene='ฉาก';e.summary='มินตรากับต้นไปดูหนัง';a.story={at:Date.now(),eps:[e]};
 S.view='talk';S.talk.mode='story';S.talk.charId=c.id;S.curId=c.id;U.renderAll();
 ck('panel shows the share card with a source list',!!document.querySelector('.story-share')&&!!document.querySelector('#shareSrc')&&/มินตรา \(1 ตอน\)/.test(document.querySelector('#shareSrc').textContent));
-document.querySelector('#shareMode').value='lived';document.querySelector('[data-act="storyshare"]').click();await new Promise(r=>setTimeout(r,200));
-ck('click: the memory is stored on her',A.storyShared(c).length===1&&A.storyShared(c)[0].mode==='lived');
-ck('panel lists it with a remove button',/มินตรา · จำร่วมกัน · 1 ตอน/.test(document.querySelector('.story-share').textContent)&&!!document.querySelector('[data-act="storyshareoff"]'));
+ck('role box is there',!!document.querySelector('#shareRole')&&document.querySelectorAll('#shareMode option').length===3);document.querySelector('#shareMode').value='beside';document.querySelector('#shareRole').value='เพื่อนที่นั่งอยู่ด้วย';document.querySelector('[data-act="storyshare"]').click();await new Promise(r=>setTimeout(r,200));
+ck('click: the memory is stored on her',A.storyShared(c).length===1&&A.storyShared(c)[0].mode==='beside'&&A.storyShared(c)[0].role==='เพื่อนที่นั่งอยู่ด้วย');
+ck('panel lists it with a remove button',/มินตรา · อยู่ด้วย · เธอเป็น: เพื่อนที่นั่งอยู่ด้วย · 1 ตอน/.test(document.querySelector('.story-share').textContent)&&!!document.querySelector('[data-act="storyshareoff"]'));
 document.querySelector('[data-act="storyshareoff"]').click();await new Promise(r=>setTimeout(r,200));
 ck('click remove: gone',A.storyShared(c).length===0);
 o.push(bad?'TOTAL FAIL '+bad:'UI ALL OK');return o.join('\n')}catch(e){return 'THROW '+e.message+String(e.stack).slice(0,400)}});console.log(ui);
