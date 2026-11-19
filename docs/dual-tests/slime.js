@@ -14,9 +14,9 @@ const s0=X.create('วุ้น');ck('created: a drop, hunger 40, mood 60, trust
 ck('saved to localStorage and restores through norm()',(()=>{const raw=JSON.parse(localStorage.getItem('anima.slime.v1'));const n=X.norm(raw.s);return raw.v===1&&n.name==='วุ้น'&&n.hunger===40&&n.traits.playful>=25;})());
 ck('norm clamps junk',(()=>{const n=X.norm({name:'x'.repeat(99),hunger:500,mood:-5,trust:'a',mass:'zz',children:[{name:'k',size:9999}],customs:[{id:'q',name:'m',age:12,w:{data:{age:12}}}]});return n.name.length===30&&n.hunger===100&&n.mood===0&&n.trust===20&&n.mass===3&&n.children[0].size===999&&n.customs.length===0;})());
 // ---- feeding: the blob can absorb; human ways need a woman's form
-let s=X.get();ck('a human way is refused while she is a blob',/ร่างผู้หญิง/.test(thr(()=>X.feed(S.me,'inside'))||''));
+let s=X.get();ck('every way works even as a blob (no refusal)',thr(()=>X.feed(S.me,'inside'))===null||thr(()=>X.feed(S.me,'inside'))===''||thr(()=>X.feed(S.me,'inside'))===undefined);
 const m0=s.mass,h0=s.hunger;const f1=X.feed(S.me,'absorb');ck('absorb: volume from the owner\'s range, hunger down, mass up, trust up, a log line',f1.vol>0&&s.hunger<h0&&s.mass>m0&&s.trust>20&&/ให้อาหาร \(ให้ดูดซับตรง ๆ\)/.test(s.log[s.log.length-1].line));
-const f2=X.feed(S.me,'absorb');ck('second meal the same day: less semen (×0.82 per earlier meal)',f2.vol>0&&s.meals===2);
+const f2=X.feed(S.me,'absorb');ck('feeding is unlimited: many meals a day, all counted',(()=>{for(let i=0;i<30;i++)X.feed(S.me,'absorb');return X.get().meals>=32&&X.get().fedTotal>50;})());
 ck('the next day resets the count of meals and brings hunger and an event',(()=>{const h=s.hunger,ev=X.nextDay();return s.meals===0&&s.day===2&&s.hunger>h&&ev&&ev.t&&/วันที่ 2: /.test(s.log[s.log.length-1].line);})());
 // ---- stages by mass; the human form is locked until ร่างเต็ม
 ck('stages are about mass: drop, lump, heap, full body, big body',['หยด','ก้อน','กอง','ร่างเต็ม','ร่างใหญ่'].every((t,i)=>X.STAGES[i].t===t)&&X.STAGES.map(x=>x.min).join()==='0,25,80,200,450');
@@ -70,7 +70,7 @@ const pbud=X.scenePrompt(S.me,'bud');ck('budding prompt: a short warm scene with
 q.form={key:'c:L1',name:'ผู้หญิงL1'};q.hunger=40;q.last=null;let h=X.html();
 ck('page: meters, the five ways to feed, forms (chips: library women, no minor, no man), custom form box, little slimes, log',/สถานะของ ข้าวปั้น/.test(h)&&(h.match(/data-act="slmfeed"/g)||[]).length===6&&/data-v="c:L1"/.test(h)&&/data-v="c:L2"/.test(h)&&!/data-v="c:K1"/.test(h)&&!/data-v="c:M1"/.test(h)&&/slmCuName/.test(h)&&/ลูกสไลม์ \(1\)/.test(h)&&/บันทึกของ ข้าวปั้น/.test(h));
 q.mass=50;h=X.html();ck('page: a small slime sees no forms but a reason',/ยังโตไม่ถึงขั้น "ร่างเต็ม"/.test(h)&&!/data-act="slmform"/.test(h));
-q.mass=260;q.form={key:'blob',name:'ก้อนสไลม์'};h=X.html();ck('page: as a blob the human ways are disabled, absorbing is not',/data-act="slmfeed" data-v="inside"[^>]*disabled/.test(h)&&!/data-act="slmfeed" data-v="absorb"[^>]*disabled/.test(h));
+q.mass=260;q.form={key:'blob',name:'ก้อนสไลม์'};h=X.html();ck('page: every feeding button is enabled even as a blob',/data-v="inside"/.test(h)&&!/data-act="slmfeed"[^>]*disabled/.test(h));
 // clicks
 X.onAct('slmform',{dataset:{v:'c:L2'}});ck('click: a form chip sets the form',q.form.key==='c:L2');
 const d0=q.day;X.onAct('slmday',{dataset:{}});ck('click: next day',q.day===d0+1&&toasts.length>0);
