@@ -4,13 +4,13 @@ const { chromium } = require('playwright');
 await p.goto('file://'+process.argv[2]+'/index.html');await p.waitForTimeout(1800);
 console.log(await p.evaluate(async()=>{try{const A=ANIMA,S=A.state,X=A.slime,G=A.slimeGif,o=[];let bad=0;const ck=(n,v)=>{if(!v){bad++;o.push('FAIL '+n);}};
 S.me={id:'me-profile',kind:'me',data:{age:34,nickname:'ต้น',firstName:'ต้น',sex:'ชาย',mVolume:'ปานกลาง',mLength:15}};S.chars=[];S.game=S.game||{};
-ck('module, 12 poses and 5 colours',G&&G.POSES.filter(p=>!p.x).length>=12&&G.LIQ.length===35&&G.LGROUPS.length===4&&G.THEMES.length===5);
+ck('module, 12 poses and 5 colours',G&&G.POSES.filter(p=>!p.x).length>=12&&G.LIQ.length===81&&G.LGROUPS.length===8&&G.THEMES.length===5);
 for(const p of G.POSES.filter(p=>!p.x)){const F=G.frames(p.id);ck('pose '+p.id+': frames drawn, every pixel a legal palette slot, something visible',F.frames.length===p.n&&F.frames.every(g=>g.length===32&&g.every(r=>(r.length===32||r.length===48)&&r.every(c=>c>=0&&c<=20))&&g.some(r=>r.some(c=>c))));
  const sv=G.svg(p.id,'pink');ck('pose '+p.id+': animated svg without scripts',/<svg/.test(sv)&&/<animate /.test(sv)&&!/<script/.test(sv)&&(sv.match(/<g visibility/g)||[]).length===p.n);}
 const bytes=G.gifFor('bounce','blue');const hd=String.fromCharCode(...bytes.slice(0,6));let frames=0;for(let i=0;i<bytes.length-9;i++){if(bytes[i]===0x21&&bytes[i+1]===0xF9&&bytes[i+2]===4)frames++;}
 ck('gif: header GIF89a, trailer, 8 frames, 256x256 or wider',hd==='GIF89a'&&bytes[bytes.length-1]===0x3B&&frames>=8&&bytes[6]+bytes[7]*256===256&&bytes[8]+bytes[9]*256===256);
 const all=G.gifFor(G.POSES.map(p=>p.id),'green');ck('gif of all poses is bigger and valid',all.length>bytes.length&&all[all.length-1]===0x3B);
-for(const p of G.LIQ){const F=G.frames(p.id);ck('liquid pose '+p.id+': 64x64 frames, legal palette, visible slime',F.frames.length===p.n&&F.pal==='L'&&F.frames.every(g=>g.length===64&&g.every(r=>r.length===64&&r.every(c=>c>=0&&c<=31))&&g.some(r=>r.some(c=>c>=2&&c<=8))));if(p.id==='l-slow'){const sv=G.svg(p.id,'green');ck('liquid svg animates and has the green palette',/<animate /.test(sv)&&!/<script/.test(sv));}}
+for(const p of G.LIQ){const F=G.frames(p.id);ck('liquid pose '+p.id+': 64x64 frames, legal palette, visible slime',F.frames.length===p.n&&(F.pal==='L'||F.pal==='P')&&F.frames.every(g=>g.length===64&&g.every(r=>r.length===64&&r.every(c=>c>=0&&c<=31))&&g.some(r=>r.some(c=>c>=2&&c<=8||c>=29&&c<=31))));if(p.id==='l-slow'){const sv=G.svg(p.id,'green');ck('liquid svg animates and has the green palette',/<animate /.test(sv)&&!/<script/.test(sv));}}
 ck('liquid palette: 32 colours, the slime colour follows the theme',G.liquidColors('pink').length===32&&G.liquidColors('pink')[4]!==G.liquidColors('blue')[4]);
 const lb=G.gifFor(['l-glow','bounce'],'blue');ck('a gif that mixes 64x64 liquid frames and 32x32 mascot frames still decodes structurally (local colour tables)',lb[lb.length-1]===0x3B&&String.fromCharCode(...lb.slice(0,6))==='GIF89a');
 // the page card
