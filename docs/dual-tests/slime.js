@@ -15,7 +15,7 @@ ck('saved to localStorage and restores through norm()',(()=>{const raw=JSON.pars
 ck('norm clamps junk',(()=>{const n=X.norm({name:'x'.repeat(99),hunger:500,mood:-5,trust:'a',mass:'zz',children:[{name:'k',size:9999}],customs:[{id:'q',name:'m',age:12,w:{data:{age:12}}}]});return n.name.length===30&&n.hunger===100&&n.mood===0&&n.trust===20&&n.mass===3&&n.children[0].size===999&&n.customs.length===0;})());
 // ---- feeding: the blob can absorb; human ways need a woman's form
 let s=X.get();ck('every way works even as a blob (no refusal)',thr(()=>X.feed(S.me,'inside'))===null||thr(()=>X.feed(S.me,'inside'))===''||thr(()=>X.feed(S.me,'inside'))===undefined);
-const m0=s.mass,h0=s.hunger;const f1=X.feed(S.me,'absorb');ck('absorb: volume from the owner\'s range, hunger down, mass up, trust up, a log line',f1.vol>0&&s.hunger<h0&&s.mass>m0&&s.trust>20&&/ให้อาหาร \(ให้ดูดซับตรง ๆ\)/.test(s.log[s.log.length-1].line));
+s.hunger=40;const m0=s.mass,h0=s.hunger;const f1=X.feed(S.me,'absorb');ck('absorb: volume from the owner\'s range, hunger down, mass up, trust up, a log line',f1.vol>0&&s.hunger<h0&&s.mass>m0&&s.trust>20&&/ให้อาหาร \(ให้ดูดซับตรง ๆ\)/.test(s.log[s.log.length-1].line));
 const f2=X.feed(S.me,'absorb');ck('feeding is unlimited: many meals a day, all counted',(()=>{for(let i=0;i<30;i++)X.feed(S.me,'absorb');return X.get().meals>=32&&X.get().fedTotal>50;})());
 ck('the next day resets the count of meals and brings hunger and an event',(()=>{const h=s.hunger,ev=X.nextDay();return s.meals===0&&s.day===2&&s.hunger>h&&ev&&ev.t&&/วันที่ 2: /.test(s.log[s.log.length-1].line);})());
 // ---- stages by mass; the human form is locked until ร่างเต็ม
