@@ -33,7 +33,7 @@ X.nextDay();s.hunger=60;const rel={};for(const h of ['hand','mouth','body','insi
 ck('accuracy is capped by the stage (mastery 100 at stage 3 still reads 100, at stage 2 is 75)',(()=>{const q=X.norm(JSON.parse(JSON.stringify(s)));q.mastery['c:L1']=100;q.mass=100;const a2=X.accuracy(q,'c:L1');q.mass=210;return a2===75&&X.accuracy(q,'c:L1')===100;})());
 ck('tells by accuracy band: rough / alike / very alike / real',[10,45,75,95].every(a=>{const q=X.norm(JSON.parse(JSON.stringify(s)));q.mass=450;q.mastery['c:L1']=a;const t=X.tells(q,'c:L1');return t.tells.length>=1&&t.label;})&&X.tells(Object.assign(X.norm(JSON.parse(JSON.stringify(s))),{mass:450,mastery:{'c:L1':10}}),'c:L1').label==='ร่างยังหยาบ'&&X.tells(Object.assign(X.norm(JSON.parse(JSON.stringify(s))),{mass:450,mastery:{'c:L1':95}}),'c:L1').label==='ร่างเหมือนจริง');
 // ---- custom, invented, random forms
-ck('typed form: age must be 18+ ',/อายุ 18–90/.test(thr(()=>X.addCustom({name:'น้ำฝน',age:17,look:''}))||'')&&/อายุ 18–90/.test(thr(()=>X.addCustom({name:'น้ำฝน',age:'',look:''}))||'')&&/อายุ 18–90/.test(thr(()=>X.addCustom({name:'น้ำฝน',age:120,look:''}))||''));
+ck('typed form: age must be 20+ ',/อายุ 20–90/.test(thr(()=>X.addCustom({name:'น้ำฝน',age:19,look:''}))||'')&&/อายุ 20–90/.test(thr(()=>X.addCustom({name:'น้ำฝน',age:'',look:''}))||'')&&/อายุ 20–90/.test(thr(()=>X.addCustom({name:'น้ำฝน',age:120,look:''}))||''));
 ck('typed form: words that say minor are refused (นักเรียน / ม.5 / เด็ก / อายุ 17 ปี / loli)',['นักเรียนม.5','เด็กน้อย','อายุ 17 ปี','loli','อนุบาล'].every(w=>/เด็กหรือผู้เยาว์/.test(thr(()=>X.addCustom({name:'ก',age:25,look:w}))||'')));
 ck('typed form: a name is needed',/ใส่ชื่อ/.test(thr(()=>X.addCustom({name:'',age:25,look:''}))||''));
 X.addCustom({name:'น้ำฝน',age:27,look:'ผมยาว ยิ้มเก่ง'});ck('typed form (adult): saved and taken',s.form.key.startsWith('u:')&&s.form.name==='น้ำฝน'&&s.customs.length===1&&s.customs[0].age===27&&X.formOf(s,s.form.key).w.data.sex!=='ชาย');
@@ -82,7 +82,7 @@ const d0=q.day;X.onAct('slmday',{dataset:{}});ck('click: next day',q.day===d0+1&
 q.hunger=60;q.meals=0;X.onAct('slmfeed',{dataset:{v:'mouth'}});ck('click: feed shows what happened in a toast',/ใช้ปาก: [\d.]+ มล\. หิว/.test(toasts[toasts.length-1]));
 X.onAct('slmrename',{dataset:{}});document.body.insertAdjacentHTML('beforeend','<input id="slmRename" value="ฟองฟอง"><input id="slmCuName" value="ใบบัว"><input id="slmCuAge" value="31"><textarea id="slmCuLook">ผมสั้น</textarea>');X.onAct('slmrename',{dataset:{}});ck('click: rename',q.name==='ฟองฟอง');
 X.onAct('slmcustom',{dataset:{}});ck('click: the typed form is added from the boxes and taken',q.form.name==='ใบบัว'&&q.customs.some(c=>c.name==='ใบบัว'&&c.age===31));
-document.getElementById('slmCuAge').value='16';const nBefore=q.customs.length;X.onAct('slmcustom',{dataset:{}});ck('click: a typed age of 16 is refused with a toast, nothing added',q.customs.length===nBefore&&/อายุ 18–90/.test(toasts[toasts.length-1]));
+document.getElementById('slmCuAge').value='16';const nBefore=q.customs.length;X.onAct('slmcustom',{dataset:{}});ck('click: a typed age of 16 is refused with a toast, nothing added',q.customs.length===nBefore&&/อายุ 20–90/.test(toasts[toasts.length-1]));
 X.onAct('slminvent',{dataset:{}});ck('click: invent',q.form.key.startsWith('u:')&&q.customs.length===nBefore+1);
 q.bud=0;const kidsN=q.children.length;
 // reset through the confirm box
