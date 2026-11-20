@@ -1,0 +1,26 @@
+// usage: node warrior.js <app dir>; "ภรรยานักรบ" narrative mode (v285)
+const { chromium } = require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(/fonts\./,r=>r.abort());
+await p.goto('file://'+process.argv[2]+'/index.html');await p.waitForTimeout(1800);
+console.log(await p.evaluate(()=>{try{const A=ANIMA,S=A.state,X=A.warrior,D=X.data,o=[];let bad=0;const ck=(n,v)=>{if(!v){bad++;o.push('FAIL '+n);}};const thr=f=>{try{f();return null;}catch(e){return String(e.message);}};
+S.me={id:'me-profile',kind:'me',data:{age:34,nickname:'ต้น',firstName:'ต้น',sex:'ชาย',mVolume:'ปานกลาง',mLength:15}};S.game=S.game||{};A.ui.toast=()=>{};
+const mkw=(id,age,over)=>({id,data:Object.assign(A.gameWoman({age}),{nickname:'หญิง'+id,firstName:'หญิง'+id},over||{}),sim:{},chat:[],ai:{}});
+S.chars=[mkw('W1',30),mkw('W19',19),mkw('W20',20),mkw('M1',30,{sex:'ชาย'})];
+ck('data sizes',D.RULES.length===5&&D.CLOCKS.length===8&&D.THREATS.length===6&&D.MEN.length===7&&D.NARRATORS.length===6&&D.MISTAKES.length===5&&D.ENDINGS.length===7&&D.ARCS.length===5&&D.SECRECY.length===4);
+ck('women 20+ only',X.women().map(w=>w.id).join()==='W1,W20'&&!/data-v="W19"/.test(X.html()));
+X.st.sel='W1';ck('prompt needs the form',/ให้ครบ/.test(thr(()=>X.prompt(S.me))||''));
+X.st.sel='W19';ck('under 20 refused',!!thr(()=>X.prompt(S.me)));X.st.sel='W1';
+X.roll();const f=X.st.form;ck('roll fills all seven cards and arc/secrecy',Object.keys({rule:1,clock:1,threat:1,man:1,narr:1,mistake:1,ending:1}).every(k=>f[k]>=0)&&f.arc&&f.sec);
+const pr=X.prompt(S.me);ck('prompt: rule, clock, threat, man, narrator, mistake, ending, arc and secrecy are all in it',pr.includes(D.RULES[f.rule])&&pr.includes(D.CLOCKS[f.clock])&&pr.includes(D.THREATS[f.threat])&&pr.includes(D.MEN[f.man])&&pr.includes(D.NARRATORS[f.narr])&&pr.includes(D.MISTAKES[f.mistake])&&pr.includes(D.ENDINGS[f.ending]));
+ck('prompt guardrails: her choice, no force/binding/drugging/gang/filming without consent, stop at once, husband not harmed, adults, no pregnancy outcome, direct words',/เธอเลือกเองทุกขั้น ไม่มีใครบังคับ ขู่ ตรึง หรือวางยา/.test(pr)&&/ทุกอย่างหยุดทันที/.test(pr)&&/ไม่มีการรุมหรือการถ่ายคลิปโดยเธอไม่ยินยอม/.test(pr)&&/สามีไม่ถูกทำร้าย/.test(pr)&&/ไม่มีเด็ก/.test(pr)&&/ไม่เขียนผลการตั้งครรภ์/.test(pr)&&/เซ็กส์ตรง ๆ/.test(pr));
+ck('default POV is the man with short passages in her voice',/แมรี่คิดว่า/.test(pr)&&(X.st.pov='her',/"ฉัน" คือ หญิงW1/.test(X.prompt(S.me)))&&(X.st.pov='him',!/แมรี่คิดว่า/.test(X.prompt(S.me))));X.st.pov='both';
+X.st.hist=[];X.remember();X.remember();ck('episodes: history kept, number rises, next prompt opens with the consequence and forbids repeats',X.st.hist.length===2&&X.st.form.ep===3&&/ห้ามใช้ซ้ำ/.test(X.prompt(S.me))&&/ผลที่ตามมาจากตอนจบล่าสุด/.test(X.prompt(S.me)));
+X.st.form.man=0;X.reroll('man');ck('reroll changes one card',X.st.form.man!==0);
+const seen=new Set();for(let i=0;i<40;i++){X.roll();const g=X.st.form;seen.add([g.rule,g.clock,g.threat,g.man,g.narr,g.mistake,g.ending].join('/'));}ck('rolls vary',seen.size>=35);
+ck('junk set refused; bad index refused',!!thr(()=>X.set('zzz','1'))&&!!thr(()=>X.set('man','99')));
+const n=X.norm({pov:'x',sel:'q',hero:'<b>x</b>',form:{arc:'zzz',sec:'tv',ep:'500',man:'99',rule:'-5'},hist:[1,2,3,4,5,6]});ck('norm cleans',n.pov==='both'&&n.form.arc===''&&n.form.sec==='tv'&&n.form.ep===99&&n.form.man===99&&n.form.rule===-1&&n.hist.length===4&&!/[<>]/.test(n.hero)&&thr(()=>X.norm(null))===null);
+X.st.hero='เด็กหญิงฮีโร่';ck('hero name that implies a minor is refused',!!thr(()=>X.prompt(S.me)));X.st.hero='';
+S.game.mode=null;X.onAct('wrropen',{dataset:{}});ck('open/back',S.game.mode==='warrior'&&/ภรรยานักรบ/.test(X.html())&&(X.onAct('wrrback',{dataset:{}}),S.game.mode===null));
+X.onAct('wrrsel',{dataset:{v:'W20'}});X.onAct('wrrhero',{dataset:{v:'เลดี้สายฟ้า'}});X.onAct('wrrpov',{dataset:{v:'him'}});X.onAct('wrrset',{dataset:{v:'sec:front'}});X.onAct('wrrre',{dataset:{v:'clock'}});ck('acts work',X.st.sel==='W20'&&X.st.hero==='เลดี้สายฟ้า'&&X.st.pov==='him'&&X.st.form.sec==='front'&&X.st.form.clock>=0);
+return (bad?o.join('\n')+'\nTOTAL FAIL '+bad:'ALL OK');}catch(e){return 'THROW '+e.message+' '+e.stack.slice(0,300);}}));
+if(errs.length)console.log('PAGEERR',errs.slice(0,3));await b.close();})();
