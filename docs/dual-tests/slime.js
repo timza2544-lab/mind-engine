@@ -49,16 +49,16 @@ ck('a small piece has traits mixed from the first, a fragment of memory (1-3 lin
 for(let i=0;i<8&&z.children.length<6;i++){z.bud=100;X.budOff(z);}ck('at most 6 little slimes',(()=>{z.bud=500;const n=z.children.length;z.hunger=0;z.meals=0;X.feed(S.me,'absorb');return n===6&&z.children.length===6;})());
 // ---- the small pieces: their own hunger, they grow only by eating, forms need size, absorb / release / promote
 const c0=z.children[0];z.mass=300;const sz=c0.size,hg=c0.hunger;X.nextDay();ck('a day: a small piece gets hungrier on its own and does not borrow the first one\'s mass',c0.hunger>hg&&c0.size===sz);
-c0.size=210;ck('mature at the full-body size, a young one is not',X.childMature(z,c0)&&!X.childMature(z,z.children[1]));c0.size=sz;
+c0.feeds=70;ck('mature when the drink count carries awareness to 90, a young one is not',X.childMature(z,c0)&&!X.childMature(z,z.children[1]));c0.feeds=0;
 ck('a young one cannot be promoted',/ยังโตไม่ถึงขั้น/.test(thr(()=>X.promote(z.children[1].id))||''));
 const mAbs=z.mass,idA=z.children[1].id;X.absorb(idA);ck('absorb: back into the first one (mass returns), gone from the list',z.mass>mAbs&&!z.children.some(c=>c.id===idA));
 const idR=z.children[1].id;X.release(idR);ck('release: gone, a log line',!z.children.some(c=>c.id===idR)&&/ออกไปใช้ชีวิตเอง/.test(z.log[z.log.length-1].line));
-const idP=c0.id,nameP=c0.name,mother=z.name;c0.size=210;const np=X.promote(idP);ck('promote: a new main slime, adult stage (full body), the origin mentioned in its first log line, saved',np.name===nameP&&X.mature(np)&&np.hunger<=40&&/โตเต็มแล้ว/.test(np.log[0].line)&&np.log[0].line.includes(mother)&&!/แม่/.test(np.log[0].line)&&S.slime===np&&np.children.length===0);
+const idP=c0.id,nameP=c0.name,mother=z.name;c0.feeds=70;const np=X.promote(idP);ck('promote: a new main slime, adult stage (full body), the origin mentioned in its first log line, saved',np.name===nameP&&X.mature(np)&&np.hunger<=40&&/โตเต็มแล้ว/.test(np.log[0].line)&&np.log[0].line.includes(mother)&&!/แม่/.test(np.log[0].line)&&S.slime===np&&np.children.length===0);
 ck('after promoting, the mother stays in the house and can be switched back to',np.others.length===1&&np.others[0].name===mother);
 const back=X.switchTo(np.others[0].id);ck('switch: mother is main again, the grown one is kept in the house, nothing lost',back.name===mother&&back.others.length===1&&back.others[0].name===nameP&&back.mass>=0);
 const again=X.switchTo(back.others[0].id);ck('switch back and forth keeps exactly 1 other',again.name===nameP&&again.others.length===1&&X.mature(again));
 const fk=X.get();fk.children.push(X.norm({children:[{id:'ck1',name:'ฟอง',born:fk.day,size:12,traits:{playful:40,clingy:40,bold:40,curious:40}}]}).children[0]);const ck1=fk.children.find(c=>c.id==='ck1');ck1.hunger=70;const fr=X.feedSub(S.me,'ck1','absorb');ck('a small piece is fed the same six ways as the first one: hunger drops, size grows, affection rises, last meal kept, a sub log line',fr.vol>0&&ck1.size>12&&ck1.hunger<70&&ck1.affection>30&&ck1.last&&ck1.last.how==='absorb'&&fk.log[fk.log.length-1].k==='sub'&&/ให้อาหาร ฟอง/.test(fk.log[fk.log.length-1].line));
-ck1.size=210;ck1.born=fk.day-1;const pp=X.promote('ck1');ck('a grown small piece rises to a full adult slime that can take adult forms',X.mature(pp)&&pp.others.length===2&&pp.name==='ฟอง');
+ck1.feeds=70;ck1.born=fk.day-1;const pp=X.promote('ck1');ck('a grown small piece rises to a full adult slime that can take adult forms',X.mature(pp)&&pp.others.length===2&&pp.name==='ฟอง');
 // ---- prompts
 const q=X.norm({name:'ข้าวปั้น',mass:260,hunger:50,mood:70,trust:60,seed:'p1',traits:{playful:80,clingy:30,bold:20,curious:50},customs:[],children:[{id:'c9',name:'ติ๋ม',born:1,size:3}]});S.slime=q;S.chars=[lib,lib2];q.form={key:'c:L1',name:'ผู้หญิงL1'};q.mastery['c:L1']=62;q.day=5;
 ck('no meal yet: the meal prompt is refused',/ยังไม่ได้ให้อาหาร/.test(thr(()=>X.scenePrompt(S.me,'meal'))||''));
