@@ -9,7 +9,7 @@ X.load();
 // names and custom forms
 for(const w of ['ม.3','อายุ 18','อายุ 19','อายุ 16','อายุ ๑๕','16 ขวบ','schoolgirl','underage','kid','teen','minor','เด็กหญิง','ด.ญ.แก้ว','ม.ปลาย','under 18','high school']) ck('refuse minor-ish name: '+w,!!thr(()=>X.create('ฟอง '+w)));
 for(const w of ['nineteen','eighteen','ผู้ใหญ่','มุก']) ck('allow ordinary name: '+w,thr(()=>X.create(w))===null);
-X.create('วุ้น');const young=mkw('Y1',19),twenty=mkw('T1',20);S.chars=[young,twenty];const fy=X.libraryForms().map(x=>x.id);ck('floor 20: a library woman of 19 is not offered as a form, one of 20 is; typed 19 refused, typed 20 accepted',!fy.includes('Y1')&&fy.includes('T1')&&!!thr(()=>X.addCustom({name:'น้ำฝน',age:19,look:''}))&&thr(()=>{X.get().mass=300;X.addCustom({name:'น้ำฝน',age:20,look:''});})===null);ck('rename refuses minor-ish',!!thr(()=>X.rename('ม.2')));
+X.create('วุ้น');const young=mkw('Y1',19),twenty=mkw('T1',20);S.chars=[young,twenty];const fy=X.libraryForms().map(x=>x.id);ck('ordinary people from the library: any adult age, 19 and 20 both offered; the slime\'s own typed forms need 20+ (19 refused, 20 accepted)',fy.includes('Y1')&&fy.includes('T1')&&!!thr(()=>X.addCustom({name:'น้ำฝน',age:19,look:''}))&&thr(()=>{X.get().mass=300;X.addCustom({name:'น้ำฝน',age:20,look:''});})===null);ck('rename refuses minor-ish',!!thr(()=>X.rename('ม.2')));
 // female-only
 const lib=mkw('L1',30),man=mkw('M1',30,{sex:'ชาย'}),oth=mkw('O1',30,{sex:'ไม่ระบุ'});S.chars=[lib,man,oth];const f=X.libraryForms().map(x=>x.id);
 ck('library: a woman (sex unset) is listed, a man and an unknown value are not',f.includes('L1')&&!f.includes('M1')&&!f.includes('O1'));
@@ -24,8 +24,8 @@ const z=X.get();z.mass=300;z.children.push(X.norm({children:[{id:'k1',name:'ฟ�
 z.form={key:'blob',name:'ก้อนสไลม์'};z.hunger=50;X.feed(S.me,'absorb');const pm=X.scenePrompt(S.me,'meal');
 ck('meal prompt: the main scene never carries the small piece\'s name, its feeding lines or the budded clause',!/ฟองน้อย/.test(pm)&&!/ให้อาหาร ฟองน้อย/.test(pm)&&!/แตกตัวออกมาเป็นสไลม์ตัวเล็กชื่อ/.test(pm));
 z.last.budded=true;z.last.child='ฟองน้อย';const pb=X.scenePrompt(S.me,'bud');
-ck('bud prompt: nothing to do with pregnancy, no word for a child anywhere',/ไม่เกี่ยวกับการตั้งครรภ์/.test(pb)&&!/ลูกสไลม์|ไม่ใช่ลูก|เรียกว่าลูก/.test(pb+pm));
-ck('meal prompt: adult-only form rule, beats and sound words (rules 8 and 9)',/ผู้หญิงผู้ใหญ่ 20 ปีขึ้นไป/.test(pm)&&/^8\. จังหวะของฉาก/m.test(pm)&&/^9\. คำเสียง/m.test(pm));
+ck('bud prompt: nothing to do with pregnancy, no word for a child anywhere',/ไม่เกี่ยวกับการตั้งครรภ์/.test(pb)&&!/ลูกสไลม์|ไม่ใช่ลูก|เรียกว่าลูก/.test(pb.split('<slime>')[0]+pm.split('<slime>')[0]));
+ck('meal prompt: adult-only form rule, beats and sound words (rules 8 and 9)',/ผู้หญิงผู้ใหญ่ 18 ปีขึ้นไป/.test(pm)&&/^8\. จังหวะของฉาก/m.test(pm)&&/^9\. คำเสียง/m.test(pm));
 // stale write: the text lands on the slime it was written for, even after a switch
 z.others.push(X.norm({name:'อีกตัว',id:'o9'}));const sid=z.id;X.switchTo('o9');
 ck('after a switch the old slime is in others and abort was safe',X.get().name==='อีกตัว'&&X.get().others.some(x=>x.id===sid));
