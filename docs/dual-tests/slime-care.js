@@ -4,7 +4,7 @@ const { chromium } = require('playwright');
 await p.goto('file://'+process.argv[2]+'/index.html');await p.waitForTimeout(1800);
 console.log(await p.evaluate(async()=>{try{const A=ANIMA,S=A.state,X=A.slime,D=A.slimeData,o=[];let bad=0;const ck=(n,v)=>{if(!v){bad++;o.push('FAIL '+n);}};const thr=f=>{try{f();return null;}catch(e){return String(e.message);}};
 S.me={id:'me-profile',kind:'me',data:{age:34,nickname:'ต้น',firstName:'ต้น',sex:'ชาย',mVolume:'ปานกลาง',mLength:15}};S.game=S.game||{};A.ui.toast=()=>{};S.chars=[];X.load();X.create('วุ้น');const s=X.get();s.mass=300;
-ck('data: twelve kinds of care, every one sexual (the writer text names the cock, no housework, no nursing), each with numbers',D.CARE.length===12&&D.CARE.every(c=>c.id&&c.t&&c.w&&c.tired>0&&c.grime>0&&c.mood>0&&c.trust>0&&/ควย/.test(c.w)&&/เสียว|แตก/.test(c.w)&&!/ซักผ้า|เปลี่ยนผ้าปู|ข้าวต้ม|ลดไข้|เก็บกวาด|ล้างจาน|ทำอาหาร/.test(c.w))&&['sleepclean','bath','homecoming','morning','massage','edgebed','groinclean','feetarmpit','milkout','showersex','sleepride','petclean'].every(i=>D.CARE.some(c=>c.id===i)));
+ck('data: twenty-two kinds of care (12 and 10 done by the small piece), every one sexual (the writer text names the cock, no housework, no nursing), each with numbers',D.CARE.length===22&&D.CARE.every(c=>c.id&&c.t&&c.w&&c.tired>0&&c.grime>0&&c.mood>0&&c.trust>0&&/ควย/.test(c.w)&&/เสียว|แตก/.test(c.w)&&!/ซักผ้า|เปลี่ยนผ้าปู|ข้าวต้ม|ลดไข้|เก็บกวาด|ล้างจาน|ทำอาหาร/.test(c.w))&&['sleepclean','bath','homecoming','morning','massage','edgebed','groinclean','feetarmpit','milkout','showersex','sleepride','petclean'].every(i=>D.CARE.some(c=>c.id===i)));
 // numbers
 s.tired=0;s.grime=0;s.hunger=30;X.nextDay();ck('a day tires him (10 to 16) and adds grime',s.tired>=10&&s.tired<=16&&s.grime>=22);
 s.tired=10;s.meals=0;s.hunger=50;s.form={key:'blob',name:'ก้อนสไลม์'};X.feed(S.me,'night');const t1=s.tired;ck('a night of many positions tires him most (+15), inside +6',t1>=25);
@@ -28,7 +28,7 @@ s.lastCare=null;ck('no scene before a care',/ยังไม่ได้ให�
 // norm
 X.care('bath');const n2=X.norm(JSON.parse(JSON.stringify(s)));ck('norm keeps tiredness and the last care; junk is cleaned',n2.lastCare&&n2.lastCare.id==='bath'&&n2.tired>=0&&X.norm({name:'x',lastCare:{id:'<b>',t:5,tiredBefore:'zz'}}).lastCare.tiredBefore===0&&X.norm({name:'x'}).tired===30);
 // UI
-S.game.mode='slime';const h=X.html();ck('page: care card with 12 buttons, tiredness meter, the permission text, and the write box for the care scene',/ดูแลเจ้าของ/.test(h)&&(h.match(/data-act="slmcare"/g)||[]).length===12&&/ความเหนื่อยล้าของฉัน \d+\/100/.test(h)&&/อนุญาตไว้ล่วงหน้า/.test(h)&&/เชิงเซ็กส์และความเสียวทางกายล้วน/.test(h)&&/data-v="Care"/.test(h)&&/เขียนฉากดูแล: /.test(h));
+S.game.mode='slime';const h=X.html();ck('page: care card with 22 buttons, tiredness meter, the permission text, and the write box for the care scene',/ดูแลเจ้าของ/.test(h)&&(h.match(/data-act="slmcare"/g)||[]).length===22&&/ความเหนื่อยล้าของฉัน \d+\/100/.test(h)&&/อนุญาตไว้ล่วงหน้า/.test(h)&&/เชิงเซ็กส์และความเสียวทางกายล้วน/.test(h)&&/data-v="Care"/.test(h)&&/เขียนฉากดูแล: /.test(h));
 s.tired=50;s.grime=50;X.onAct('slmcare',{dataset:{v:'massage'}});ck('act: slmcare',s.lastCare.id==='massage'&&s.tired===15);
 return (bad?o.join('\n')+'\nTOTAL FAIL '+bad:'ALL OK')+'\nERRS none';}catch(e){return 'THROW '+e.message+' '+e.stack.slice(0,300);}}));
 if(errs.length)console.log('PAGEERR',errs.slice(0,3));await b.close();})();
