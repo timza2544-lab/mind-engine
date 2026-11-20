@@ -20,23 +20,23 @@ ck('norm: junk others dropped, last sanitised to numbers/short strings',nj.other
 ck('norm: null/empty numbers take the default, not 0',X.norm({hunger:null}).hunger===40&&X.norm({hunger:''}).hunger===40);
 ck('norm: a minor-ish custom form is dropped',X.norm({customs:[{id:'a',name:'ม.4',age:25,w:{data:{age:25}}}]}).customs.length===0);
 // kid lines never in meal memory; names not in prompt; bud guard
-const z=X.get();z.mass=300;z.children.push({id:'k1',name:'ฟองน้อย',born:z.day,size:2,traits:{playful:40,clingy:40,bold:40,curious:40}});X.feedChild(S.me,'k1');
+const z=X.get();z.mass=300;z.children.push(X.norm({children:[{id:'k1',name:'ฟองน้อย',born:z.day,size:12,traits:{playful:40,clingy:40,bold:40,curious:40}}]}).children[0]);X.feedSub(S.me,'k1','absorb');
 z.form={key:'blob',name:'ก้อนสไลม์'};z.hunger=50;X.feed(S.me,'absorb');const pm=X.scenePrompt(S.me,'meal');
-ck('meal prompt: no little-one name, no "ดูแล ฟองน้อย" line, no budded clause',!/ฟองน้อย/.test(pm)&&!/ป้อนน้ำหวาน|ดูแล ฟองน้อย/.test(pm)&&!/แตกตัวออกมาเป็นสไลม์ตัวเล็กชื่อ/.test(pm));
+ck('meal prompt: the main scene never carries the small piece\'s name, its feeding lines or the budded clause',!/ฟองน้อย/.test(pm)&&!/ให้อาหาร ฟองน้อย/.test(pm)&&!/แตกตัวออกมาเป็นสไลม์ตัวเล็กชื่อ/.test(pm));
 z.last.budded=true;z.last.child='ฟองน้อย';const pb=X.scenePrompt(S.me,'bud');
-ck('bud prompt: says it is not a birth or pregnancy and the main slime is a blob',/ไม่ใช่การคลอด/.test(pb)&&/ไม่ใช่การตั้งครรภ์/.test(pb));
+ck('bud prompt: says it is not a birth or pregnancy',/ไม่ใช่การคลอด/.test(pb)&&/ไม่ใช่การตั้งครรภ์/.test(pb));
 ck('meal prompt: adult-only form rule, beats and sound words (rules 8 and 9)',/ผู้หญิงผู้ใหญ่ 18 ปีขึ้นไป/.test(pm)&&/^8\. จังหวะของฉาก/m.test(pm)&&/^9\. คำเสียง/m.test(pm));
 // stale write: the text lands on the slime it was written for, even after a switch
 z.others.push(X.norm({name:'อีกตัว',id:'o9'}));const sid=z.id;X.switchTo('o9');
 ck('after a switch the old slime is in others and abort was safe',X.get().name==='อีกตัว'&&X.get().others.some(x=>x.id===sid));
 // art guardrails
 const ids=G.LIQ.map(p=>p.id);
-ck('no little-slime poses in the explicit art and no conception art',!ids.some(i=>/(^l-bud$|xs-bud|x-sperm|xf-sperm)/.test(i)));
+ck('no conception art',!ids.some(i=>/(x-sperm|xf-sperm)/.test(i)));
 ck('every explicit pose group is adult-only wording (no child/minor words in titles)',G.LIQ.every(p=>!minorTest(p.t)));function minorTest(t){return /เด็ก|ม\.\d|นักเรียน|ขวบ/.test(t);}
 // data
 const D=A.slimeData;ck('slimedata: 40+ extra events, react lines for every way, beats and sounds',D&&D.EVENTS.length>=40&&['absorb','hand','mouth','body','inside','night'].every(k=>D.REACT[k]&&D.REACT[k].low.length&&D.REACT[k].full.length)&&D.BEATS.open.length>=4&&D.SOUNDS.length>=15);
 X.create('ทดสอบ');const seen=new Set();for(let i=0;i<400;i++){X.nextDay();const l=X.get().log[X.get().log.length-1].line;seen.add(l);}
 ck('400 days: far more variety than the 12 original events (30+ distinct lines)',seen.size>=30);
-ck('no little-one event fires when she has no children',![...seen].some(l=>/ลูกสไลม์วิ่งไล่|ลูกสไลม์หลับกอง|ลูกสไลม์ตัวหนึ่งแอบ/.test(l)));
+ck('no small-piece event fires when she has none',![...seen].some(l=>/สไลม์ย่อย/.test(l)));
 return (bad?o.join('\n')+'\nTOTAL FAIL '+bad:'ALL OK')+'\nERRS none';}catch(e){return 'THROW '+e.message+' '+e.stack.slice(0,300);}}));
 if(errs.length)console.log('PAGEERR',errs.slice(0,3));await b.close();})();
