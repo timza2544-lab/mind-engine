@@ -24,7 +24,7 @@ const z=X.get();z.mass=300;z.children.push(X.norm({children:[{id:'k1',name:'ฟ�
 z.form={key:'blob',name:'ก้อนสไลม์'};z.hunger=50;X.feed(S.me,'absorb');const pm=X.scenePrompt(S.me,'meal');
 ck('meal prompt: the main scene never carries the small piece\'s name, its feeding lines or the budded clause',!/ฟองน้อย/.test(pm)&&!/ให้อาหาร ฟองน้อย/.test(pm)&&!/แตกตัวออกมาเป็นสไลม์ตัวเล็กชื่อ/.test(pm));
 z.last.budded=true;z.last.child='ฟองน้อย';const pb=X.scenePrompt(S.me,'bud');
-ck('bud prompt: says it is not a birth or pregnancy',/ไม่ใช่การคลอด/.test(pb)&&/ไม่ใช่การตั้งครรภ์/.test(pb));
+ck('bud prompt: nothing to do with pregnancy, no word for a child anywhere',/ไม่เกี่ยวกับการตั้งครรภ์/.test(pb)&&!/ลูกสไลม์|ไม่ใช่ลูก|เรียกว่าลูก/.test(pb+pm));
 ck('meal prompt: adult-only form rule, beats and sound words (rules 8 and 9)',/ผู้หญิงผู้ใหญ่ 18 ปีขึ้นไป/.test(pm)&&/^8\. จังหวะของฉาก/m.test(pm)&&/^9\. คำเสียง/m.test(pm));
 // stale write: the text lands on the slime it was written for, even after a switch
 z.others.push(X.norm({name:'อีกตัว',id:'o9'}));const sid=z.id;X.switchTo('o9');
