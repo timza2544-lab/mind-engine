@@ -63,7 +63,7 @@
     const { px, rect, disc, cap } = c, her = who === 'her', SK = her ? SKH : SKM, SKS = her ? SKHS : SKMS, ff = sp.f, hx = sp.x, hy = sp.y, a = sp.a || [10, 20, 20];
     const L1 = P(hx, hy, LEN.lum, a[0], ff), S = P(L1[0], L1[1], LEN.tho, a[1], ff), N = P(S[0], S[1], LEN.neck, a[2], ff), Hd = P(N[0], N[1], 5.2, a[2] + 5, ff), hairK = her ? 8 : 9, shade = (far) => far ? (her ? SKS : 7) : SKS;
     const J = solveFigure(sp, sc0);
-    const leg = (Lg, far) => { if (!Lg) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS; cap(Lg.hip[0], Lg.hip[1], Lg.knee[0], Lg.knee[1], 4.2, 3.1, kc, ks); cap(Lg.knee[0], Lg.knee[1], Lg.ankle[0], Lg.ankle[1], 3.1, 2.1, kc, ks); disc(Lg.knee[0], Lg.knee[1], 2.9, kc); cap(Lg.ankle[0], Lg.ankle[1], Lg.toe[0], Lg.toe[1], 1.9, 1.4, kc); };
+    const leg = (Lg, far) => { if (!Lg) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS; cap(Lg.hip[0], Lg.hip[1], Lg.knee[0], Lg.knee[1], 4.2, 3.1, kc, ks); cap(Lg.knee[0], Lg.knee[1], Lg.ankle[0], Lg.ankle[1], 3.1, 2.1, kc, ks); disc(Lg.knee[0], Lg.knee[1], 2.9, kc); cap(Lg.ankle[0], Lg.ankle[1], Lg.toe[0], Lg.toe[1], 1.9, 1.4, kc); disc(Lg.heel[0], Lg.heel[1], 1.6, kc); };
     const armf = (R, far) => { if (!R) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS; cap(R.shoulder[0], R.shoulder[1], R.elbow[0], R.elbow[1], 2.6, 2.1, kc, ks); cap(R.elbow[0], R.elbow[1], R.wrist[0], R.wrist[1], 2.1, 1.8, kc, ks); disc(R.wrist[0], R.wrist[1], 1.7, kc); };
     const L = J.legs, Ar = J.arms;
     leg(L[1], true); armf(Ar[1], true);
@@ -71,9 +71,9 @@
     if (her) { const bx = (L1[0] + S[0]) / 2 + ff * 3.6 * (sp.prone ? -1 : 1), by = (L1[1] + S[1]) / 2 - 0.5; disc(bx, by, 3.3, SK); px(bx + ff * 2.5, by + 2, SKS); if (st.outfit === 'dress') { cap(hx, hy, S[0], S[1], 4.8, 4.8, 16, 17); disc(bx, by, 3.4, 16); } else if (st.outfit === 'half') { cap(S[0], S[1] + 1, S[0] - ff * 2, S[1] + 3, 4.6, 4.6, 16, 17); } }
     leg(L[0], false); armf(Ar[0], false);
     cap(S[0], S[1], N[0], N[1], 2, 2, SK); disc(Hd[0], Hd[1], 4.7, SK);
-    const hmode = sp.face || (sp.prone ? 'profile' : a[1] >= 70 ? 'up' : 'profile'); if (hmode === 'profile') { if (her) { cap(Hd[0] - ff * 2, Hd[1] - 1, Hd[0] - ff * 6 + Math.round(st.lag * 2), Hd[1] + 11, 3.2, 2.6, hairK); rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff, Hd[1] - 3, 4, hairK); } else { rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff * 1, Hd[1] - 3, 3.6, hairK); } } else if (!her) { disc(Hd[0] + (hmode === 'up' ? ff * 2.5 : -ff * 2), Hd[1] + (hmode === 'up' ? 0 : -3), 3.6, hairK); }
-    const horiz = a[1] >= 70, mode = sp.face || (sp.prone ? 'profile' : horiz ? 'up' : 'profile'), F = mode === 'up' ? [0, -1] : mode === 'down' ? [0.4 * ff, 0.9] : [ff, 0], U = mode === 'up' ? [ff, 0] : mode === 'down' ? [-0.9 * ff, 0.4] : [0, -1], at = (fa, ub) => [Hd[0] + F[0] * fa + U[0] * ub, Hd[1] + F[1] * fa + U[1] * ub], e = her ? st.e : 0;
-    if (her && mode !== 'profile') { if (mode === 'up') cap(Hd[0], Hd[1] + 1, Hd[0] + U[0] * 11, Hd[1] + 3, 3.4, 2.8, hairK); else cap(Hd[0], Hd[1], Hd[0] + 1, Hd[1] + 10, 3.2, 2.4, hairK); disc(Hd[0] + U[0] * 2.5 - F[0] * 0.5, Hd[1] + U[1] * 2.5 - F[1] * 0.5, 3.6, hairK); }
+    const Ucr = nrm(sub(Hd, N)), Vh1 = ventral(sp, a[2]), side1 = Math.hypot(Vh1[0] - dot(Vh1, Ucr) * Ucr[0], Vh1[1] - dot(Vh1, Ucr) * Ucr[1]) < 0.2 || Math.abs(Vh1[0] - dot(Vh1, Ucr) * Ucr[0]) / (Math.hypot(Vh1[0] - dot(Vh1, Ucr) * Ucr[0], Vh1[1] - dot(Vh1, Ucr) * Ucr[1]) || 1) > 0.7, hmode = side1 ? 'profile' : (Vh1[1] < 0 ? 'up' : 'down'); if (hmode === 'profile') { if (her) { cap(Hd[0] - ff * 2, Hd[1] - 1, Hd[0] - ff * 6 + Math.round(st.lag * 2), Hd[1] + 11, 3.2, 2.6, hairK); rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff, Hd[1] - 3, 4, hairK); } else { rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff * 1, Hd[1] - 3, 3.6, hairK); } } else if (!her) { disc(Hd[0] + (hmode === 'up' ? ff * 2.5 : -ff * 2), Hd[1] + (hmode === 'up' ? 0 : -3), 3.6, hairK); }
+    const Uc = nrm(sub(Hd, N)), Vh0 = ventral(sp, a[2]), kk = dot(Vh0, Uc), Fv = nrm([Vh0[0] - kk * Uc[0], Vh0[1] - kk * Uc[1]]), F = Math.hypot(Vh0[0] - kk * Uc[0], Vh0[1] - kk * Uc[1]) < 0.2 ? [ff, 0] : Fv, U = Uc, sideways = Math.abs(F[0]) > 0.7, mode = sideways ? 'profile' : (F[1] < 0 ? 'up' : 'down'), at = (fa, ub) => [Hd[0] + F[0] * fa + U[0] * ub, Hd[1] + F[1] * fa + U[1] * ub], e = her ? st.e : 0;
+    if (her && !sideways) { cap(Hd[0], Hd[1] + 1, Hd[0] + U[0] * 11, Hd[1] + U[1] * 11 + 2, 3.4, 2.8, hairK); disc(Hd[0] + U[0] * 2.5 - F[0] * 0.5, Hd[1] + U[1] * 2.5 - F[1] * 0.5, 3.6, hairK); }
     const nose = at(5, -1.2); px(nose[0], nose[1], SK); const eye = at(2, -0.3), ey2 = at(2, 1.2);
     if (e === 0) { px(eye[0], eye[1], 11); } else if (e === 1) { px(eye[0], eye[1], 11); px(ey2[0], ey2[1], 11); } else { px(eye[0], eye[1], 11); px(ey2[0], ey2[1], 11); px(at(1, 0.5)[0], at(1, 0.5)[1], 11); }
     if (her && e >= 1) { const ch = at(1, -2.2); px(ch[0], ch[1], 12); const ch2 = at(0, -2.2); px(ch2[0], ch2[1], 12); }
@@ -110,10 +110,18 @@
   add('A-back-lie', 'หันหลัง เอนหลังพิงอกเขา', 'บนตัวเขา', 'bed', cow({ f: 1, x: 58, y: 44, a: [-50, -72, -70], legs: legK(58, 1), arms: [{ h: [52, 46], b: 1, free: true }, { h: [54, 46], b: 1, free: true }], him: () => Object.assign(lie(54, 49.5, -1, [60, 70, 72]), { legs: legX(54, 49.5, 88, 52, 1), arms: arm(52, 46, -1) }), axis: [0.3, 1] }));
   add('A-back-hands-head', 'หันหลัง มือประสานหลังศีรษะ', 'บนตัวเขา', 'bed', cow({ f: 1, x: 56, a: [-4, -8, -6], legs: legK(56, 1), arms: [{ h: [52, 16], b: 1, free: true }, { h: [54, 17], b: 1, free: true }] }));
   add('A-back-one-knee', 'หันหลัง ตั้งเข่าข้างหนึ่ง', 'บนตัวเขา', 'bed', cow({ f: 1, x: 56, a: [14, 22, 20], legs: [{ kneel: true, k: [60, 51], a: [46, 52.5] }, { ft: [52, 52.8], b: -1, l1: 10, l2: 14 }], arms: arm(70, 45, -1) }));
+  // --- K: the seven core poses (ported onto the same rig so skin and skeleton agree)
+  add('K-face', 'คร่อมหันหน้า', 'ท่าหลัก', 'bed', cow({ a: [12, 24, 22], arms: arm(47, 44.5, 1) }));
+  add('K-back', 'คร่อมหันหลัง', 'ท่าหลัก', 'bed', cow({ f: 1, x: 56, a: [24, 38, 34], arms: arm(73, 44.5, -1) }));
+  add('K-squat', 'นั่งยอง', 'ท่าหลัก', 'bed', cow({ x: 59, y: 37, a: [12, 24, 20], legs: legP(59, 37, -1, 3, 52.8, 1).map(l => Object.assign(l, { l1: 10, l2: 14 })), arms: arm(48, 44.5, 1) }));
+  add('K-lean', 'โน้มตัวกระซิบ', 'ท่าหลัก', 'bed', cow({ x: 60, y: 42, a: [52, 76, 70], legs: legK(60, -1), arms: [{ h: [36, 52.5], b: -1 }, { h: [31, 52.5], b: -1 }], face: 'down' }));
+  add('K-brace', 'เอนหลังยันต้นขา', 'ท่าหลัก', 'bed', cow({ him: himKU, x: 52, y: 38, a: [-12, -30, -22], arms: arm(64, 41, 1) }));
+  add('K-turn', 'หมุนตัวครึ่งรอบ', 'ท่าหลัก', 'bed', (t) => { const st = t < 2 ? 0 : t < 3 ? 1 : t < 4 ? 2 : 3; const h = him0(); const base = (f, x, y, a, legs, arms) => ({ sc: 'bed', her: { x, y, f, a, legs, arms }, him: h, mover: 'her', axis: [0.15, 1], sheet: [66, 100] }); if (st === 0) return base(-1, 57, 41, [12, 24, 22], legK(57, -1), arm(60, 44.5, 1)); if (st === 1) return base(-1, 57, 39, [10, 18, 18], [{ ft: [47, 31], l1: 10, l2: 12, wrap: true }, legK(57, -1)[1]], arm(62, 44.5, 1)); if (st === 2) return base(1, 57, 39, [14, 26, 22], legK(57, 1), arm(72, 44.5, -1)); return base(1, 56, 41, [24, 38, 34], legK(56, 1), arm(73, 44.5, -1)); });
   // --- B: seated and lap
   const sit = (x, y) => Object.assign(lie(x, y, -1, [4, 6, 8]), { legs: legX(x, y, x + 32, 52, 1), arms: arm(x - 8, 40, 1) });
   const lapHim = () => Object.assign(lie(31, 52, 1, [-4, -6, -6]), { legs: legX(31, 52, 56, 53, 1, 57, 52.5, 1), arms: arm(44, 42, 1) });
   const lap = (o) => (t) => { const him = lapHim(); const her = { x: 45, y: 46, f: -1, a: o.a || [6, 12, 12], legs: o.legs || [{ k: [40, 51], a: [36, 52.6] }, { k: [42.5, 49.6], a: [37, 51.2] }], arms: o.arms || arm(29, 33.5, -1) }; if (o.hhand) him.arms = o.hhand; if (o.him) Object.assign(him, o.him); return { sc: 'bed', her, him, mover: 'her', axis: [0.2, 1], sheet: null, gap: 15 }; };
+  add('K-lap', 'นั่งตักพิงหัวเตียง', 'ท่าหลัก', 'bed', lap({}));
   add('B-lap-lotus', 'นั่งตัก ไขว้ขาโอบเอวเขา', 'นั่งและตัก', 'bed', lap({ legs: [{ k: [41, 51], a: [35, 52] }, { k: [43, 49], a: [34, 50.5] }] }));
   add('B-lap-leanback', 'นั่งตัก เอนหลัง เขาประคองหลัง', 'นั่งและตัก', 'bed', lap({ a: [-16, -30, -28], arms: arm(52, 38, 1), hhand: arm(48, 42, 1) }));
   add('B-lap-kiss', 'นั่งตัก จูบ', 'นั่งและตัก', 'bed', lap({ a: [8, 16, 18], arms: arm(30, 28, -1) }));
@@ -237,6 +245,18 @@
       sq(J.P0, 10); sq(J.S, 10); line(J.P0, [J.P0[0] + Vp[0] * 9, J.P0[1] + Vp[1] * 9], 18); px(J.P0[0] + Vp[0] * 9, J.P0[1] + Vp[1] * 9, 22); });
     return g;
   }
+  /* skin vs skeleton: every joint and bone midpoint must sit inside that person's own skin silhouette, and skin (hair and clothes aside) must stay close to some bone */
+  function bonesOf(J) { const B = [[J.P0, J.L1], [J.L1, J.S], [J.S, J.N], [J.N, J.Hd]]; J.legs.forEach(l => { if (l) { B.push([l.hip, l.knee], [l.knee, l.ankle], [l.ankle, l.toe]); } }); J.arms.forEach(r => { if (r) B.push([r.shoulder, r.elbow], [r.elbow, r.wrist]); }); return B; }
+  function distSeg(p, a, b) { const dx = b[0] - a[0], dy = b[1] - a[1], l2 = dx * dx + dy * dy || 1, u = Math.max(0, Math.min(1, ((p[0] - a[0]) * dx + (p[1] - a[1]) * dy) / l2)); return Math.hypot(p[0] - (a[0] + dx * u), p[1] - (a[1] + dy * u)); }
+  function alignCheck(id, t) {
+    const spec = buildSpec(id, t, {}), out = [], st = { e: 1, lag: 0, outfit: 'bare' };
+    ['him', 'her'].forEach(who => { const g = new Uint8Array(W * H).fill(255), c = ctxFor(g); person(c, spec[who], who, st, spec.sc); const J = solveFigure(spec[who], spec.sc), nm = who === 'her' ? 'เธอ' : 'เขา', inMask = (p, r) => { for (let j = -r; j <= r; j++) for (let i = -r; i <= r; i++) { const x = Math.round(p[0]) + i, y = Math.round(p[1]) + j; if (x >= 0 && x < W && y >= 0 && y < H && g[y * W + x] !== 255) return true; } return false; };
+      const B = bonesOf(J); let miss = 0; B.forEach(([a, b]) => { [a, b, [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2]].forEach(p => { if (!inMask(p, 1)) miss++; }); }); if (miss) out.push(nm + ' · กระดูก/ข้อต่อที่อยู่นอกผิว ' + miss + ' จุด');
+      let far = 0, tot = 0; for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const v = g[y * W + x]; if (v === 255 || v === 8 || v === 9 || v === 16 || v === 17 || v === 12 || v === 13 || v === 11) continue; tot++; let d = 99; B.forEach(([a, b]) => { const q = distSeg([x, y], a, b); if (q < d) d = q; }); if (d > 8) far++; } if (far > 6) out.push(nm + ' · ผิวลอยห่างจากโครง ' + far + ' พิกเซล'); });
+    return out;
+  }
+  function renderOverlay(id, t, o) { const g = renderPose(id, t, o), sk = renderStick(id, t, o), sc = new Uint8Array(W * H), c = ctxFor(sc); const spec = buildSpec(id, t, o || {}); scene(c, spec.sc, t); for (let i = 0; i < g.length; i++) if (sk[i] !== sc[i]) g[i] = sk[i]; return g; }
+  A.alignCheck = alignCheck; A.renderOverlay = renderOverlay;
   function analyzePose(id, t) { const spec = buildSpec(id, t || 0, {}); return analyze(spec); }
   A.renderStick = renderStick; A.analyzePose = analyzePose; A.solveFigure = solveFigure; A.buildSpec = buildSpec;
   ['F-lift', 'F-wall-lift', 'F-wall-leg', 'F-carry-back', 'F-wall-kiss', 'F-sit-counter', 'C-wrap', 'C-ankles', 'C-hug', 'C-hands-up', 'C-wide', 'C-apart', 'A-back-squat-lean', 'G-sit-beside', 'E-spoon-curl'].forEach(id => { const p = POSES.find(q => q.id === id); if (p) { const fn = p.fn; p.fn = t => { const sp = fn(t); [sp.her, sp.him].forEach(q => (q.legs || []).forEach(L => { L.wrap = true; })); return sp; }; } });
