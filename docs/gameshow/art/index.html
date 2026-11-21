@@ -9,7 +9,11 @@ body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-
 main{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
 h1{font-family:var(--f-d);font-weight:600;font-size:26px;margin:0;color:var(--amber)}
 .muted{color:var(--ink2);font-size:14px;margin:0}
-.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:10px 0;display:flex;flex-direction:column;gap:8px;z-index:5;border-bottom:1px solid var(--line)}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:8px 0;display:flex;flex-direction:column;gap:8px;z-index:5;border-bottom:1px solid var(--line)}
+.top{display:flex;flex-wrap:wrap;gap:8px;align-items:center;justify-content:space-between}
+#panel{display:flex;flex-direction:column;gap:8px;max-height:55vh;overflow:auto}#panel[hidden]{display:none}
+.lbl{font-size:12px;color:var(--ink2);margin:2px 0 -4px}
+@media (max-width:640px){.grid{grid-template-columns:1fr}.v button{min-height:44px;font-size:15px}.card textarea{min-height:44px}}
 .row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
 button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;min-height:36px}
 button:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
@@ -29,8 +33,11 @@ textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(-
 <h1>คลังคลิปฉากหลัก</h1>
 <p class="muted">คลิปพิกเซลทุกท่า ทุกจังหวะ ทุกสภาพชุด ดูให้ครบแล้วกดตัดสินแต่ละใบ: ใช้ได้ / ต้องแก้ (เขียนโน้ตได้) / ตัดทิ้ง ผลเก็บในเบราว์เซอร์นี้ แล้วกด "คัดลอกสรุป" ส่งให้ Claude ได้</p>
 <div class="bar">
-  <div class="row" id="fg"></div><div class="row" id="fp"></div><div class="row" id="fr"></div><div class="row" id="fo"></div><div class="row" id="fv"></div>
-  <div class="row"><span class="muted" id="cnt"></span><button type="button" id="copy">คัดลอกสรุป</button><button type="button" id="clear">ล้างการตัดสินทั้งหมด</button></div>
+  <div class="top"><button type="button" id="tog" aria-expanded="false">▾ ตัวกรอง</button><span class="muted" id="cnt"></span></div>
+  <div id="panel" hidden>
+    <div class="lbl">ชุด</div><div class="row" id="fg"></div><div class="lbl">ท่า</div><div class="row" id="fp"></div><div class="lbl">จังหวะ</div><div class="row" id="fr"></div><div class="lbl">ชุดที่สวม</div><div class="row" id="fo"></div><div class="lbl">ผลตัดสิน</div><div class="row" id="fv"></div>
+    <div class="row"><button type="button" id="reset">ล้างตัวกรอง</button><button type="button" id="copy">คัดลอกสรุป</button><button type="button" id="clear">ล้างการตัดสินทั้งหมด</button></div>
+  </div>
 </div>
 <div class="grid" id="grid"></div>
 <pre id="out" hidden></pre>
@@ -54,10 +61,15 @@ textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(-
       const ta = document.createElement('textarea'); ta.placeholder = 'โน้ต เช่น ท่านี้ไหล่ลอย ขาไม่ตรง'; ta.value = mk.n || ''; ta.id = 'n-' + it.id; ta.addEventListener('change', () => { marks[it.id] = Object.assign({}, marks[it.id], { n: ta.value }); save(); });
       c.append(img, id, tg, v, ta); g.append(c); });
     const n = { ok: 0, fix: 0, no: 0 }; man.items.forEach(i => { const v = (marks[i.id] || {}).v; if (n[v] !== undefined) n[v]++; });
+    $('#tog').textContent = ($('#panel').hidden ? '▾' : '▴') + ' ตัวกรอง' + (Object.values(flt).some(Boolean) ? ' •' : '');
     $('#cnt').textContent = `แสดง ${shown}/${man.items.length} · ใช้ได้ ${n.ok} · ต้องแก้ ${n.fix} · ตัดทิ้ง ${n.no} · ยังไม่ดู ${man.items.length - n.ok - n.fix - n.no}`;
   }
   $('#copy').addEventListener('click', async () => { const lines = man.items.map(i => { const m = marks[i.id] || {}; return m.v || m.n ? `${i.id}: ${m.v || '-'}${m.n ? ' — ' + m.n : ''}` : null; }).filter(Boolean); const txt = lines.length ? lines.join('\n') : 'ยังไม่ได้ตัดสินคลิปไหน'; const out = $('#out'); out.hidden = false; out.textContent = txt; try { await navigator.clipboard.writeText(txt); } catch (e) { const r = document.createRange(); r.selectNodeContents(out); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } });
   $('#clear').addEventListener('click', () => { if ($('#clear').dataset.arm === '1') { marks = {}; save(); $('#clear').dataset.arm = ''; $('#clear').textContent = 'ล้างการตัดสินทั้งหมด'; draw(); } else { $('#clear').dataset.arm = '1'; $('#clear').textContent = 'กดอีกครั้งเพื่อยืนยันล้าง'; } });
-  draw();
+  function panel(open) { $('#panel').hidden = !open; $('#tog').setAttribute('aria-expanded', String(open)); $('#tog').textContent = (open ? '▴' : '▾') + ' ตัวกรอง' + (Object.values(flt).some(Boolean) ? ' •' : ''); try { localStorage.setItem(KEY + '.panel', open ? '1' : '0'); } catch (e) {} }
+  $('#tog').addEventListener('click', () => panel($('#panel').hidden));
+  $('#reset').addEventListener('click', () => { Object.keys(flt).forEach(k => { flt[k] = ''; }); draw(); });
+  let wasOpen; try { wasOpen = localStorage.getItem(KEY + '.panel'); } catch (e) {}
+  draw(); panel(wasOpen === null ? matchMedia('(min-width: 900px)').matches : wasOpen === '1');
 })();
 </script>
