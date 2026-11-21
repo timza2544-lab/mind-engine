@@ -714,6 +714,834 @@
     "group": "after",
     "kind": "cover"
    }
+  },
+  {
+   "id": "A-face-thighs",
+   "file": "gifs/A-face-thighs.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า มือวางที่ต้นขาตัวเอง"
+   }
+  },
+  {
+   "id": "A-face-behind-head",
+   "file": "gifs/A-face-behind-head.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า มือประสานหลังศีรษะ"
+   }
+  },
+  {
+   "id": "A-face-clasped",
+   "file": "gifs/A-face-clasped.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า จับมือเขาโน้มตัว"
+   }
+  },
+  {
+   "id": "A-face-his-hips",
+   "file": "gifs/A-face-his-hips.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า เขาจับสะโพก"
+   }
+  },
+  {
+   "id": "A-face-shoulders",
+   "file": "gifs/A-face-shoulders.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า มือยันไหล่เขา"
+   }
+  },
+  {
+   "id": "A-face-arch-knees",
+   "file": "gifs/A-face-arch-knees.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า เอนหลังมือยันเข่าเขา (เขาชันเข่า)"
+   }
+  },
+  {
+   "id": "A-face-one-knee",
+   "file": "gifs/A-face-one-knee.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า ตั้งเข่าข้างหนึ่ง"
+   }
+  },
+  {
+   "id": "A-face-feet-leanback",
+   "file": "gifs/A-face-feet-leanback.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยองเอนหลังมือยันต้นขาเขาด้านหลัง"
+   }
+  },
+  {
+   "id": "A-squat-knees",
+   "file": "gifs/A-squat-knees.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยอง มือเท้าเข่าตัวเอง"
+   }
+  },
+  {
+   "id": "A-squat-lean",
+   "file": "gifs/A-squat-lean.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยอง โน้มตัวมือยันอกเขา"
+   }
+  },
+  {
+   "id": "A-squat-upright-hair",
+   "file": "gifs/A-squat-upright-hair.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยอง ยืดตัว มือเสยผม"
+   }
+  },
+  {
+   "id": "A-kiss",
+   "file": "gifs/A-kiss.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับ จูบ"
+   }
+  },
+  {
+   "id": "A-neck",
+   "file": "gifs/A-neck.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับ ซบซอกคอ"
+   }
+  },
+  {
+   "id": "A-forearms",
+   "file": "gifs/A-forearms.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับ ยันศอกสองข้างศีรษะเขา"
+   }
+  },
+  {
+   "id": "A-chest-to-chest",
+   "file": "gifs/A-chest-to-chest.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับตัวเขา ขาชิดกัน"
+   }
+  },
+  {
+   "id": "A-back-thighs",
+   "file": "gifs/A-back-thighs.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหลัง มือวางต้นขาตัวเอง"
+   }
+  },
+  {
+   "id": "A-back-shins",
+   "file": "gifs/A-back-shins.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหลัง โน้มตัวมือยันหน้าแข้งเขา"
+   }
+  },
+  {
+   "id": "A-back-far",
+   "file": "gifs/A-back-far.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหลัง โน้มไปข้างหน้ามากสุด"
+   }
+  },
+  {
+   "id": "A-back-squat",
+   "file": "gifs/A-back-squat.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง นั่งยอง"
+   }
+  },
+  {
+   "id": "A-back-squat-lean",
+   "file": "gifs/A-back-squat-lean.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง นั่งยอง โน้มหน้า"
+   }
+  },
+  {
+   "id": "A-back-lie",
+   "file": "gifs/A-back-lie.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง เอนหลังพิงอกเขา"
+   }
+  },
+  {
+   "id": "A-back-hands-head",
+   "file": "gifs/A-back-hands-head.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง มือประสานหลังศีรษะ"
+   }
+  },
+  {
+   "id": "A-back-one-knee",
+   "file": "gifs/A-back-one-knee.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง ตั้งเข่าข้างหนึ่ง"
+   }
+  },
+  {
+   "id": "B-lap-lotus",
+   "file": "gifs/B-lap-lotus.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก ไขว้ขาโอบเอวเขา"
+   }
+  },
+  {
+   "id": "B-lap-leanback",
+   "file": "gifs/B-lap-leanback.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก เอนหลัง เขาประคองหลัง"
+   }
+  },
+  {
+   "id": "B-lap-kiss",
+   "file": "gifs/B-lap-kiss.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก จูบ"
+   }
+  },
+  {
+   "id": "B-lap-reverse",
+   "file": "gifs/B-lap-reverse.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตักหันหลัง พิงอกเขา"
+   }
+  },
+  {
+   "id": "B-lap-reverse-lean",
+   "file": "gifs/B-lap-reverse-lean.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตักหันหลัง โน้มหน้ามือยันเข่า"
+   }
+  },
+  {
+   "id": "B-lap-kneel",
+   "file": "gifs/B-lap-kneel.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก คุกเข่าตัวตรง"
+   }
+  },
+  {
+   "id": "B-lap-side",
+   "file": "gifs/B-lap-side.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก นั่งตะแคง"
+   }
+  },
+  {
+   "id": "B-chair-face",
+   "file": "gifs/B-chair-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "บนเก้าอี้ หันหน้า"
+   }
+  },
+  {
+   "id": "B-chair-reverse",
+   "file": "gifs/B-chair-reverse.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "บนเก้าอี้ หันหลัง"
+   }
+  },
+  {
+   "id": "B-chair-leanback",
+   "file": "gifs/B-chair-leanback.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "บนเก้าอี้ เอนหลังพิงเขา"
+   }
+  },
+  {
+   "id": "B-edge-face",
+   "file": "gifs/B-edge-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "ปลายเตียง หันหน้า"
+   }
+  },
+  {
+   "id": "B-edge-reverse",
+   "file": "gifs/B-edge-reverse.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "ปลายเตียง หันหลัง"
+   }
+  },
+  {
+   "id": "B-edge-she-sits",
+   "file": "gifs/B-edge-she-sits.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "เธอนั่งขอบเตียง เขายืนระหว่างขา"
+   }
+  },
+  {
+   "id": "C-wrap",
+   "file": "gifs/C-wrap.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ท่ามิชชันนารี เธอใช้ขาโอบเอว"
+   }
+  },
+  {
+   "id": "C-apart",
+   "file": "gifs/C-apart.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอกางเข่าราบ"
+   }
+  },
+  {
+   "id": "C-shoulder",
+   "file": "gifs/C-shoulder.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ยกขาพาดไหล่เขา"
+   }
+  },
+  {
+   "id": "C-knees-chest",
+   "file": "gifs/C-knees-chest.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ชันเข่าชิดอก"
+   }
+  },
+  {
+   "id": "C-pillow",
+   "file": "gifs/C-pillow.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "หนุนสะโพกด้วยหมอน"
+   }
+  },
+  {
+   "id": "C-ankles",
+   "file": "gifs/C-ankles.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ไขว้ข้อเท้าที่หลังเขา"
+   }
+  },
+  {
+   "id": "C-straight",
+   "file": "gifs/C-straight.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ขาชิดเหยียดตรง"
+   }
+  },
+  {
+   "id": "C-one-shoulder",
+   "file": "gifs/C-one-shoulder.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ยกขาข้างเดียวพาดไหล่"
+   }
+  },
+  {
+   "id": "C-low",
+   "file": "gifs/C-low.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขาก้มต่ำ ศอกยันที่นอน"
+   }
+  },
+  {
+   "id": "C-pushup",
+   "file": "gifs/C-pushup.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขายันแขนตรง"
+   }
+  },
+  {
+   "id": "C-kneel-hips",
+   "file": "gifs/C-kneel-hips.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขาคุกเข่าตัวตรง ยกสะโพกเธอวางบนต้นขา"
+   }
+  },
+  {
+   "id": "C-hands-up",
+   "file": "gifs/C-hands-up.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอยกมือเหนือศีรษะ"
+   }
+  },
+  {
+   "id": "C-hug",
+   "file": "gifs/C-hug.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอกอดหลังเขา"
+   }
+  },
+  {
+   "id": "C-wide",
+   "file": "gifs/C-wide.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอกางขาออกกว้าง"
+   }
+  },
+  {
+   "id": "C-bridge",
+   "file": "gifs/C-bridge.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอเกร็งแอ่นสะโพก"
+   }
+  },
+  {
+   "id": "C-foot-chest",
+   "file": "gifs/C-foot-chest.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เท้าเธอยันอกเขา"
+   }
+  },
+  {
+   "id": "C-over-arms",
+   "file": "gifs/C-over-arms.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขาคล้องขาเธอไว้ที่แขน"
+   }
+  },
+  {
+   "id": "C-edge",
+   "file": "gifs/C-edge.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอนอนที่ขอบเตียง เขายืน"
+   }
+  },
+  {
+   "id": "D-allfours",
+   "file": "gifs/D-allfours.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่าสี่เท้า มือใต้ไหล่"
+   }
+  },
+  {
+   "id": "D-elbows",
+   "file": "gifs/D-elbows.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ศอกยัน อกต่ำ สะโพกสูง"
+   }
+  },
+  {
+   "id": "D-prone",
+   "file": "gifs/D-prone.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "นอนคว่ำราบ"
+   }
+  },
+  {
+   "id": "D-prone-pillow",
+   "file": "gifs/D-prone-pillow.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "นอนคว่ำ หมอนรองสะโพก"
+   }
+  },
+  {
+   "id": "D-arch",
+   "file": "gifs/D-arch.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า แอ่นหลัง เงยหน้า"
+   }
+  },
+  {
+   "id": "D-look-back",
+   "file": "gifs/D-look-back.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า หันมองข้างหลัง"
+   }
+  },
+  {
+   "id": "D-leg-up",
+   "file": "gifs/D-leg-up.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า ยกขาข้างหนึ่ง"
+   }
+  },
+  {
+   "id": "D-kneel-up",
+   "file": "gifs/D-kneel-up.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่าตัวตรงทั้งคู่ เธอเอนพิงเขา"
+   }
+  },
+  {
+   "id": "D-kneel-headboard",
+   "file": "gifs/D-kneel-headboard.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า มือยึดหัวเตียง"
+   }
+  },
+  {
+   "id": "D-edge-bent",
+   "file": "gifs/D-edge-bent.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มตัวบนขอบเตียง เขายืนด้านหลัง"
+   }
+  },
+  {
+   "id": "D-edge-onefoot",
+   "file": "gifs/D-edge-onefoot.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มขอบเตียง ยกเท้าข้างหนึ่ง"
+   }
+  },
+  {
+   "id": "D-edge-kneel",
+   "file": "gifs/D-edge-kneel.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่าบนขอบเตียง เขายืน"
+   }
+  },
+  {
+   "id": "D-wall-bent",
+   "file": "gifs/D-wall-bent.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มตัว มือยันกำแพง"
+   }
+  },
+  {
+   "id": "D-table",
+   "file": "gifs/D-table.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มตัวคว่ำบนโต๊ะ"
+   }
+  },
+  {
+   "id": "E-spoon",
+   "file": "gifs/E-spoon.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคงช้อนหลัง"
+   }
+  },
+  {
+   "id": "E-spoon-leg",
+   "file": "gifs/E-spoon-leg.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ช้อนหลัง เธอยกขาพาดขาเขา"
+   }
+  },
+  {
+   "id": "E-spoon-hip",
+   "file": "gifs/E-spoon-hip.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ช้อนหลัง เขากอดเอว"
+   }
+  },
+  {
+   "id": "E-spoon-curl",
+   "file": "gifs/E-spoon-curl.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ช้อนหลัง เธอขดตัว"
+   }
+  },
+  {
+   "id": "E-face",
+   "file": "gifs/E-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคงหันหน้า"
+   }
+  },
+  {
+   "id": "E-scissor",
+   "file": "gifs/E-scissor.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ท่ากรรไกร ขาไขว้"
+   }
+  },
+  {
+   "id": "E-her-on-arm",
+   "file": "gifs/E-her-on-arm.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคง ศีรษะหนุนแขนเขา"
+   }
+  },
+  {
+   "id": "E-leg-over",
+   "file": "gifs/E-leg-over.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคง เธอพาดขาเหนือสะโพกเขา"
+   }
+  },
+  {
+   "id": "F-face",
+   "file": "gifs/F-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนหันหน้ากอดกัน"
+   }
+  },
+  {
+   "id": "F-lift",
+   "file": "gifs/F-lift.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "เขาอุ้มเธอ เธอเกี่ยวขาโอบเอว"
+   }
+  },
+  {
+   "id": "F-wall-lift",
+   "file": "gifs/F-wall-lift.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "พิงกำแพง เขาอุ้มเธอ"
+   }
+  },
+  {
+   "id": "F-wall-leg",
+   "file": "gifs/F-wall-leg.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "พิงกำแพง เขาประคองขาเธอข้างหนึ่ง"
+   }
+  },
+  {
+   "id": "F-back-hug",
+   "file": "gifs/F-back-hug.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนกอดจากด้านหลัง"
+   }
+  },
+  {
+   "id": "F-sit-counter",
+   "file": "gifs/F-sit-counter.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "เธอนั่งบนโต๊ะ เขายืนระหว่างขา"
+   }
+  },
+  {
+   "id": "F-wall-kiss",
+   "file": "gifs/F-wall-kiss.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "พิงกำแพง จูบ เท้าเธอยกขึ้นพาดเขา"
+   }
+  },
+  {
+   "id": "F-chair-bent",
+   "file": "gifs/F-chair-bent.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนก้มพิงพนักเก้าอี้"
+   }
+  },
+  {
+   "id": "F-carry-back",
+   "file": "gifs/F-carry-back.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "เขาอุ้มเธอ หันหลังชิดอกเขา"
+   }
+  },
+  {
+   "id": "F-lean-chair",
+   "file": "gifs/F-lean-chair.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนยันพนักเก้าอี้ สะโพกยื่นกลับ"
+   }
+  },
+  {
+   "id": "G-straddle-clothed",
+   "file": "gifs/G-straddle-clothed.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "ขึ้นคร่อมทั้งที่สวมชุด"
+   }
+  },
+  {
+   "id": "G-sit-beside",
+   "file": "gifs/G-sit-beside.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "นั่งข้างกัน หันหากัน"
+   }
+  },
+  {
+   "id": "G-push-down",
+   "file": "gifs/G-push-down.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "เธอดันเขาลงนอน"
+   }
+  },
+  {
+   "id": "G-back-massage",
+   "file": "gifs/G-back-massage.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "เธอนั่งบนหลังเขา นวดไหล่"
+   }
+  },
+  {
+   "id": "G-kneel-over",
+   "file": "gifs/G-kneel-over.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "คุกเข่าคร่อมเหนือเขา ยังไม่ลง"
+   }
+  },
+  {
+   "id": "G-kiss-side",
+   "file": "gifs/G-kiss-side.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "นอนตะแคงจูบกัน"
+   }
   }
  ]
 }
