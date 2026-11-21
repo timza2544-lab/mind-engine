@@ -1,0 +1,25 @@
+// usage: node stage.js <app dir>; "โลกแปลกๆ" (v288), world: secret game show
+const { chromium } = require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(/fonts\./,r=>r.abort());
+await p.goto('file://'+process.argv[2]+'/index.html');await p.waitForTimeout(1800);
+console.log(await p.evaluate(()=>{try{const A=ANIMA,S=A.state,X=A.stage,W=X.worlds.show,o=[];let bad=0;const ck=(n,v)=>{if(!v){bad++;o.push('FAIL '+n);}};const thr=f=>{try{f();return null;}catch(e){return String(e.message);}};
+S.me={id:'me-profile',kind:'me',data:{age:34,nickname:'ต้น',firstName:'ต้น',sex:'ชาย',mVolume:'ปานกลาง',mLength:15}};S.game=S.game||{};A.ui.toast=()=>{};
+const mkw=(id,age,over)=>({id,data:Object.assign(A.gameWoman({age}),{nickname:'หญิง'+id,firstName:'หญิง'+id},over||{}),sim:{},chat:[],ai:{}});
+S.chars=[mkw('W1',30),mkw('W19',19),mkw('W20',20),mkw('M1',30,{sex:'ชาย'})];
+const P=W.pools;ck('game show pools',P.format.length===6&&P.rule.length===5&&P.missions.length===8&&P.host.length===5&&P.crowd.length===4&&P.stakes.length===4&&P.clock.length===4&&P.mistake.length===4&&P.ending.length===5&&W.cards.length===9);
+ck('Mary-led pools are shared from the warrior mode',X.st.form.mpos===-1&&A.warrior.data.MPOS.length===7);
+ck('women 20+ only',X.women().map(w=>w.id).join()==='W1,W20'&&!/data-v="W19"/.test(X.html()));
+X.st.sel='W1';ck('needs the cards rolled first',/สุ่มให้ครบ/.test(thr(()=>X.prompt(S.me))||''));
+X.st.sel='W19';ck('under 20 refused',!!thr(()=>X.prompt(S.me)));X.st.sel='W1';
+X.reroll('all');const f=X.st.form;ck('roll fills the nine world cards and the six Mary-led cards',W.cards.every(c=>f[c[0]]>=0)&&['mstart','mmask','mpos','mride','mbody','mwords'].every(k=>f[k]>=0));
+const pr=X.prompt(S.me);ck('prompt carries every card, the step order, the third voice rule and the next-episode ending',W.cards.every(c=>pr.includes(P[c[0]][f[c[0]]]))&&pr.includes(A.warrior.data.MPOS[f.mpos])&&/เริ่ม → ถามหรือตั้งกติกา → ขึ้นคร่อม/.test(pr)&&/เสียงที่สามต้องแทรก/.test(pr)&&/วงจรปิดที่ผลักไปตอนหน้า/.test(pr));
+ck('guardrails: agreed rules, her choice, no force/drug/gang/unconsented filming, stop word ends everything, adults, no pregnancy outcome, direct words',/ทุกอย่างอยู่ในกติกาที่ทุกคนตกลง/.test(pr)&&/ไม่มีใครบังคับ ขู่ ตรึง วางยา รุม หรือถ่ายทำโดยเธอไม่ยินยอม/.test(pr)&&/พอก่อน/.test(pr)&&/ทุกอย่างหยุดทันที/.test(pr)&&/ไม่มีเด็ก/.test(pr)&&/ไม่เขียนผลการตั้งครรภ์/.test(pr)&&/เซ็กส์ตรง ๆ/.test(pr));
+X.st.pov='her';ck('POV her/him/both',/"ฉัน" คือ หญิงW1/.test(X.prompt(S.me))&&(X.st.pov='him',!/คิดว่า:/.test(X.prompt(S.me)))&&(X.st.pov='both',/หญิงW1คิดว่า:/.test(X.prompt(S.me))));
+X.st.hist=[];X.remember();X.remember();ck('history and episode number',X.st.hist.length===2&&X.st.form.ep===3&&/ห้ามใช้ซ้ำ/.test(X.prompt(S.me)));
+const seen=new Set();for(let i=0;i<40;i++){X.reroll('all');const g=X.st.form;seen.add(W.cards.map(c=>g[c[0]]).join('/')+g.mpos);}ck('rolls vary',seen.size>=35);
+ck('bad key or index refused; unknown world refused',!!thr(()=>X.set('zzz','1'))&&!!thr(()=>X.set('rule','99'))&&!!thr(()=>X.setWorld('nope')));
+const n=X.norm({world:'zzz',pov:'x',form:{rule:'99',ep:'500',mpos:'-3'},hist:[1,2,3,4,5,6]});ck('norm',n.world==='show'&&n.pov==='both'&&n.form.rule===99&&n.form.mpos===-1&&n.form.ep===99&&n.hist.length===4&&thr(()=>X.norm(null))===null);
+S.game.mode=null;X.onAct('stgopen',{dataset:{}});ck('open/back',S.game.mode==='stage'&&/เกมโชว์ลับ/.test(X.html())&&(X.onAct('stgback',{dataset:{}}),S.game.mode===null));
+X.onAct('stgsel',{dataset:{v:'W20'}});X.onAct('stgsel',{dataset:{v:'W19'}});X.onAct('stgpov',{dataset:{v:'him'}});X.onAct('stgre',{dataset:{v:'host'}});ck('acts: sel (19 refused), pov, reroll one card',X.st.sel==='W20'&&X.st.pov==='him'&&X.st.form.host>=0);
+return (bad?o.join('\n')+'\nTOTAL FAIL '+bad:'ALL OK');}catch(e){return 'THROW '+e.message+' '+e.stack.slice(0,300);}}));
+if(errs.length)console.log('PAGEERR',errs.slice(0,3));await b.close();})();
