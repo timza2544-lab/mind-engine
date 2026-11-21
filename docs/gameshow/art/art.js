@@ -10,52 +10,78 @@
   ];
   const RHY = { slow: { t: 'ช้าและลึก', per: 6, cyc: 1, amp: 1 }, mid: { t: 'ปานกลาง', per: 6, cyc: 2, amp: 1.4 }, fast: { t: 'เร็ว', per: 6, cyc: 3, amp: 1.6 } };
   const OUT = { dress: 'ชุดนอนสวมอยู่', half: 'เปิดบางส่วน', bare: 'เปลือย (มีผ้าห่มคลุม)' };
+  /* ---------- skeleton model (v2): segment lengths from one height H=60; joints by forward kinematics; arms and legs by two-bone IK so hands and feet really touch what they should ---------- */
+  const LEN = { lum: 8, tho: 10, neck: 3, thigh: 15, shin: 14.5, up: 10, fore: 9 };
+  const rad = d => d * Math.PI / 180;
+  function ik(ax, ay, tx, ty, l1, l2, bend) { let dx = tx - ax, dy = ty - ay, d = Math.hypot(dx, dy), reach = l1 + l2 - 0.05; if (d > reach) { tx = ax + dx / d * reach; ty = ay + dy / d * reach; dx = tx - ax; dy = ty - ay; d = reach; } if (d < 0.5) d = 0.5; const base = Math.atan2(dy, dx), c = Math.max(-1, Math.min(1, (l1 * l1 + d * d - l2 * l2) / (2 * l1 * d))), a = Math.acos(c) * bend; return { j: [ax + Math.cos(base + a) * l1, ay + Math.sin(base + a) * l1], e: [tx, ty] }; }
   function render(o, t) {
     o = Object.assign({ pos: 'face', rhythm: 'mid', outfit: 'half', heat: 50, hair: 'brown', climax: false, hud: false }, o || {});
     const g = new Uint8Array(W * H), px = (x, y, k) => { x = Math.round(x); y = Math.round(y); if (x >= 0 && x < W && y >= 0 && y < H) g[y * W + x] = k; };
     const rect = (x, y, w, h, k) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(x + i, y + j, k); };
-    const disc = (cx, cy, r, k) => { for (let j = -r; j <= r; j++) for (let i = -r; i <= r; i++) if (i * i + j * j <= r * r + r * 0.6) px(cx + i, cy + j, k); };
-    const cap = (x0, y0, x1, y1, r, k, sh) => { const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0))); if (sh !== undefined) for (let i = 0; i <= n; i++) disc(Math.round(x0 + (x1 - x0) * i / n) + 1, Math.round(y0 + (y1 - y0) * i / n) + 1, r, sh); for (let i = 0; i <= n; i++) disc(Math.round(x0 + (x1 - x0) * i / n), Math.round(y0 + (y1 - y0) * i / n), r, k); };
-    const heat = o.heat, e = o.climax ? 2 : heat < 40 ? 0 : heat < 75 ? 1 : 2, R = RHY[o.rhythm] || RHY.mid, ph = o.climax ? ((t % 2) ? 1 : -1) * 0.6 : Math.sin(t / R.per * 6.2832 * R.cyc), bob = Math.round(ph * R.amp * (o.pos === 'lean' ? 0.6 : o.pos === 'squat' ? 1.5 : 1));
-    // room
-    rect(0, 0, W, 54, 2); for (let x = 0; x < W; x += 16) rect(x, 6, 1, 48, 3); rect(0, 54, W, 26, 1); rect(0, 70, W, 1, 0);
-    rect(2, 14, 8, 50, 21); rect(2, 14, 8, 2, 18); rect(0, 62, 118, 6, 21); rect(2, 52, 108, 10, 14); rect(2, 60, 108, 2, 15);
-    disc(112, 14, 4, 22); for (let y = 6; y < 28; y++) for (let x = 100; x < 124; x++) if ((x + y) % 3 === 0 && Math.hypot(x - 112, y - 14) < 12) px(x, y, 3);
-    const skinH = 4, skinHs = 5, skinM = 6, skinMs = 7, hairK = 8, top = 16, topS = 17;
+    const disc = (cx, cy, r, k) => { const R = Math.ceil(r); for (let j = -R; j <= R; j++) for (let i = -R; i <= R; i++) if (i * i + j * j <= r * r + 0.35) px(cx + i, cy + j, k); };
+    const cap = (x0, y0, x1, y1, r0, r1, k, sh) => { const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) * 1.5)); if (sh !== undefined) for (let i = 0; i <= n; i++) { const u = i / n; disc(x0 + (x1 - x0) * u + 0.8, y0 + (y1 - y0) * u + 0.8, r0 + (r1 - r0) * u, sh); } for (let i = 0; i <= n; i++) { const u = i / n; disc(x0 + (x1 - x0) * u, y0 + (y1 - y0) * u, r0 + (r1 - r0) * u, k); } };
+    const heat = o.heat, e = o.climax ? 2 : heat < 40 ? 0 : heat < 75 ? 1 : 2, RY = RHY[o.rhythm] || RHY.mid, phi = t / FR * 6.2832 * RY.cyc;
+    let dx = 0, dy = 0; if (o.climax) { dy = ((t % 2) ? 1 : -1) * 0.6; } else if (o.rhythm === 'slow') { dx = Math.cos(phi) * 1.4; dy = Math.sin(phi) * 1.0; } else if (o.rhythm === 'mid') { dy = Math.sin(phi) * 2.6; dx = Math.sin(phi) * 0.4; } else { dy = Math.sin(phi) * 2.0; }
+    const lag = Math.sin(phi - 0.9), bare = o.outfit === 'bare', half = o.outfit === 'half', dress = o.outfit === 'dress';
     PAL[8] = HAIRS[o.hair] || HAIRS.brown;
-    const bare = o.outfit === 'bare', half = o.outfit === 'half', dress = o.outfit === 'dress';
-    // him lying
-    const himLie = () => { rect(10, 49, 22, 4, 20); cap(30, 50, 64, 50, 5, skinM, skinMs); cap(64, 50, 88, 49, 4, skinM, skinMs); cap(88, 49, 106, 54, 3, skinM, skinMs); disc(22, 49, 5, skinM); rect(17, 43, 11, 4, 9); if (!bare) { cap(30, 48, 50, 48, 4, 19, 19); if (dress) cap(30, 50, 56, 50, 5, 19); } };
-    const face = (x, y, flip) => { const d = flip ? -1 : 1; if (e === 0) { px(x - 2 * d, y, 11); px(x + 1 * d, y, 11); } else if (e === 1) { px(x - 2 * d, y, 11); px(x - 1 * d, y, 11); px(x + 1 * d, y, 11); px(x + 2 * d, y, 11); } else { px(x - 2 * d, y - 1, 11); px(x - 1 * d, y, 11); px(x + 1 * d, y, 11); px(x + 2 * d, y - 1, 11); } if (e >= 1) { px(x - 3 * d, y + 2, 12); px(x - 2 * d, y + 2, 12); } if (e === 2) { rect(x - 1, y + 3, 3, 2, 11); px(x, y + 4, 13); } else if (e === 1) { px(x, y + 3, 13); px(x - 1, y + 3, 13); } else px(x, y + 3, skinHs); };
-    const her = (hx, hy, sx, sy, headx, heady, facing, bust) => {
-      // hips + legs are drawn by the caller; torso/arms/head here. facing: -1 left, +1 right
-      cap(hx, hy, sx, sy, 5, skinH, skinHs);
-      if (!bare && !half) cap(hx, hy, sx, sy, 5, top, topS); else if (half) { cap(hx + (sx - hx) * 0.15, hy + (sy - hy) * 0.15, hx, hy, 5, top, topS); cap(sx, sy, sx + (sx - hx) * 0.1, sy + (sy - hy) * 0.1, 3, top, topS); }
-      if (bust) { disc(bust[0], bust[1], 3, skinH); px(bust[0] + facing, bust[1] + 2, skinHs); if (dress) disc(bust[0], bust[1], 3, top); }
-      disc(headx, heady, 5, skinH); const sway = Math.round(ph * 2); cap(headx - facing * 2, heady - 2, headx - facing * 6 + sway, heady + 10, 3, hairK); rect(headx - 5, heady - 6, 11, 3, hairK); rect(headx - 5 + (facing > 0 ? 0 : 6), heady - 4, 5, 3, hairK);
-      face(headx + facing, heady + 1, facing < 0);
+    // room
+    rect(0, 0, W, 54, 2); for (let x = 0; x < W; x += 16) rect(x, 6, 1, 48, 3); rect(0, 54, W, 26, 1); rect(0, 70, W, 1, 0); rect(2, 14, 8, 50, 21); rect(2, 14, 8, 2, 18); rect(0, 62, 118, 6, 21); rect(2, 53, 108, 9, 14); rect(2, 60, 108, 2, 15); disc(112, 14, 4, 22); for (let y = 6; y < 28; y++) for (let x = 100; x < 124; x++) if ((x + y) % 3 === 0 && Math.hypot(x - 112, y - 14) < 12) px(x, y, 3);
+    const SK = 4, SKS = 5, MK = 6, MKS = 7, TOP = 16, TOPS = 17;
+    // ----- him (lying on his back, or sitting for 'lap')
+    const himPose = () => {
+      if (o.pos === 'lap') { rect(12, 30, 20, 3, 20); cap(31, 52, 28, 36, 5, 4.6, MK, MKS); disc(29, 29, 4.6, MK); rect(24, 24, 11, 4, 9); cap(31, 52, 47, 52, 4, 3.4, MK, MKS); cap(47, 52, 61, 53, 3.4, 2.6, MK, MKS); cap(61, 53, 65, 53, 2, 2, MK); return; }
+      const bent = o.pos === 'brace';
+      rect(18, 46, 22, 4, 20); disc(30, 48.5, 4.6, MK); rect(25, 43, 11, 4, 9); cap(35, 49, 50, 49.5, 5, 4.4, MK, MKS); disc(54, 49.5, 5, MK);
+      if (bent) { cap(55, 49.5, 66, 40, 4, 3.2, MK, MKS); cap(66, 40, 72, 51, 3.2, 2.4, MK, MKS); rect(70, 51, 7, 2, MKS); cap(55, 50, 68, 41, 4, 3.2, MK); } else { cap(55, 50, 71, 50, 4, 3.2, MK, MKS); cap(71, 50, 85, 52, 3.2, 2.4, MK, MKS); cap(85, 52, 91, 52, 2, 1.6, MK); }
+      if (!bare) { cap(36, 48, 50, 48.5, 4.2, 4.2, 19); }
     };
-    const sheet = (x, w) => { const w2 = Math.round(ph); for (let i = 0; i < w; i++) { const yy = 50 - Math.round(Math.sin((i + t) / 3) * 0.8) + (i % 9 === 0 ? 1 : 0) - (bob > 0 ? 0 : 0); for (let y = yy + w2 * 0; y < 58; y++) px(x + i, y, (y - yy) < 2 ? 14 : 14); px(x + i, yy, 15); } };
-    const skirt = (x, y, w) => { if (dress || half) { rect(x - w, y - 1, w * 2, 5, 16); rect(x - w, y + 3, w * 2, 1, 17); } };
-    if (o.pos === 'lap') {
-      rect(2, 22, 9, 36, 21); cap(34, 52, 18, 38, 5, skinM, skinMs); disc(14, 30, 5, skinM); rect(9, 24, 11, 4, 9); if (!bare) cap(30, 50, 20, 40, 4, 19);
-      const hy = 46 + bob, hx = 36; cap(hx, hy, hx + 3, 56, 4, skinH, skinHs); cap(hx + 3, 56, hx + 16, 58, 3, skinH, skinHs); cap(hx - 6, hy - 14, hx, hy, 5, skinH, skinHs); if (dress) cap(hx - 6, hy - 14, hx, hy, 5, top); else if (half) cap(hx - 6, hy - 14, hx - 3, hy - 8, 4, top);
-      cap(hx - 6, hy - 12, 20, 33, 2, skinH, skinHs); cap(hx - 6, hy - 12, 20, 36, 2, skinH); disc(hx - 10, hy - 18, 5, skinH); cap(hx - 6, hy - 22, hx + 4, hy - 4, 3, hairK); rect(hx - 15, hy - 24, 10, 3, hairK); face(hx - 12, hy - 17, true); disc(hx - 11, hy - 10, 3, skinH); if (dress) disc(hx - 11, hy - 10, 3, top); sheet(34, 26);
-    } else {
-      himLie();
-      if (o.pos === 'face') { const hx = 60, hy = 44 + bob; cap(hx, hy, hx + 14, 54, 4, skinH, skinHs); cap(hx + 14, 54, hx + 26, 57, 3, skinH, skinHs); cap(hx - 2, hy + 1, hx + 12, 55, 4, skinH); skirt(hx, hy, 7); her(hx, hy, hx - 2, hy - 17, hx - 4, hy - 25, -1, [hx - 8, hy - 12]); cap(hx - 4, hy - 16, 46, 49, 2, skinH, skinHs); cap(hx - 4, hy - 16, 48, 50, 2, skinH); cap(30, 50, 44, 50, 2, skinM); sheet(48, 30); }
-      else if (o.pos === 'back') { const hx = 60, hy = 44 + bob; cap(hx, hy, hx - 10, 54, 4, skinH, skinHs); cap(hx - 10, 54, hx - 24, 57, 3, skinH, skinHs); skirt(hx, hy, 7); her(hx, hy, hx + 5, hy - 16, hx + 9, hy - 23, 1, [hx + 8, hy - 11]); cap(hx + 5, hy - 14, 78, 50, 2, skinH, skinHs); sheet(46, 32); }
-      else if (o.pos === 'squat') { const hx = 60, hy = 39 + Math.round(bob * 1.2); cap(hx, hy, hx + 12, 46, 4, skinH, skinHs); cap(hx + 12, 46, hx + 10, 56, 3, skinH, skinHs); rect(hx + 8, 56, 8, 2, skinHs); cap(hx - 2, hy + 1, hx - 14, 47, 4, skinH); cap(hx - 14, 47, hx - 12, 56, 3, skinH); rect(hx - 16, 56, 8, 2, skinHs); skirt(hx, hy, 7); her(hx, hy, hx - 1, hy - 17, hx - 3, hy - 25, -1, [hx - 7, hy - 12]); cap(hx - 3, hy - 14, 48, 49, 2, skinH); sheet(46, 30); }
-      else if (o.pos === 'lean') { const hx = 62, hy = 46 + bob; cap(hx, hy, hx + 14, 54, 4, skinH, skinHs); cap(hx + 14, 54, hx + 26, 57, 3, skinH, skinHs); skirt(hx, hy, 7); her(hx, hy, hx - 20, hy - 7, hx - 28, hy - 10, -1, [hx - 15, hy - 3]); cap(hx - 20, hy - 6, 36, 47, 2, skinH); cap(hx - 20, hy - 6, 24, 46, 2, skinH); cap(hx - 24, hy - 12, 26, 44, 3, hairK); sheet(48, 30); }
-      else if (o.pos === 'brace') { const hx = 62, hy = 44 + bob; cap(hx, hy, hx + 14, 54, 4, skinH, skinHs); cap(hx + 14, 54, hx + 26, 57, 3, skinH, skinHs); skirt(hx, hy, 7); her(hx, hy, hx + 9, hy - 15, hx + 13, hy - 22, 1, [hx + 12, hy - 10]); cap(hx + 8, hy - 12, 82, 50, 2, skinH, skinHs); sheet(48, 32); }
-      else { // turn: face -> side -> back across the frames
-        const hx = 60, hy = 44 + bob, st = t < 2 ? 0 : t < 4 ? 1 : 2; cap(hx, hy, hx + (st === 2 ? -10 : 14), 54, 4, skinH, skinHs); cap(hx + (st === 2 ? -10 : 14), 54, hx + (st === 2 ? -24 : 26), 57, 3, skinH, skinHs); skirt(hx, hy, 7);
-        if (st === 0) her(hx, hy, hx - 2, hy - 17, hx - 4, hy - 25, -1, [hx - 8, hy - 12]); else if (st === 1) { her(hx, hy, hx, hy - 17, hx, hy - 25, -1, [hx - 4, hy - 12]); disc(hx + 4, hy - 12, 3, skinH); } else her(hx, hy, hx + 5, hy - 16, hx + 9, hy - 23, 1, [hx + 8, hy - 11]);
-        sheet(46, 32); }
+    // ----- her
+    const f = (o.pos === 'back') ? 1 : -1;
+    const P = (x, y, len, a, ff) => [x + ff * Math.sin(rad(a)) * len, y - Math.cos(rad(a)) * len];
+    function herFigure(sp) {
+      const hx = sp.hx + dx, hy = sp.hy + dy, ff = sp.f;
+      const L1 = P(hx, hy, LEN.lum, sp.a1, ff), S = P(L1[0], L1[1], LEN.tho, sp.a2, ff), N = P(S[0], S[1], LEN.neck, sp.a3, ff), Hd = P(N[0], N[1], 5.2, sp.a3 + 5, ff);
+      // far leg (behind everything)
+      if (sp.legs) sp.legs(hx, hy, true); if (sp.arm) sp.arm(S, true);
+      himPose(); if (o.pos !== 'lap') drawBlanket(sp);
+      // pelvis, torso
+      disc(hx, hy, 5.6, SK); cap(hx, hy, L1[0], L1[1], 4.6, 3.9, SK, SKS); cap(L1[0], L1[1], S[0], S[1], 3.9, 4.6, SK, SKS);
+      const bx = (L1[0] + S[0]) / 2 + ff * 3.6, by = (L1[1] + S[1]) / 2 - 0.5 + lag * 0.5; disc(bx, by, 3.3, SK); px(bx + ff * 2.5, by + 2, SKS);
+      if (dress) { cap(hx, hy, S[0], S[1], 4.8, 4.8, TOP, TOPS); disc(bx, by, 3.4, TOP); rect(Math.round(hx - 7), Math.round(hy + 1), 14, 4, TOP); rect(Math.round(hx - 7), Math.round(hy + 4), 14, 1, TOPS); }
+      else if (half) { cap(S[0], S[1] + 1, S[0] - ff * 2, S[1] + 3, 4.6, 4.6, TOP, TOPS); rect(Math.round(hx - 7), Math.round(hy + 1), 14, 4, TOP); rect(Math.round(hx - 7), Math.round(hy + 4), 14, 1, TOPS); }
+      if (sp.legs) sp.legs(hx, hy, false);
+      if (sp.arm) sp.arm(S, false);
+      // neck, head
+      cap(S[0], S[1], N[0], N[1], 2, 2, SK); disc(Hd[0], Hd[1], 4.7, SK); const sw = Math.round(lag * 2);
+      cap(Hd[0] - ff * 2, Hd[1] - 1, Hd[0] - ff * 6 + sw, Hd[1] + 11, 3.2, 2.6, 8); rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, 8); disc(Hd[0] - ff * 1, Hd[1] - 3, 4, 8);
+      px(Hd[0] + ff * 5, Hd[1] + 1, SK); const ex = Hd[0] + ff * 2, ey = Hd[1] - 0.5;
+      if (e === 0) { px(ex, ey, 11); px(ex + ff, ey - 1, 11); } else if (e === 1) { px(ex, ey, 11); px(ex - ff, ey, 11); px(ex + ff, ey - 1, 11); } else { px(ex - ff, ey, 11); px(ex, ey - 1, 11); px(ex + ff, ey, 11); }
+      if (e >= 1) { px(ex - ff * 2, ey + 2, 12); px(ex - ff * 3, ey + 2, 12); } const mx = Hd[0] + ff * 3, my = Hd[1] + 3; if (e === 2) { rect(Math.round(mx - (ff > 0 ? 0 : 1)), Math.round(my), 2, 2, 11); px(mx, my + 1, 13); } else if (e === 1) { px(mx, my, 13); px(mx - ff, my, 13); } else px(mx, my, SKS);
+      return { hx, hy, S, Hd };
     }
-    if (o.climax) for (let i = 0; i < 5; i++) { const x = 30 + i * 17, y = 28 - ((t * 3 + i * 4) % 20); [[0, 0], [2, 0], [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2], [1, 2], [2, 2], [1, 3]].forEach(p => px(x + p[0], y + p[1] + 6, 13)); }
-    if (o.climax) for (let i = 0; i < 8; i++) px((i * 43 + t * 11) % W, (i * 19 + t * 5) % 34, 18);
-    if (e >= 1) { const sx = o.pos === 'lap' ? 28 : 72 - (t % 2); px(sx, 22 + (t * 2) % 8, 23); px(sx + 4, 18 + (t * 3) % 8, 23); }
+    function drawBlanket(sp) { const x0 = sp.blank ? sp.blank[0] : 60, x1 = sp.blank ? sp.blank[1] : 100; for (let x = x0; x < x1; x++) { const yy = 47 + Math.round(Math.sin((x + t) / 4) * 0.7) + ((x - x0) < 3 ? 2 : 0); for (let y = yy; y < 56; y++) px(x, y, 15); px(x, yy, 14); px(x, yy + 1, 14); } }
+    const knee = (hx, hy, kx, ky, far) => ({ k: [kx + (far ? 1.5 : 0), ky - (far ? 1.5 : 0)] });
+    function kneeling(back, shinDir) { return (hx, hy, far) => { const ox = far ? 2 : 0, oy = far ? -1.5 : 0, kxo = back ? 3 : -3, k = [hx + kxo + ox, 51 + oy], tw = 8.5; const hipx = hx, hipy = hy, shade = far; const c = far ? MKS : SK, cs = far ? 17 : SKS; cap(hipx + (far ? 1 : 0), hipy + 1, k[0], k[1], 4.4, 3.2, far ? SKS : SK, far ? 7 : SKS); const a = [k[0] + shinDir * 14, 52.5 + oy], toe = [a[0] + shinDir * 5.5, 51.5 + oy]; cap(k[0], k[1], a[0], a[1], 3.1, 2.1, far ? SKS : SK, far ? 7 : SKS); cap(a[0], a[1], toe[0], toe[1], 1.8, 1.4, far ? SKS : SK); if (dress || half) { /* skirt over the thigh top */ } }; }
+    function arms(target, bend) { return (S, far) => { const ox = far ? -1.2 : 0, tgt = [target[0] + (far ? 2 : 0), target[1]], r = ik(S[0] + ox, S[1] + 1, tgt[0], tgt[1], LEN.up, LEN.fore, bend); cap(S[0] + ox, S[1] + 1, r.j[0], r.j[1], 2.6, 2.1, far ? SKS : SK, far ? 7 : SKS); cap(r.j[0], r.j[1], r.e[0], r.e[1], 2.1, 1.8, far ? SKS : SK); disc(r.e[0], r.e[1], 1.7, far ? SKS : SK); }; }
+    let spec;
+    const pos = o.pos;
+    if (pos === 'face') spec = { f: -1, hx: 57, hy: 41, a1: 12, a2: 24, a3: 22, legs: kneeling(false, 1), arm: arms([47, 44.5], 1), blank: [66, 100] };
+    else if (pos === 'back') spec = { f: 1, hx: 56, hy: 41, a1: 24, a2: 38, a3: 34, legs: kneeling(true, -1), arm: arms([73, 44.5], -1), blank: [62, 100] };
+    else if (pos === 'squat') spec = { f: -1, hx: 57, hy: 33, a1: 8, a2: 16, a3: 14, legs: (hx, hy, far) => { const ox = far ? 3 : 0, foot = [hx + 4 + ox, 52.5 - (far ? 1 : 0)], r = ik(hx, hy + 1, foot[0], foot[1], LEN.thigh, LEN.shin, 1); cap(hx, hy + 1, r.j[0], r.j[1], 4.4, 3.2, far ? SKS : SK, far ? 7 : SKS); cap(r.j[0], r.j[1], r.e[0], r.e[1], 3.1, 2.1, far ? SKS : SK); cap(r.e[0], r.e[1], r.e[0] - 6, 53, 1.9, 1.5, far ? SKS : SK); }, arm: arms([46, 44.5], 1), blank: [66, 100] };
+    else if (pos === 'lean') spec = { f: -1, hx: 60, hy: 42, a1: 52, a2: 76, a3: 70, legs: kneeling(false, 1), arm: (S, far) => { const tgt = [far ? 31 : 36, 52.5], r = ik(S[0], S[1] + 1, tgt[0], tgt[1], LEN.up, LEN.fore, -1); cap(S[0], S[1] + 1, r.j[0], r.j[1], 2.6, 2.1, far ? SKS : SK, far ? 7 : SKS); cap(r.j[0], r.j[1], r.e[0], r.e[1], 2.1, 1.8, far ? SKS : SK); }, blank: [66, 100] };
+    else if (pos === 'brace') spec = { f: -1, hx: 52, hy: 38, a1: -12, a2: -30, a3: -22, legs: kneeling(false, 1), arm: arms([64, 41], 1), blank: [74, 100] };
+    else if (pos === 'lap') spec = { f: -1, hx: 43, hy: 47, a1: 6, a2: 12, a3: 12, legs: (hx, hy, far) => { const k = [hx + 2 + (far ? 2 : 0), 51 - (far ? 1.5 : 0)]; cap(hx, hy + 1, k[0], k[1], 4.4, 3.2, far ? SKS : SK, far ? 7 : SKS); const a = [k[0] + 13, 52.5 - (far ? 1.5 : 0)]; cap(k[0], k[1], a[0], a[1], 3.1, 2.1, far ? SKS : SK, far ? 7 : SKS); cap(a[0], a[1], a[0] + 5, a[1] - 1, 1.8, 1.4, far ? SKS : SK); }, arm: (S, far) => { const tgt = [far ? 30 : 29, 33.5], r = ik(S[0], S[1] + 1, tgt[0], tgt[1], LEN.up, LEN.fore, -1); cap(S[0], S[1] + 1, r.j[0], r.j[1], 2.6, 2.1, far ? SKS : SK, far ? 7 : SKS); cap(r.j[0], r.j[1], r.e[0], r.e[1], 2.1, 1.8, far ? SKS : SK); } };
+    else { // turn: face -> lift one leg over -> side-on -> back (the pivot is slow, hands on his thighs)
+      const st = t < 2 ? 0 : t < 3 ? 1 : t < 4 ? 2 : 3;
+      if (st === 0) spec = { f: -1, hx: 57, hy: 41, a1: 12, a2: 24, a3: 22, legs: kneeling(false, 1), arm: arms([60, 44.5], 1), blank: [66, 100] };
+      else if (st === 1) spec = { f: -1, hx: 57, hy: 38, a1: 10, a2: 18, a3: 18, legs: (hx, hy, far) => { if (far) { kneeling(false, 1)(hx, hy, true); return; } const k = [hx - 9, hy - 8], r = ik(hx, hy, k[0], k[1], LEN.thigh * 0.8, 1, 1); cap(hx, hy + 1, k[0], k[1], 4.4, 3.2, SK, SKS); cap(k[0], k[1], k[0] + 3, k[1] + 12, 3.1, 2.1, SK, SKS); cap(k[0] + 3, k[1] + 12, k[0] - 2, k[1] + 14, 1.9, 1.5, SK); }, arm: arms([62, 44.5], 1), blank: [66, 100] };
+      else if (st === 2) spec = { f: 1, hx: 57, hy: 39, a1: 14, a2: 26, a3: 22, legs: kneeling(true, -1), arm: arms([72, 44.5], -1), blank: [66, 100] };
+      else spec = { f: 1, hx: 56, hy: 41, a1: 24, a2: 38, a3: 34, legs: kneeling(true, -1), arm: arms([73, 44.5], -1), blank: [62, 100] };
+    }
+    herFigure(spec);
+    if (o.climax) for (let i = 0; i < 5; i++) { const x = 30 + i * 17, y = 24 - ((t * 3 + i * 4) % 16); [[0, 0], [2, 0], [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2], [1, 2], [2, 2], [1, 3]].forEach(p => px(x + p[0], y + p[1] + 6, 13)); }
+    if (o.climax) for (let i = 0; i < 8; i++) px((i * 43 + t * 11) % W, (i * 19 + t * 5) % 30, 18);
+    if (e >= 1) { const sx = (spec.hx || 56) - spec.f * 3; px(sx, 20 + (t * 2) % 8, 23); px(sx + 3, 16 + (t * 3) % 8, 23); }
     if (o.hud) { rect(96, 68, 28, 6, 11); rect(97, 69, Math.round(heat / 100 * 26), 4, heat > 75 ? 13 : 18); }
     return g;
   }
