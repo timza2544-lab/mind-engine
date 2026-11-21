@@ -718,6 +718,11 @@
   {
    "id": "A-face-thighs",
    "file": "gifs/A-face-thighs.gif",
+   "stick": "gifs/A-face-thighs-stick.gif",
+   "warn": [
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.6 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 2.8 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -727,6 +732,8 @@
   {
    "id": "A-face-behind-head",
    "file": "gifs/A-face-behind-head.gif",
+   "stick": "gifs/A-face-behind-head-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -736,6 +743,8 @@
   {
    "id": "A-face-clasped",
    "file": "gifs/A-face-clasped.gif",
+   "stick": "gifs/A-face-clasped-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -745,6 +754,10 @@
   {
    "id": "A-face-his-hips",
    "file": "gifs/A-face-his-hips.gif",
+   "stick": "gifs/A-face-his-hips-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=71"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -754,6 +767,8 @@
   {
    "id": "A-face-shoulders",
    "file": "gifs/A-face-shoulders.gif",
+   "stick": "gifs/A-face-shoulders-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -763,6 +778,8 @@
   {
    "id": "A-face-arch-knees",
    "file": "gifs/A-face-arch-knees.gif",
+   "stick": "gifs/A-face-arch-knees-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -772,6 +789,8 @@
   {
    "id": "A-face-one-knee",
    "file": "gifs/A-face-one-knee.gif",
+   "stick": "gifs/A-face-one-knee-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -781,6 +800,8 @@
   {
    "id": "A-face-feet-leanback",
    "file": "gifs/A-face-feet-leanback.gif",
+   "stick": "gifs/A-face-feet-leanback-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -790,6 +811,8 @@
   {
    "id": "A-squat-knees",
    "file": "gifs/A-squat-knees.gif",
+   "stick": "gifs/A-squat-knees-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -799,6 +822,8 @@
   {
    "id": "A-squat-lean",
    "file": "gifs/A-squat-lean.gif",
+   "stick": "gifs/A-squat-lean-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -808,6 +833,8 @@
   {
    "id": "A-squat-upright-hair",
    "file": "gifs/A-squat-upright-hair.gif",
+   "stick": "gifs/A-squat-upright-hair-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -817,6 +844,8 @@
   {
    "id": "A-kiss",
    "file": "gifs/A-kiss.gif",
+   "stick": "gifs/A-kiss-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -826,6 +855,8 @@
   {
    "id": "A-neck",
    "file": "gifs/A-neck.gif",
+   "stick": "gifs/A-neck-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -835,6 +866,8 @@
   {
    "id": "A-forearms",
    "file": "gifs/A-forearms.gif",
+   "stick": "gifs/A-forearms-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -844,6 +877,10 @@
   {
    "id": "A-chest-to-chest",
    "file": "gifs/A-chest-to-chest.gif",
+   "stick": "gifs/A-chest-to-chest-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 1.6 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -853,6 +890,11 @@
   {
    "id": "A-back-thighs",
    "file": "gifs/A-back-thighs.gif",
+   "stick": "gifs/A-back-thighs-stick.gif",
+   "warn": [
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 1.7 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.8 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -862,6 +904,8 @@
   {
    "id": "A-back-shins",
    "file": "gifs/A-back-shins.gif",
+   "stick": "gifs/A-back-shins-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -871,6 +915,8 @@
   {
    "id": "A-back-far",
    "file": "gifs/A-back-far.gif",
+   "stick": "gifs/A-back-far-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -880,6 +926,10 @@
   {
    "id": "A-back-squat",
    "file": "gifs/A-back-squat.gif",
+   "stick": "gifs/A-back-squat-stick.gif",
+   "warn": [
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.5 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -889,6 +939,8 @@
   {
    "id": "A-back-squat-lean",
    "file": "gifs/A-back-squat-lean.gif",
+   "stick": "gifs/A-back-squat-lean-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -898,6 +950,19 @@
   {
    "id": "A-back-lie",
    "file": "gifs/A-back-lie.gif",
+   "stick": "gifs/A-back-lie-stick.gif",
+   "warn": [
+    "เขา · ขาข้างใกล้: สะโพกแอ่นเกิน 58°",
+    "เขา · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 4.5 px",
+    "เขา · ขาข้างไกล: สะโพกแอ่นเกิน 59°",
+    "เขา · ขาข้างไกล: เอื้อมไม่ถึง ขาด 5.5 px",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 5.6 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 8.8 px",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.9 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 5.2 px",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 4.6 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 6.7 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -907,6 +972,8 @@
   {
    "id": "A-back-hands-head",
    "file": "gifs/A-back-hands-head.gif",
+   "stick": "gifs/A-back-hands-head-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -916,6 +983,8 @@
   {
    "id": "A-back-one-knee",
    "file": "gifs/A-back-one-knee.gif",
+   "stick": "gifs/A-back-one-knee-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "บนตัวเขา",
@@ -925,6 +994,11 @@
   {
    "id": "B-lap-lotus",
    "file": "gifs/B-lap-lotus.gif",
+   "stick": "gifs/B-lap-lotus-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างไกล: เข่างอย้อนทิศ"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -934,6 +1008,12 @@
   {
    "id": "B-lap-leanback",
    "file": "gifs/B-lap-leanback.gif",
+   "stick": "gifs/B-lap-leanback-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=44",
+    "เขา · ทะลุพื้น ที่ x=45",
+    "เธอ · ขาข้างไกล: เข่างอย้อนทิศ"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -943,6 +1023,10 @@
   {
    "id": "B-lap-kiss",
    "file": "gifs/B-lap-kiss.gif",
+   "stick": "gifs/B-lap-kiss-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างไกล: เข่างอย้อนทิศ"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -952,6 +1036,13 @@
   {
    "id": "B-lap-reverse",
    "file": "gifs/B-lap-reverse.gif",
+   "stick": "gifs/B-lap-reverse-stick.gif",
+   "warn": [
+    "เธอ · ทะลุพื้น ที่ x=49",
+    "เธอ · ทะลุพื้น ที่ x=51",
+    "เธอ · ทะลุพื้น ที่ x=48",
+    "เธอ · ทะลุพื้น ที่ x=50"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -961,6 +1052,12 @@
   {
    "id": "B-lap-reverse-lean",
    "file": "gifs/B-lap-reverse-lean.gif",
+   "stick": "gifs/B-lap-reverse-lean-stick.gif",
+   "warn": [
+    "เธอ · ทะลุพื้น ที่ x=50",
+    "เธอ · ทะลุพื้น ที่ x=52",
+    "เธอ · ทะลุพื้น ที่ x=49"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -970,6 +1067,11 @@
   {
    "id": "B-lap-kneel",
    "file": "gifs/B-lap-kneel.gif",
+   "stick": "gifs/B-lap-kneel-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เข่างอเกิน 151°",
+    "เธอ · ขาข้างไกล: เข่างอเกิน 162°"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -979,6 +1081,14 @@
   {
    "id": "B-lap-side",
    "file": "gifs/B-lap-side.gif",
+   "stick": "gifs/B-lap-side-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างไกล: สะโพกแอ่นเกิน 22°",
+    "เธอ · ทะลุพื้น ที่ x=51",
+    "เธอ · ทะลุพื้น ที่ x=53",
+    "เธอ · ทะลุพื้น ที่ x=50",
+    "เธอ · ทะลุพื้น ที่ x=52"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -988,6 +1098,10 @@
   {
    "id": "B-chair-face",
    "file": "gifs/B-chair-face.gif",
+   "stick": "gifs/B-chair-face-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=58"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -997,6 +1111,14 @@
   {
    "id": "B-chair-reverse",
    "file": "gifs/B-chair-reverse.gif",
+   "stick": "gifs/B-chair-reverse-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=58",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 3.1 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 3.7 px",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 4.8 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 5.4 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -1006,6 +1128,10 @@
   {
    "id": "B-chair-leanback",
    "file": "gifs/B-chair-leanback.gif",
+   "stick": "gifs/B-chair-leanback-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=58"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -1015,6 +1141,10 @@
   {
    "id": "B-edge-face",
    "file": "gifs/B-edge-face.gif",
+   "stick": "gifs/B-edge-face-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=67"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -1024,6 +1154,12 @@
   {
    "id": "B-edge-reverse",
    "file": "gifs/B-edge-reverse.gif",
+   "stick": "gifs/B-edge-reverse-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=67",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.2 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 2.3 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -1033,6 +1169,14 @@
   {
    "id": "B-edge-she-sits",
    "file": "gifs/B-edge-she-sits.gif",
+   "stick": "gifs/B-edge-she-sits-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=72",
+    "เขา · ทะลุพื้น ที่ x=74",
+    "เธอ · ทะลุพื้น ที่ x=77",
+    "เธอ · ทะลุพื้น ที่ x=79",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.6 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นั่งและตัก",
@@ -1042,6 +1186,13 @@
   {
    "id": "C-wrap",
    "file": "gifs/C-wrap.gif",
+   "stick": "gifs/C-wrap-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 49.6 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 50.1 / แข้ง 11.3)",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 52.9 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 53.4 / แข้ง 11.3)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1051,6 +1202,16 @@
   {
    "id": "C-apart",
    "file": "gifs/C-apart.gif",
+   "stick": "gifs/C-apart-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 52.9 / แข้ง 14.9)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 47.5 / แข้ง 13.1)",
+    "เธอ · ทะลุพื้น ที่ x=123",
+    "เธอ · ทะลุพื้น ที่ x=120",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 56.2 / แข้ง 14.9)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 50.8 / แข้ง 13.1)",
+    "เธอ · ทะลุพื้น ที่ x=126"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1060,6 +1221,13 @@
   {
    "id": "C-shoulder",
    "file": "gifs/C-shoulder.gif",
+   "stick": "gifs/C-shoulder-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 96.9 px",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 129.2 / แข้ง 14.4)",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 106.7 px",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 139.2 / แข้ง 14.4)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1069,6 +1237,15 @@
   {
    "id": "C-knees-chest",
    "file": "gifs/C-knees-chest.gif",
+   "stick": "gifs/C-knees-chest-stick.gif",
+   "warn": [
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.8 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 101.2 / แข้ง 10.6)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 101.9 / แข้ง 10.3)",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.6 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 109.1 / แข้ง 10.6)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 109.8 / แข้ง 10.3)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1078,6 +1255,15 @@
   {
    "id": "C-pillow",
    "file": "gifs/C-pillow.gif",
+   "stick": "gifs/C-pillow-stick.gif",
+   "warn": [
+    "เขา · ขาข้างใกล้: เข่างอย้อนทิศ",
+    "เขา · ขาข้างไกล: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 106.5 / แข้ง 12.8)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 107.3 / แข้ง 12.8)",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 114.5 / แข้ง 12.8)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 115.3 / แข้ง 12.8)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1087,6 +1273,13 @@
   {
    "id": "C-ankles",
    "file": "gifs/C-ankles.gif",
+   "stick": "gifs/C-ankles-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 48.9 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 49.4 / แข้ง 9.6)",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 52.1 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 52.6 / แข้ง 9.6)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1096,6 +1289,15 @@
   {
    "id": "C-straight",
    "file": "gifs/C-straight.gif",
+   "stick": "gifs/C-straight-stick.gif",
+   "warn": [
+    "เขา · ขาข้างใกล้: เข่างอย้อนทิศ",
+    "เขา · ขาข้างไกล: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 76.8 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 77.8 px",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 83.0 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 84.0 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1105,6 +1307,15 @@
   {
    "id": "C-one-shoulder",
    "file": "gifs/C-one-shoulder.gif",
+   "stick": "gifs/C-one-shoulder-stick.gif",
+   "warn": [
+    "เขา · ขาข้างใกล้: เข่างอย้อนทิศ",
+    "เขา · ขาข้างไกล: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 56.9 px",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 85.8 / แข้ง 12.8)",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 62.9 px",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 92.0 / แข้ง 12.8)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1114,6 +1325,15 @@
   {
    "id": "C-low",
    "file": "gifs/C-low.gif",
+   "stick": "gifs/C-low-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 39.3 / แข้ง 12.8)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 36.0 / แข้ง 12.5)",
+    "เธอ · ทะลุพื้น ที่ x=107",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 41.7 / แข้ง 12.8)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 38.4 / แข้ง 12.5)",
+    "เธอ · ทะลุพื้น ที่ x=110"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1123,6 +1343,17 @@
   {
    "id": "C-pushup",
    "file": "gifs/C-pushup.gif",
+   "stick": "gifs/C-pushup-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.9 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 3.3 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 152.5 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 153.4 / แข้ง 11.3)",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.8 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 3.2 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 164.5 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 165.3 / แข้ง 11.3)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1132,6 +1363,8 @@
   {
    "id": "C-kneel-hips",
    "file": "gifs/C-kneel-hips.gif",
+   "stick": "gifs/C-kneel-hips-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1141,6 +1374,15 @@
   {
    "id": "C-hands-up",
    "file": "gifs/C-hands-up.gif",
+   "stick": "gifs/C-hands-up-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 49.6 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 50.1 / แข้ง 11.3)",
+    "เธอ · ขาข้างใกล้: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 52.9 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 53.4 / แข้ง 11.3)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1150,6 +1392,19 @@
   {
    "id": "C-hug",
    "file": "gifs/C-hug.gif",
+   "stick": "gifs/C-hug-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 49.6 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: เข่างอย้อนทิศ",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 50.1 / แข้ง 11.3)",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 40.9 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 44.1 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 52.9 / แข้ง 12.0)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 53.4 / แข้ง 11.3)",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 44.3 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 47.4 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1159,6 +1414,13 @@
   {
    "id": "C-wide",
    "file": "gifs/C-wide.gif",
+   "stick": "gifs/C-wide-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 54.9 / แข้ง 15.6)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 48.5 / แข้ง 16.4)",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 58.2 / แข้ง 15.6)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 51.8 / แข้ง 16.4)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1168,6 +1430,16 @@
   {
    "id": "C-bridge",
    "file": "gifs/C-bridge.gif",
+   "stick": "gifs/C-bridge-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 50.6 / แข้ง 14.8)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 51.1 / แข้ง 12.6)",
+    "เธอ · ทะลุพื้น ที่ x=110",
+    "เธอ · ทะลุพื้น ที่ x=114",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 53.8 / แข้ง 14.8)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 54.4 / แข้ง 12.6)",
+    "เธอ · ทะลุพื้น ที่ x=117"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1177,6 +1449,17 @@
   {
    "id": "C-foot-chest",
    "file": "gifs/C-foot-chest.gif",
+   "stick": "gifs/C-foot-chest-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 3.3 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 4.5 px",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 62.8 px",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 97.8 / แข้ง 12.8)",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 3.0 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 4.2 px",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 69.9 px",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 105.0 / แข้ง 12.8)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1186,6 +1469,15 @@
   {
    "id": "C-over-arms",
    "file": "gifs/C-over-arms.gif",
+   "stick": "gifs/C-over-arms-stick.gif",
+   "warn": [
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 2.4 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 126.9 / แข้ง 9.2)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 127.7 / แข้ง 8.8)",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 2.0 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 136.9 / แข้ง 9.2)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 137.7 / แข้ง 8.8)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1195,6 +1487,17 @@
   {
    "id": "C-edge",
    "file": "gifs/C-edge.gif",
+   "stick": "gifs/C-edge-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 1.7 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.7 px",
+    "เขา · ทะลุพื้น ที่ x=62",
+    "เขา · ทะลุพื้น ที่ x=63",
+    "เขา · ทะลุพื้น ที่ x=64",
+    "เขา · ทะลุพื้น ที่ x=66",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.7 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 2.8 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "เขาอยู่ข้างบน",
@@ -1204,6 +1507,11 @@
   {
    "id": "D-allfours",
    "file": "gifs/D-allfours.gif",
+   "stick": "gifs/D-allfours-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 17.7 / แข้ง 14.2)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 17.4 / แข้ง 14.2)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1213,6 +1521,15 @@
   {
    "id": "D-elbows",
    "file": "gifs/D-elbows.gif",
+   "stick": "gifs/D-elbows-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 17.7 / แข้ง 14.2)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 17.4 / แข้ง 14.2)",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 142.2 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 141.4 px",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 156.2 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 155.4 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1222,6 +1539,11 @@
   {
    "id": "D-prone",
    "file": "gifs/D-prone.gif",
+   "stick": "gifs/D-prone-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 2.5 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 3.5 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1231,6 +1553,11 @@
   {
    "id": "D-prone-pillow",
    "file": "gifs/D-prone-pillow.gif",
+   "stick": "gifs/D-prone-pillow-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 2.9 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 3.7 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1240,6 +1567,11 @@
   {
    "id": "D-arch",
    "file": "gifs/D-arch.gif",
+   "stick": "gifs/D-arch-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 17.7 / แข้ง 14.2)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 17.4 / แข้ง 14.2)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1249,6 +1581,11 @@
   {
    "id": "D-look-back",
    "file": "gifs/D-look-back.gif",
+   "stick": "gifs/D-look-back-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 17.7 / แข้ง 14.2)",
+    "เธอ · ขาข้างไกล: กระดูกยาวเกิน (ต้นขา 17.4 / แข้ง 14.2)"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1258,6 +1595,13 @@
   {
    "id": "D-leg-up",
    "file": "gifs/D-leg-up.gif",
+   "stick": "gifs/D-leg-up-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 183.5 / แข้ง 14.2)",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 162.6 px",
+    "เธอ · ขาข้างใกล้: กระดูกยาวเกิน (ต้นขา 197.7 / แข้ง 14.2)",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 176.8 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1267,6 +1611,8 @@
   {
    "id": "D-kneel-up",
    "file": "gifs/D-kneel-up.gif",
+   "stick": "gifs/D-kneel-up-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1276,6 +1622,10 @@
   {
    "id": "D-kneel-headboard",
    "file": "gifs/D-kneel-headboard.gif",
+   "stick": "gifs/D-kneel-headboard-stick.gif",
+   "warn": [
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 1.7 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1285,6 +1635,18 @@
   {
    "id": "D-edge-bent",
    "file": "gifs/D-edge-bent.gif",
+   "stick": "gifs/D-edge-bent-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=62",
+    "เขา · ทะลุพื้น ที่ x=63",
+    "เขา · ทะลุพื้น ที่ x=64",
+    "เขา · ทะลุพื้น ที่ x=66",
+    "เธอ · ทะลุพื้น ที่ x=50",
+    "เธอ · ทะลุพื้น ที่ x=62",
+    "เธอ · ทะลุพื้น ที่ x=66",
+    "เธอ · ทะลุพื้น ที่ x=52",
+    "เธอ · ทะลุพื้น ที่ x=64"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1294,6 +1656,17 @@
   {
    "id": "D-edge-onefoot",
    "file": "gifs/D-edge-onefoot.gif",
+   "stick": "gifs/D-edge-onefoot-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=62",
+    "เขา · ทะลุพื้น ที่ x=63",
+    "เขา · ทะลุพื้น ที่ x=64",
+    "เขา · ทะลุพื้น ที่ x=66",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 119.3 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 124.6 px",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 131.0 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 136.4 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1303,6 +1676,13 @@
   {
    "id": "D-edge-kneel",
    "file": "gifs/D-edge-kneel.gif",
+   "stick": "gifs/D-edge-kneel-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=64",
+    "เขา · ทะลุพื้น ที่ x=65",
+    "เขา · ทะลุพื้น ที่ x=68",
+    "เขา · ทะลุพื้น ที่ x=66"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1312,6 +1692,11 @@
   {
    "id": "D-wall-bent",
    "file": "gifs/D-wall-bent.gif",
+   "stick": "gifs/D-wall-bent-stick.gif",
+   "warn": [
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 4.4 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 7.1 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1321,6 +1706,8 @@
   {
    "id": "D-table",
    "file": "gifs/D-table.gif",
+   "stick": "gifs/D-table-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "จากด้านหลัง",
@@ -1330,6 +1717,8 @@
   {
    "id": "E-spoon",
    "file": "gifs/E-spoon.gif",
+   "stick": "gifs/E-spoon-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1339,6 +1728,13 @@
   {
    "id": "E-spoon-leg",
    "file": "gifs/E-spoon-leg.gif",
+   "stick": "gifs/E-spoon-leg-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 35.3 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 39.5 px",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 39.2 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 43.5 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1348,6 +1744,10 @@
   {
    "id": "E-spoon-hip",
    "file": "gifs/E-spoon-hip.gif",
+   "stick": "gifs/E-spoon-hip-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: ข้อศอกงอเกิน"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1357,6 +1757,13 @@
   {
    "id": "E-spoon-curl",
    "file": "gifs/E-spoon-curl.gif",
+   "stick": "gifs/E-spoon-curl-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 24.5 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 25.5 px",
+    "เธอ · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 28.5 px",
+    "เธอ · ขาข้างไกล: เอื้อมไม่ถึง ขาด 29.5 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1366,6 +1773,16 @@
   {
    "id": "E-face",
    "file": "gifs/E-face.gif",
+   "stick": "gifs/E-face-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 18.8 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 15.7 px",
+    "เขา · ทะลุพื้น ที่ x=66",
+    "เขา · ทะลุพื้น ที่ x=67",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 17.2 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 14.0 px",
+    "เขา · ทะลุพื้น ที่ x=65"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1375,6 +1792,8 @@
   {
    "id": "E-scissor",
    "file": "gifs/E-scissor.gif",
+   "stick": "gifs/E-scissor-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1384,6 +1803,18 @@
   {
    "id": "E-her-on-arm",
    "file": "gifs/E-her-on-arm.gif",
+   "stick": "gifs/E-her-on-arm-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 7.1 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 4.4 px",
+    "เขา · ทะลุพื้น ที่ x=51",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 11.6 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 14.7 px",
+    "เธอ · ทะลุพื้น ที่ x=72",
+    "เธอ · ทะลุพื้น ที่ x=73",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 15.5 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 18.6 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1393,6 +1824,17 @@
   {
    "id": "E-leg-over",
    "file": "gifs/E-leg-over.gif",
+   "stick": "gifs/E-leg-over-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 14.2 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 11.0 px",
+    "เขา · ทะลุพื้น ที่ x=61",
+    "เขา · ทะลุพื้น ที่ x=62",
+    "เธอ · แขนข้างใกล้: ข้อศอกงอเกิน",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 12.5 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 9.3 px",
+    "เขา · ทะลุพื้น ที่ x=60"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "นอนตะแคง",
@@ -1402,6 +1844,8 @@
   {
    "id": "F-face",
    "file": "gifs/F-face.gif",
+   "stick": "gifs/F-face-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1411,6 +1855,8 @@
   {
    "id": "F-lift",
    "file": "gifs/F-lift.gif",
+   "stick": "gifs/F-lift-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1420,6 +1866,8 @@
   {
    "id": "F-wall-lift",
    "file": "gifs/F-wall-lift.gif",
+   "stick": "gifs/F-wall-lift-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1429,6 +1877,8 @@
   {
    "id": "F-wall-leg",
    "file": "gifs/F-wall-leg.gif",
+   "stick": "gifs/F-wall-leg-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1438,6 +1888,8 @@
   {
    "id": "F-back-hug",
    "file": "gifs/F-back-hug.gif",
+   "stick": "gifs/F-back-hug-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1447,6 +1899,10 @@
   {
    "id": "F-sit-counter",
    "file": "gifs/F-sit-counter.gif",
+   "stick": "gifs/F-sit-counter-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างไกล: สะโพกงอเกิน 136°"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1456,6 +1912,10 @@
   {
    "id": "F-wall-kiss",
    "file": "gifs/F-wall-kiss.gif",
+   "stick": "gifs/F-wall-kiss-stick.gif",
+   "warn": [
+    "เธอ · ขาข้างใกล้: สะโพกงอเกิน 138°"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1465,6 +1925,15 @@
   {
    "id": "F-chair-bent",
    "file": "gifs/F-chair-bent.gif",
+   "stick": "gifs/F-chair-bent-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=66",
+    "เขา · ทะลุพื้น ที่ x=68",
+    "เธอ · แขนข้างใกล้: ข้อศอกงอเกิน",
+    "เธอ · ทะลุพื้น ที่ x=62",
+    "เธอ · ทะลุพื้น ที่ x=65",
+    "เขา · ทะลุพื้น ที่ x=69"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1474,6 +1943,8 @@
   {
    "id": "F-carry-back",
    "file": "gifs/F-carry-back.gif",
+   "stick": "gifs/F-carry-back-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1483,6 +1954,16 @@
   {
    "id": "F-lean-chair",
    "file": "gifs/F-lean-chair.gif",
+   "stick": "gifs/F-lean-chair-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=66",
+    "เขา · ทะลุพื้น ที่ x=68",
+    "เธอ · ทะลุพื้น ที่ x=58",
+    "เธอ · ทะลุพื้น ที่ x=61",
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 2.2 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 2.4 px",
+    "เขา · ทะลุพื้น ที่ x=69"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ยืน",
@@ -1492,6 +1973,8 @@
   {
    "id": "G-straddle-clothed",
    "file": "gifs/G-straddle-clothed.gif",
+   "stick": "gifs/G-straddle-clothed-stick.gif",
+   "warn": [],
    "tags": {
     "group": "pose2",
     "fam": "ช่วงเริ่ม",
@@ -1501,6 +1984,15 @@
   {
    "id": "G-sit-beside",
    "file": "gifs/G-sit-beside.gif",
+   "stick": "gifs/G-sit-beside-stick.gif",
+   "warn": [
+    "เขา · ทะลุพื้น ที่ x=62",
+    "เขา · ทะลุพื้น ที่ x=65",
+    "เธอ · ขาข้างใกล้: สะโพกงอเกิน 141°",
+    "เธอ · ขาข้างไกล: สะโพกงอเกิน 143°",
+    "เธอ · ขาข้างใกล้: สะโพกงอเกิน 139°",
+    "เธอ · ขาข้างไกล: สะโพกงอเกิน 141°"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ช่วงเริ่ม",
@@ -1510,6 +2002,12 @@
   {
    "id": "G-push-down",
    "file": "gifs/G-push-down.gif",
+   "stick": "gifs/G-push-down-stick.gif",
+   "warn": [
+    "เขา · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 4.5 px",
+    "เขา · ขาข้างไกล: เอื้อมไม่ถึง ขาด 5.5 px",
+    "เขา · แขนข้างใกล้: ข้อศอกงอเกิน"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ช่วงเริ่ม",
@@ -1519,6 +2017,11 @@
   {
    "id": "G-back-massage",
    "file": "gifs/G-back-massage.gif",
+   "stick": "gifs/G-back-massage-stick.gif",
+   "warn": [
+    "เขา · ขาข้างใกล้: เอื้อมไม่ถึง ขาด 2.5 px",
+    "เขา · ขาข้างไกล: เอื้อมไม่ถึง ขาด 3.5 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ช่วงเริ่ม",
@@ -1528,6 +2031,13 @@
   {
    "id": "G-kneel-over",
    "file": "gifs/G-kneel-over.gif",
+   "stick": "gifs/G-kneel-over-stick.gif",
+   "warn": [
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 1.6 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 1.5 px",
+    "เธอ · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 3.3 px",
+    "เธอ · แขนข้างไกล: เอื้อมไม่ถึง ขาด 3.3 px"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ช่วงเริ่ม",
@@ -1537,6 +2047,12 @@
   {
    "id": "G-kiss-side",
    "file": "gifs/G-kiss-side.gif",
+   "stick": "gifs/G-kiss-side-stick.gif",
+   "warn": [
+    "เขา · แขนข้างใกล้: เอื้อมไม่ถึง ขาด 19.1 px",
+    "เขา · แขนข้างไกล: เอื้อมไม่ถึง ขาด 16.0 px",
+    "เขา · ทะลุพื้น ที่ x=61"
+   ],
    "tags": {
     "group": "pose2",
     "fam": "ช่วงเริ่ม",

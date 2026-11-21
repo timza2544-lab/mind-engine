@@ -13,22 +13,47 @@
   const legP = (x, y, f, dx, fy, bend) => [{ ft: [x + f * dx, fy], b: bend === undefined ? -f : bend }, { ft: [x + f * dx + 2.5, fy - 1.2], b: bend === undefined ? -f : bend }]; // planted feet (IK)
   const legX = (x, y, tx, ty, b, tx2, ty2, b2) => [{ ft: [tx, ty], b }, { ft: [tx2 === undefined ? tx + 2 : tx2, ty2 === undefined ? ty - 1 : ty2], b: b2 === undefined ? b : b2 }];
   const arm = (hx, hy, b, hx2, hy2) => [{ h: [hx, hy], b }, { h: [hx2 === undefined ? hx + 2 : hx2, hy2 === undefined ? hy : hy2], b }];
+  /* ---------- skeleton rig: joints first, skin second ---------- */
+  const dot = (p, q) => p[0] * q[0] + p[1] * q[1], sub = (p, q) => [p[0] - q[0], p[1] - q[1]], nrm = p => { const d = Math.hypot(p[0], p[1]) || 1; return [p[0] / d, p[1] / d]; }, angBetween = (p, q) => Math.acos(Math.max(-1, Math.min(1, dot(nrm(p), nrm(q))))) * 180 / Math.PI;
+  function ventral(sp, ang) { if (sp.vent) return sp.vent; if (sp.face === 'down') return [0, 1]; if (Math.abs(ang) >= 68) return sp.prone ? [0, 1] : [0, -1]; const ff = sp.f; return [ff * Math.cos(rad(ang)), Math.sin(rad(ang))]; }
+  function solveFigure(sp) {
+    const ff = sp.f, hx = sp.x, hy = sp.y, a = sp.a || [10, 20, 20];
+    const L1 = P(hx, hy, LEN.lum, a[0], ff), S = P(L1[0], L1[1], LEN.tho, a[1], ff), N = P(S[0], S[1], LEN.neck, a[2], ff), Hd = P(N[0], N[1], 5.2, a[2] + 5, ff), V = ventral(sp, a[1]), Vp = ventral(sp, a[0]), u = nrm(sub(S, [hx, hy])), warn = [];
+    const legs = [0, 1].map(i => { const L = (sp.legs || [])[i]; if (!L) return null; const far = i === 1, hip = [hx + (far ? 1 : 0), hy + 1]; let knee, ankle, clampd = 0, l1 = L.l1 || LEN.thigh, l2 = L.l2 || LEN.shin;
+      if (L.k) { knee = L.k; ankle = L.a; } else { const c0 = ik(hip[0], hip[1], L.ft[0], L.ft[1], l1, l2, 1), c1 = ik(hip[0], hip[1], L.ft[0], L.ft[1], l1, l2, -1), mid = [(hip[0] + c0.e[0]) / 2, (hip[1] + c0.e[1]) / 2], p0 = dot(sub(c0.j, mid), Vp), p1 = dot(sub(c1.j, mid), Vp); const pick = L.force ? (L.b > 0 ? c0 : c1) : (p0 >= p1 ? c0 : c1); knee = pick.j; ankle = pick.e; clampd = Math.hypot(L.ft[0] - hip[0], L.ft[1] - hip[1]) - (l1 + l2); }
+      const dir = nrm(sub(ankle, knee)), onGround = L.k ? false : Math.abs(ankle[1] - 69) < 2.5 || Math.abs(ankle[1] - 52.8) < 2.2, toe = onGround ? [ankle[0] + (Vp[0] >= 0 ? 1 : -1) * 5.5, ankle[1] + 0.2] : [ankle[0] + dir[0] * 5.5, ankle[1] + dir[1] * 5.5];
+      const t = nrm(sub(knee, hip)), sh = nrm(sub(ankle, knee)), hipFlex = (dot(t, Vp) >= 0 ? 1 : -1) * angBetween(t, [-u[0], -u[1]]), kneeFlex = angBetween(t, sh), side = dot(sub(knee, [(hip[0] + ankle[0]) / 2, (hip[1] + ankle[1]) / 2]), Vp), thighLen = Math.hypot(knee[0] - hip[0], knee[1] - hip[1]), shinLen = Math.hypot(ankle[0] - knee[0], ankle[1] - knee[1]);
+      const nm = far ? 'ขาข้างไกล' : 'ขาข้างใกล้';
+      if (!L.l1 && !L.k && hipFlex > 132) warn.push(nm + ': สะโพกงอเกิน ' + Math.round(hipFlex) + '°'); if (!L.l1 && !L.k && hipFlex < -22) warn.push(nm + ': สะโพกแอ่นเกิน ' + Math.round(-hipFlex) + '°');
+      if (kneeFlex > 150) warn.push(nm + ': เข่างอเกิน ' + Math.round(kneeFlex) + '°'); if (kneeFlex > 14 && side < -0.6) warn.push(nm + ': เข่างอย้อนทิศ'); if (clampd > 1.5) warn.push(nm + ': เอื้อมไม่ถึง ขาด ' + clampd.toFixed(1) + ' px');
+      if (thighLen > 16 || shinLen > 15.5) warn.push(nm + ': กระดูกยาวเกิน (ต้นขา ' + thighLen.toFixed(1) + ' / แข้ง ' + shinLen.toFixed(1) + ')');
+      return { hip, knee, ankle, toe, far, hipFlex, kneeFlex }; });
+    const arms = [0, 1].map(i => { const R = (sp.arms || [])[i]; if (!R) return null; const far = i === 1, sh = [S[0] + (far ? -1.2 : 0), S[1] + 1], c0 = ik(sh[0], sh[1], R.h[0], R.h[1], LEN.up, LEN.fore, 1), c1 = ik(sh[0], sh[1], R.h[0], R.h[1], LEN.up, LEN.fore, -1), mid = [(sh[0] + c0.e[0]) / 2, (sh[1] + c0.e[1]) / 2], q0 = dot(sub(c0.j, mid), V), q1 = dot(sub(c1.j, mid), V), pick = R.free ? (R.b > 0 ? c0 : c1) : (q0 <= q1 ? c0 : c1), reach = Math.hypot(R.h[0] - sh[0], R.h[1] - sh[1]) - (LEN.up + LEN.fore), t = nrm(sub(pick.j, sh)), f2 = nrm(sub(pick.e, pick.j)), elbowFlex = angBetween(t, f2), nm = far ? 'แขนข้างไกล' : 'แขนข้างใกล้';
+      if (reach > 1.5) warn.push(nm + ': เอื้อมไม่ถึง ขาด ' + reach.toFixed(1) + ' px'); if (elbowFlex > 150) warn.push(nm + ': ข้อศอกงอเกิน');
+      return { shoulder: sh, elbow: pick.j, wrist: pick.e, far, elbowFlex }; });
+    const dA = [a[1] - a[0], a[2] - a[1]]; if (Math.abs(dA[0]) > 42) warn.push('หลัง: เอวกับอกบิดต่างกัน ' + Math.round(dA[0]) + '°'); if (Math.abs(dA[1]) > 48) warn.push('คอ: ศีรษะงอต่างจากอก ' + Math.round(dA[1]) + '°');
+    return { P0: [hx, hy], L1, S, N, Hd, V, Vp, legs, arms, warn, f: ff };
+  }
+  function surfaceY(sc, x) { return sc === 'bed' ? 53 : sc === 'edge' ? (x < 66 ? 49 : 62) : sc === 'chair' ? 62 : 70; }
+  function analyze(spec) { const out = []; ['him', 'her'].forEach(who => { const J = solveFigure(spec[who]), nm = who === 'her' ? 'เธอ' : 'เขา'; J.warn.forEach(w => out.push(nm + ' · ' + w)); const pts = [J.P0, J.Hd]; J.legs.forEach(l => { if (l) { pts.push(l.knee, l.ankle, l.toe); } }); J.arms.forEach(r => { if (r) pts.push(r.wrist); });
+      let touch = false; pts.forEach(p => { const sy = surfaceY(spec.sc, p[0]); if (p[1] > sy + 2.5 && spec.sc !== 'wall' && p !== J.P0) out.push(nm + ' · ทะลุพื้น ที่ x=' + Math.round(p[0])); if (Math.abs(p[1] - sy) <= 4.5) touch = true; }); const other = spec[who === 'her' ? 'him' : 'her']; const close = Math.hypot(other.x - spec[who].x, other.y - spec[who].y) < 11; if (!touch && !close) out.push(nm + ' · ลอย ไม่มีจุดรับน้ำหนัก'); }); return out; }
   /* ---------- drawing ---------- */
   function ctxFor(g) { const px = (x, y, k) => { x = Math.round(x); y = Math.round(y); if (x >= 0 && x < W && y >= 0 && y < H) g[y * W + x] = k; }; const rect = (x, y, w, h, k) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(x + i, y + j, k); }; const disc = (cx, cy, r, k) => { const R = Math.ceil(r); for (let j = -R; j <= R; j++) for (let i = -R; i <= R; i++) if (i * i + j * j <= r * r + 0.35) px(cx + i, cy + j, k); }; const cap = (x0, y0, x1, y1, r0, r1, k, sh, soft) => { const n = Math.max(1, Math.ceil(Math.hypot(x1 - x0, y1 - y0) * 1.5)); if (sh !== undefined) for (let i = 0; i <= n; i++) { const u = i / n; disc(x0 + (x1 - x0) * u + (soft ? 0.8 : 0), y0 + (y1 - y0) * u + (soft ? 0.8 : 0), r0 + (r1 - r0) * u + (soft ? 0 : 0.95), sh); } for (let i = 0; i <= n; i++) { const u = i / n; disc(x0 + (x1 - x0) * u - 0.2, y0 + (y1 - y0) * u - 0.2, r0 + (r1 - r0) * u, k); } }; return { px, rect, disc, cap }; }
   function scene(c, kind, t) {
     const { px, rect, disc } = c; rect(0, 0, W, 54, 2); for (let x = 0; x < W; x += 16) rect(x, 6, 1, 48, 3); rect(0, 54, W, 26, 1); rect(0, 70, W, 1, 0);
     if (kind === 'bed') { rect(2, 14, 8, 50, 21); rect(2, 14, 8, 2, 18); rect(0, 62, 118, 6, 21); rect(2, 53, 108, 9, 14); rect(2, 60, 108, 2, 15); }
-    else if (kind === 'edge') { rect(0, 50, 66, 4, 14); rect(0, 54, 66, 16, 15); rect(0, 54, 66, 2, 14); rect(0, 70, W, 10, 1); }
-    else if (kind === 'chair') { rect(0, 70, W, 10, 1); rect(30, 44, 26, 3, 21); rect(30, 47, 3, 23, 21); rect(53, 47, 3, 23, 21); rect(30, 20, 3, 26, 21); }
+    else if (kind === 'edge') { rect(0, 54, W, 8, 1); rect(0, 49, 66, 4, 14); rect(0, 53, 66, 9, 15); rect(0, 62, W, 18, 1); rect(0, 62, W, 1, 0); }
+    else if (kind === 'chair') { rect(0, 62, W, 18, 1); rect(0, 62, W, 1, 0); rect(30, 49, 26, 3, 21); rect(30, 52, 3, 10, 21); rect(53, 52, 3, 10, 21); rect(30, 25, 3, 26, 21); }
     else { rect(0, 70, W, 10, 1); if (kind === 'wall') rect(96, 0, 32, 70, 3); if (kind === 'table') { rect(70, 42, 40, 3, 21); rect(72, 45, 3, 25, 21); rect(105, 45, 3, 25, 21); } }
     disc(112, 14, 4, 22); for (let y = 6; y < 28; y++) for (let x = 100; x < 124; x++) if ((x + y) % 3 === 0 && Math.hypot(x - 112, y - 14) < 12 && kind !== 'wall') px(x, y, 3);
   }
   function person(c, sp, who, st) { // st: {e, lag, outfit}
     const { px, rect, disc, cap } = c, her = who === 'her', SK = her ? SKH : SKM, SKS = her ? SKHS : SKMS, ff = sp.f, hx = sp.x, hy = sp.y, a = sp.a || [10, 20, 20];
     const L1 = P(hx, hy, LEN.lum, a[0], ff), S = P(L1[0], L1[1], LEN.tho, a[1], ff), N = P(S[0], S[1], LEN.neck, a[2], ff), Hd = P(N[0], N[1], 5.2, a[2] + 5, ff), hairK = her ? 8 : 9, shade = (far) => far ? (her ? SKS : 7) : SKS;
-    const leg = (L, far) => { if (!L) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS; if (L.k) { cap(hx + (far ? 1 : 0), hy + 1, L.k[0], L.k[1], 4.2, 3.1, kc, ks); cap(L.k[0], L.k[1], L.a[0], L.a[1], 3.1, 2.1, kc, ks); cap(L.a[0], L.a[1], L.a[0] - Math.sign(L.a[0] - L.k[0]) * -5, L.a[1] - 0.5, 1.9, 1.4, kc); return; } const l1 = L.l1 || LEN.thigh, l2 = L.l2 || LEN.shin, r0 = ik(hx, hy + 1, L.ft[0], L.ft[1], l1, l2, 1), r1 = ik(hx, hy + 1, L.ft[0], L.ft[1], l1, l2, -1); let r; if (L.force) r = ik(hx, hy + 1, L.ft[0], L.ft[1], l1, l2, L.b); else if (L.ft[1] > hy + 8) r = (r0.j[0] * ff >= r1.j[0] * ff) ? r0 : r1; else r = (r0.j[1] <= r1.j[1]) ? r0 : r1; cap(hx, hy + 1, r.j[0], r.j[1], 4.2, 3.1, kc, ks); cap(r.j[0], r.j[1], r.e[0], r.e[1], 3.1, 2.1, kc, ks); disc(r.j[0], r.j[1], 2.9, kc); const tx = r.e[0] + (r.e[0] >= r.j[0] ? 1 : -1) * 5; cap(r.e[0], r.e[1], tx, r.e[1] + (L.up ? -2 : 0.3), 1.9, 1.4, kc); };
-    const armf = (R, far) => { if (!R) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS, o = far ? -1.2 : 0, r = ik(S[0] + o, S[1] + 1, R.h[0], R.h[1], LEN.up, LEN.fore, R.b); cap(S[0] + o, S[1] + 1, r.j[0], r.j[1], 2.6, 2.1, kc, ks); cap(r.j[0], r.j[1], r.e[0], r.e[1], 2.1, 1.8, kc, ks); disc(r.e[0], r.e[1], 1.7, kc); };
-    const L = sp.legs || [], Ar = sp.arms || [];
+    const J = solveFigure(sp);
+    const leg = (Lg, far) => { if (!Lg) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS; cap(Lg.hip[0], Lg.hip[1], Lg.knee[0], Lg.knee[1], 4.2, 3.1, kc, ks); cap(Lg.knee[0], Lg.knee[1], Lg.ankle[0], Lg.ankle[1], 3.1, 2.1, kc, ks); disc(Lg.knee[0], Lg.knee[1], 2.9, kc); cap(Lg.ankle[0], Lg.ankle[1], Lg.toe[0], Lg.toe[1], 1.9, 1.4, kc); };
+    const armf = (R, far) => { if (!R) return; const kc = far ? SKS : SK, ks = far ? 7 : SKS; cap(R.shoulder[0], R.shoulder[1], R.elbow[0], R.elbow[1], 2.6, 2.1, kc, ks); cap(R.elbow[0], R.elbow[1], R.wrist[0], R.wrist[1], 2.1, 1.8, kc, ks); disc(R.wrist[0], R.wrist[1], 1.7, kc); };
+    const L = J.legs, Ar = J.arms;
     leg(L[1], true); armf(Ar[1], true);
     disc(hx, hy, her ? 5.6 : 5.5, SK); cap(hx, hy, L1[0], L1[1], her ? 4.6 : 5, her ? 3.9 : 4.4, SK, SKS, true); cap(L1[0], L1[1], S[0], S[1], her ? 3.9 : 4.4, her ? 4.6 : 5.4, SK, SKS, true);
     if (her) { const bx = (L1[0] + S[0]) / 2 + ff * 3.6 * (sp.prone ? -1 : 1), by = (L1[1] + S[1]) / 2 - 0.5; disc(bx, by, 3.3, SK); px(bx + ff * 2.5, by + 2, SKS); if (st.outfit === 'dress') { cap(hx, hy, S[0], S[1], 4.8, 4.8, 16, 17); disc(bx, by, 3.4, 16); } else if (st.outfit === 'half') { cap(S[0], S[1] + 1, S[0] - ff * 2, S[1] + 3, 4.6, 4.6, 16, 17); } }
@@ -45,8 +70,8 @@
   }
   /* ---------- catalogue ---------- */
   const POSES = []; const add = (id, t, g, sc, fn) => POSES.push({ id, t, g, sc, fn });
-  const him0 = () => Object.assign(lie(54, 49.5, -1), { legs: legX(54, 49.5, 88, 52, 1), arms: arm(22, 44, -1) });
-  const himKU = () => Object.assign(lie(54, 49.5, -1), { legs: legX(54, 49.5, 66, 52.5, -1, 68, 52.5), arms: arm(22, 44, -1) });
+  const him0 = () => Object.assign(lie(54, 49.5, -1), { legs: legX(54, 49.5, 82, 51.5, 1, 83, 51, 1), arms: arm(22, 44, -1) });
+  const himKU = () => Object.assign(lie(54, 49.5, -1), { legs: legX(54, 49.5, 66, 52.5, -1, 68, 52.5, -1), arms: arm(22, 44, -1) });
   const hold = (hx, hy) => arm(hx, hy, 1); // his hands on her hips
   // --- A: she on top, he lies on his back
   const cow = (o) => (t) => { const h = o.him ? o.him() : him0(); const x = o.x || 57, y = (o.y || 41), her = { x, y, f: o.f || -1, a: o.a, legs: o.legs || legK(x, o.f || -1), arms: o.arms, prone: o.prone, face: o.face }; if (o.hhand) h.arms = o.hhand(x, y); return { sc: 'bed', her, him: h, mover: 'her', axis: o.axis || [0.15, 1], sheet: [66, 100] }; };
@@ -75,7 +100,7 @@
   add('A-back-one-knee', 'หันหลัง ตั้งเข่าข้างหนึ่ง', 'บนตัวเขา', 'bed', cow({ f: 1, x: 56, a: [14, 22, 20], legs: [{ k: [60, 51], a: [46, 52.5] }, { ft: [52, 52.8], b: -1, l1: 10, l2: 14 }], arms: arm(70, 45, -1) }));
   // --- B: seated and lap
   const sit = (x, y) => Object.assign(lie(x, y, -1, [4, 6, 8]), { legs: legX(x, y, x + 32, 52, 1), arms: arm(x - 8, 40, 1) });
-  const lapHim = () => Object.assign(lie(31, 52, -1, [6, 8, 8]), { legs: legX(31, 52, 62, 53, 1), arms: arm(44, 42, 1) });
+  const lapHim = () => Object.assign(lie(31, 52, 1, [-4, -6, -6]), { legs: legX(31, 52, 56, 53, 1, 57, 52.5, 1), arms: arm(44, 42, 1) });
   const lap = (o) => (t) => { const him = lapHim(); const her = { x: 45, y: 46, f: -1, a: o.a || [6, 12, 12], legs: o.legs || [{ k: [40, 51], a: [36, 52.6] }, { k: [42.5, 49.6], a: [37, 51.2] }], arms: o.arms || arm(29, 33.5, -1) }; if (o.hhand) him.arms = o.hhand; if (o.him) Object.assign(him, o.him); return { sc: 'bed', her, him, mover: 'her', axis: [0.2, 1], sheet: null, gap: 15 }; };
   add('B-lap-lotus', 'นั่งตัก ไขว้ขาโอบเอวเขา', 'นั่งและตัก', 'bed', lap({ legs: [{ k: [41, 51], a: [35, 52] }, { k: [43, 49], a: [34, 50.5] }] }));
   add('B-lap-leanback', 'นั่งตัก เอนหลัง เขาประคองหลัง', 'นั่งและตัก', 'bed', lap({ a: [-16, -30, -28], arms: arm(52, 38, 1), hhand: arm(48, 42, 1) }));
@@ -84,15 +109,15 @@
   add('B-lap-reverse-lean', 'นั่งตักหันหลัง โน้มหน้ามือยันเข่า', 'นั่งและตัก', 'bed', (t) => ({ sc: 'bed', her: { x: 42, y: 46, f: 1, a: [22, 34, 30], legs: legX(42, 46, 62, 53, -1), arms: arm(58, 49, -1) }, him: lapHim(), mover: 'her', axis: [0.2, 1] }));
   add('B-lap-kneel', 'นั่งตัก คุกเข่าตัวตรง', 'นั่งและตัก', 'bed', lap({ x: 0, a: [4, 8, 8], legs: [{ k: [40, 51], a: [54, 52.5] }, { k: [42, 49.5], a: [56, 51.5] }], arms: arm(29, 32, -1) }));
   add('B-lap-side', 'นั่งตัก นั่งตะแคง', 'นั่งและตัก', 'bed', lap({ a: [4, 8, 8], legs: legX(43, 46, 62, 53, 1), arms: arm(32, 34, -1) }));
-  const chairHim = () => Object.assign(lie(43, 44, -1, [4, 6, 6]), { legs: [{ k: [58, 45], a: [58, 68] }, { k: [60, 44], a: [60, 67] }], arms: arm(36, 40, 1) });
-  const chair = (o) => () => ({ sc: 'chair', her: Object.assign({ x: 46, y: 38, f: -1, a: [8, 14, 14], legs: [{ k: [41, 42], a: [55, 43.5] }, { k: [43, 40.5], a: [57, 42] }], arms: arm(36, 28, -1) }, o), him: chairHim(), mover: 'her', axis: [0.1, 1] });
-  add('B-chair-face', 'บนเก้าอี้ หันหน้า', 'นั่งและตัก', 'chair', chair({}));
-  add('B-chair-reverse', 'บนเก้าอี้ หันหลัง', 'นั่งและตัก', 'chair', () => ({ sc: 'chair', her: { x: 41, y: 38, f: 1, a: [10, 18, 16], legs: [{ k: [46, 42], a: [32, 43.5] }, { k: [48, 40.5], a: [34, 42] }], arms: arm(58, 52, -1) }, him: chairHim(), mover: 'her', axis: [0.1, 1] }));
-  add('B-chair-leanback', 'บนเก้าอี้ เอนหลังพิงเขา', 'นั่งและตัก', 'chair', () => ({ sc: 'chair', her: { x: 41, y: 38, f: 1, a: [-14, -26, -24], legs: [{ k: [46, 42], a: [32, 43.5] }, { k: [48, 40.5], a: [34, 42] }], arms: arm(50, 38, -1) }, him: chairHim(), mover: 'her', axis: [0.1, 1] }));
-  const edgeHim = () => Object.assign(lie(52, 45, -1, [2, 4, 4]), { legs: [{ k: [67, 46], a: [67, 68] }, { k: [69, 45], a: [69, 67] }], arms: arm(50, 44, 1) });
-  add('B-edge-face', 'ปลายเตียง หันหน้า', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 56, y: 38, f: -1, a: [6, 12, 12], legs: [{ k: [52, 47], a: [60, 48.5] }, { k: [54, 45.5], a: [62, 47] }], arms: arm(44, 29, -1) }, him: edgeHim(), mover: 'her', axis: [0.1, 1] }));
-  add('B-edge-reverse', 'ปลายเตียง หันหลัง', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 54, y: 38, f: 1, a: [8, 14, 12], legs: [{ k: [58, 47], a: [46, 48.5] }, { k: [60, 45.5], a: [48, 47] }], arms: arm(62, 48, -1) }, him: edgeHim(), mover: 'her', axis: [0.1, 1] }));
-  add('B-edge-she-sits', 'เธอนั่งขอบเตียง เขายืนระหว่างขา', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 50, y: 45, f: 1, a: [-14, -24, -22], legs: [{ ft: [64, 49], b: -1 }, { ft: [66, 47], b: -1 }], arms: arm(40, 46, 1) }, him: { x: 66, y: 41, f: -1, a: [14, 26, 24], legs: legX(66, 41, 70, 70, 1), arms: arm(54, 46, 1) }, mover: 'him', axis: [1, 0] }));
+  const chairHim = () => Object.assign(lie(43, 44, 1, [-4, -6, -6]), { legs: [{ k: [58, 45.5], a: [58, 60] }, { k: [59, 44.5], a: [59, 59] }], arms: arm(50, 40, -1) });
+  const chairLegs = (x, f, y) => [{ k: [x + f * 4, y || 46.5], a: [x - f * 9, (y || 46.5) + 1.5] }, { k: [x + f * 4 + 2, (y || 46.5) - 1.5], a: [x - f * 9 + 2, y || 46.5] }];
+  add('B-chair-face', 'บนเก้าอี้ หันหน้า', 'นั่งและตัก', 'chair', () => ({ sc: 'chair', her: { x: 47, y: 36, f: -1, a: [8, 14, 14], legs: chairLegs(47, -1), arms: arm(36, 28, -1) }, him: chairHim(), mover: 'her', axis: [0.1, 1], gap: 12 }));
+  add('B-chair-reverse', 'บนเก้าอี้ หันหลัง', 'นั่งและตัก', 'chair', () => ({ sc: 'chair', her: { x: 47, y: 36, f: 1, a: [10, 18, 16], legs: chairLegs(47, 1), arms: arm(64, 50, -1) }, him: chairHim(), mover: 'her', axis: [0.1, 1], gap: 12 }));
+  add('B-chair-leanback', 'บนเก้าอี้ เอนหลังพิงเขา', 'นั่งและตัก', 'chair', () => ({ sc: 'chair', her: { x: 47, y: 36, f: 1, a: [-14, -26, -24], legs: chairLegs(47, 1), arms: arm(52, 36, -1) }, him: chairHim(), mover: 'her', axis: [0.1, 1], gap: 12 }));
+  const edgeHim = () => Object.assign(lie(52, 44, 1, [-2, -4, -4]), { legs: [{ k: [67, 45.5], a: [67, 60] }, { k: [68, 44.5], a: [68, 59] }], arms: arm(60, 44, -1) });
+  add('B-edge-face', 'ปลายเตียง หันหน้า', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 54, y: 36, f: -1, a: [6, 12, 12], legs: [{ k: [50, 46], a: [62, 47.5] }, { k: [52, 44.5], a: [64, 46] }], arms: arm(42, 28, -1) }, him: edgeHim(), mover: 'her', axis: [0.1, 1], gap: 12 }));
+  add('B-edge-reverse', 'ปลายเตียง หันหลัง', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 54, y: 36, f: 1, a: [8, 14, 12], legs: [{ k: [58, 46], a: [46, 47.5] }, { k: [60, 44.5], a: [48, 46] }], arms: arm(66, 46, -1) }, him: edgeHim(), mover: 'her', axis: [0.1, 1], gap: 12 }));
+  add('B-edge-she-sits', 'เธอนั่งขอบเตียง เขายืนระหว่างขา', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 50, y: 44, f: 1, a: [-14, -24, -22], legs: [{ k: [64, 46], a: [64, 60.5] }, { k: [66, 45], a: [66, 59.5] }], arms: arm(40, 46, 1) }, him: { x: 66, y: 32.5, f: -1, a: [14, 26, 24], legs: legX(66, 32.5, 70, 62, -1, 72, 62, -1), arms: arm(54, 40, 1) }, mover: 'him', axis: [1, 0], gap: 12 }));
   // --- C: he on top, she lies on her back (her legs given as knee + ankle points: hip flexion, then the shin, so they read anatomically)
   const KA = (kx, ky, ax, ay) => ({ k: [kx, ky], a: [ax, ay] });
   const herLie = (legs, arms, a) => Object.assign(lie(54, 49.5, -1, a), { legs, arms });
@@ -114,7 +139,7 @@
   add('C-bridge', 'เธอเกร็งแอ่นสะโพก', 'เขาอยู่ข้างบน', 'bed', miss({ herA: [70, 84, 88], legs: [KA(63, 38, 66, 52.5), KA(65, 40, 69, 52)] }));
   add('C-foot-chest', 'เท้าเธอยันอกเขา', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 42, a: [18, 32, 28], legs: [{ ft: [58, 33] }, KA(66, 44, 76, 52)] }));
   add('C-over-arms', 'เขาคล้องขาเธอไว้ที่แขน', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 41, a: [26, 44, 38], legs: [KA(60, 35, 66, 42), KA(62, 37, 68, 43.5)] }));
-  add('C-edge', 'เธอนอนที่ขอบเตียง เขายืน', 'เขาอยู่ข้างบน', 'edge', () => ({ sc: 'edge', her: { x: 46, y: 47, f: -1, a: [86, 90, 92], legs: [KA(56, 40, 62, 48), KA(58, 42, 64, 49.5)], arms: arm(12, 46, 1) }, him: { x: 62, y: 41, f: -1, a: [8, 14, 12], legs: legX(62, 41, 62, 70, 1), arms: arm(52, 43, 1) }, mover: 'him', axis: [1, 0] }));
+  add('C-edge', 'เธอนอนที่ขอบเตียง เขายืน', 'เขาอยู่ข้างบน', 'edge', () => ({ sc: 'edge', her: { x: 46, y: 44.5, f: -1, a: [86, 90, 92], legs: [KA(56, 38, 62, 45), KA(58, 40, 64, 46.5)], arms: arm(12, 43, 1) }, him: { x: 62, y: 33, f: -1, a: [8, 14, 12], legs: legX(62, 33, 62, 62, -1, 64, 62, -1), arms: arm(52, 40, 1) }, mover: 'him', axis: [1, 0] }));
   // --- D: from behind
   const allf = (o) => () => { const x = o.x || 52, y = o.y || 36; return { sc: 'bed', her: { x, y, f: -1, a: o.a || [84, 88, 86], prone: true, legs: o.legs || [{ k: [x + 12, 50], a: [x + 26, 52.5] }, { k: [x + 14, 48.5], a: [x + 28, 51] }], arms: o.arms || [{ h: [x - 20, 52.5], b: 1 }, { h: [x - 22, 52.5], b: 1 }] }, him: o.him || { x: x + 22, y: 38, f: -1, a: [10, 18, 16], legs: legK(x + 22, -1), arms: arm(x + 8, 38, -1) }, mover: 'him', axis: [1, 0] }; };
   add('D-allfours', 'คุกเข่าสี่เท้า มือใต้ไหล่', 'จากด้านหลัง', 'bed', allf({}));
@@ -126,10 +151,10 @@
   add('D-leg-up', 'คุกเข่า ยกขาข้างหนึ่ง', 'จากด้านหลัง', 'bed', allf({ legs: [{ k: [64, 50], a: [78, 52.5] }, { ft: [74, 36], b: -1 }] }));
   add('D-kneel-up', 'คุกเข่าตัวตรงทั้งคู่ เธอเอนพิงเขา', 'จากด้านหลัง', 'bed', () => ({ sc: 'bed', her: { x: 54, y: 41, f: -1, a: [-6, -12, -10], legs: legK(54, -1), arms: arm(40, 34, 1) }, him: { x: 64, y: 41, f: -1, a: [4, 8, 8], legs: legK(64, -1), arms: arm(52, 32, -1) }, mover: 'him', axis: [1, 0.3] }));
   add('D-kneel-headboard', 'คุกเข่า มือยึดหัวเตียง', 'จากด้านหลัง', 'bed', () => ({ sc: 'bed', her: { x: 44, y: 41, f: -1, a: [6, 12, 12], legs: legK(44, -1), arms: [{ h: [10, 28], b: 1 }, { h: [11, 30], b: 1 }] }, him: { x: 58, y: 41, f: -1, a: [8, 14, 12], legs: legK(58, -1), arms: arm(48, 42, -1) }, mover: 'him', axis: [1, 0.3] }));
-  const edgeBent = (o) => () => ({ sc: 'edge', her: Object.assign({ x: 44, y: 41, f: -1, a: [60, 72, 68], prone: true, legs: legX(44, 41, 50, 52, 1), arms: arm(24, 49, 1) }, o.her || {}), him: { x: 62, y: 41, f: -1, a: [8, 12, 10], legs: legX(62, 41, 62, 70, 1), arms: arm(50, 42, -1) }, mover: 'him', axis: [1, 0] });
+  const edgeBent = (o) => () => ({ sc: 'edge', her: Object.assign({ x: 44, y: 38, f: -1, a: [78, 92, 90], prone: true, legs: legX(44, 38, 50, 62, 1), arms: arm(24, 47, 1) }, o.her || {}), him: { x: 62, y: 33, f: -1, a: [8, 12, 10], legs: legX(62, 33, 62, 62, 1), arms: arm(50, 36, -1) }, mover: 'him', axis: [1, 0] });
   add('D-edge-bent', 'ก้มตัวบนขอบเตียง เขายืนด้านหลัง', 'จากด้านหลัง', 'edge', edgeBent({}));
-  add('D-edge-onefoot', 'ก้มขอบเตียง ยกเท้าข้างหนึ่ง', 'จากด้านหลัง', 'edge', edgeBent({ her: { legs: [{ ft: [50, 70], b: 1 }, { ft: [58, 44], b: -1 }] } }));
-  add('D-edge-kneel', 'คุกเข่าบนขอบเตียง เขายืน', 'จากด้านหลัง', 'edge', () => ({ sc: 'edge', her: { x: 40, y: 38, f: -1, a: [82, 88, 70], prone: true, legs: [{ k: [50, 49], a: [62, 49.5] }, { k: [52, 47.5], a: [64, 48] }], arms: arm(18, 49, 1) }, him: { x: 64, y: 42, f: -1, a: [8, 12, 10], legs: legX(64, 42, 64, 70, 1), arms: arm(54, 42, -1) }, mover: 'him', axis: [1, 0] }));
+  add('D-edge-onefoot', 'ก้มขอบเตียง ยกเท้าข้างหนึ่ง', 'จากด้านหลัง', 'edge', edgeBent({ her: { legs: [{ ft: [50, 62], b: 1 }, { ft: [58, 44], b: -1 }] } }));
+  add('D-edge-kneel', 'คุกเข่าบนขอบเตียง เขายืน', 'จากด้านหลัง', 'edge', () => ({ sc: 'edge', her: { x: 40, y: 38, f: -1, a: [82, 88, 70], prone: true, legs: [{ k: [50, 49], a: [62, 49.5] }, { k: [52, 47.5], a: [64, 48] }], arms: arm(18, 49, 1) }, him: { x: 64, y: 33, f: -1, a: [8, 12, 10], legs: legX(64, 33, 64, 62, 1), arms: arm(54, 38, -1) }, mover: 'him', axis: [1, 0] }));
   add('D-wall-bent', 'ก้มตัว มือยันกำแพง', 'จากด้านหลัง', 'wall', () => ({ sc: 'wall', her: { x: 58, y: 40, f: 1, a: [66, 76, 72], prone: true, legs: legX(58, 40, 52, 70, 1), arms: arm(94, 34, 1) }, him: { x: 42, y: 41, f: 1, a: [8, 12, 10], legs: legX(42, 41, 42, 70, -1), arms: arm(54, 41, 1) }, mover: 'him', axis: [1, 0] }));
   add('D-table', 'ก้มตัวคว่ำบนโต๊ะ', 'จากด้านหลัง', 'table', () => ({ sc: 'table', her: { x: 90, y: 41, f: 1, a: [80, 86, 84], prone: true, legs: legX(90, 41, 84, 70, 1), arms: arm(112, 44, 1) }, him: { x: 72, y: 41, f: 1, a: [8, 12, 10], legs: legX(72, 41, 72, 70, -1), arms: arm(84, 41, 1) }, mover: 'him', axis: [1, 0] }));
   // --- E: side-lying (both on their sides facing right; viewed from the side)
@@ -151,9 +176,9 @@
   add('F-back-hug', 'ยืนกอดจากด้านหลัง', 'ยืน', 'floor', () => ({ sc: 'floor', her: { x: 56, y: 41, f: -1, a: [-2, -4, -4], legs: legX(56, 41, 58, 70, 1), arms: arm(46, 42, 1) }, him: { x: 64, y: 41, f: -1, a: [4, 8, 8], legs: legX(64, 41, 66, 70, 1), arms: arm(52, 36, -1) }, mover: 'him', axis: [1, 0] }));
   add('F-sit-counter', 'เธอนั่งบนโต๊ะ เขายืนระหว่างขา', 'ยืน', 'table', () => ({ sc: 'table', her: { x: 90, y: 38, f: -1, a: [-10, -18, -16], legs: [{ ft: [76, 40], b: -1 }, { ft: [78, 38], b: -1 }], arms: arm(104, 38, 1) }, him: { x: 76, y: 41, f: 1, a: [4, 8, 8], legs: legX(76, 41, 74, 70, -1), arms: arm(86, 36, 1) }, mover: 'him', axis: [1, 0] }));
   add('F-wall-kiss', 'พิงกำแพง จูบ เท้าเธอยกขึ้นพาดเขา', 'ยืน', 'wall', () => ({ sc: 'wall', her: { x: 92, y: 41, f: -1, a: [-4, -8, -6], legs: [{ ft: [80, 44], b: -1 }, { ft: [90, 70], b: 1 }], arms: arm(82, 24, -1) }, him: { x: 80, y: 41, f: 1, a: [6, 12, 12], legs: legX(80, 41, 76, 70, -1), arms: arm(90, 38, 1) }, mover: 'him', axis: [0.8, 0] }));
-  add('F-chair-bent', 'ยืนก้มพิงพนักเก้าอี้', 'ยืน', 'chair', () => ({ sc: 'chair', her: { x: 44, y: 41, f: -1, a: [62, 74, 70], prone: true, legs: legX(44, 41, 50, 70, 1), arms: arm(32, 28, 1) }, him: { x: 62, y: 41, f: -1, a: [8, 12, 10], legs: legX(62, 41, 64, 70, 1), arms: arm(50, 40, -1) }, mover: 'him', axis: [1, 0] }));
+  add('F-chair-bent', 'ยืนก้มพิงพนักเก้าอี้', 'ยืน', 'chair', () => ({ sc: 'chair', her: { x: 44, y: 33, f: -1, a: [62, 74, 70], prone: true, legs: legX(44, 33, 50, 62, 1), arms: arm(32, 28, 1) }, him: { x: 62, y: 33, f: -1, a: [8, 12, 10], legs: legX(62, 33, 64, 62, 1), arms: arm(50, 40, -1) }, mover: 'him', axis: [1, 0] }));
   add('F-carry-back', 'เขาอุ้มเธอ หันหลังชิดอกเขา', 'ยืน', 'floor', () => ({ sc: 'floor', her: { x: 56, y: 38, f: 1, a: [-8, -14, -14], legs: [{ ft: [72, 28], b: -1 }, { ft: [70, 36], b: -1 }], arms: arm(60, 20, 1) }, him: { x: 66, y: 41, f: -1, a: [2, 4, 4], legs: legX(66, 41, 68, 70, 1), arms: arm(56, 36, -1) }, mover: 'him', axis: [1, 0.2] }));
-  add('F-lean-chair', 'ยืนยันพนักเก้าอี้ สะโพกยื่นกลับ', 'ยืน', 'chair', () => ({ sc: 'chair', her: { x: 46, y: 41, f: -1, a: [30, 42, 38], legs: legX(46, 41, 48, 70, 1), arms: arm(33, 30, 1) }, him: { x: 62, y: 41, f: -1, a: [6, 10, 8], legs: legX(62, 41, 64, 70, 1), arms: arm(52, 40, -1) }, mover: 'him', axis: [1, 0] }));
+  add('F-lean-chair', 'ยืนยันพนักเก้าอี้ สะโพกยื่นกลับ', 'ยืน', 'chair', () => ({ sc: 'chair', her: { x: 46, y: 33, f: -1, a: [30, 42, 38], legs: legX(46, 33, 48, 62, 1), arms: arm(33, 30, 1) }, him: { x: 62, y: 33, f: -1, a: [6, 10, 8], legs: legX(62, 33, 64, 62, 1), arms: arm(52, 40, -1) }, mover: 'him', axis: [1, 0] }));
   // --- G: start (before)
   add('G-straddle-clothed', 'ขึ้นคร่อมทั้งที่สวมชุด', 'ช่วงเริ่ม', 'bed', cow({ a: [10, 20, 18], arms: arm(46, 45, 1) }));
   add('G-sit-beside', 'นั่งข้างกัน หันหากัน', 'ช่วงเริ่ม', 'bed', () => ({ sc: 'bed', her: { x: 50, y: 47, f: 1, a: [6, 10, 10], legs: legX(50, 47, 66, 52, -1), arms: arm(64, 40, -1) }, him: { x: 66, y: 47, f: -1, a: [6, 10, 10], legs: legX(66, 47, 80, 52, 1), arms: arm(54, 40, -1) }, mover: 'her', axis: [0, 0.3] }));
@@ -164,13 +189,17 @@
   /* ---------- render ---------- */
   function shiftPerson(sp, dx) { sp.x += dx; (sp.legs || []).forEach(L => { if (L.k) { L.k = [L.k[0] + dx, L.k[1]]; L.a = [L.a[0] + dx, L.a[1]]; } if (L.ft) L.ft = [L.ft[0] + dx, L.ft[1]]; }); (sp.arms || []).forEach(R => { R.h = [R.h[0] + dx, R.h[1]]; }); }
   function snap(spec) { const mv = spec.mover === 'him' ? spec.him : spec.her, ot = spec.mover === 'him' ? spec.her : spec.him, T = spec.gap || 8; const dx = ot.x - mv.x, dy = ot.y - mv.y, d = Math.hypot(dx, dy); if (d <= T + 1) return; const want = Math.sqrt(Math.max(0, T * T - dy * dy)) * (dx >= 0 ? 1 : -1); shiftPerson(ot, mv.x + want - ot.x); }
+  // when a hand target is out of reach, lean the trunk toward it a few degrees at a time (like a person would) instead of stretching the arm
+  function reachFix(sp) { if (!sp.arms || !sp.a) return; const orig = sp.a.slice(); for (let it = 0; it < 14; it++) { const ff = sp.f, a = sp.a, L1 = P(sp.x, sp.y, LEN.lum, a[0], ff), S = P(L1[0], L1[1], LEN.tho, a[1], ff); let worst = 0, dir = 0; sp.arms.forEach(R => { if (!R || R.free) return; const d = Math.hypot(R.h[0] - S[0], R.h[1] - (S[1] + 1)) - (LEN.up + LEN.fore - 0.6); if (d > worst) { worst = d; dir = (R.h[0] - S[0]) * ff >= 0 ? 1 : -1; } }); if (worst <= 0.4) break; if (Math.abs(sp.a[1] - orig[1]) > 36) break; sp.a = a.map(v => v + dir * 3); } }
+  function buildSpec(id, t, o) {
+    o = Object.assign({ rhythm: 'mid', outfit: 'half', heat: 55, hair: 'brown', climax: false }, o || {}); const def = POSES.find(p => p.id === id); if (!def) throw new Error('no pose ' + id);
+    const spec = def.fn(t), R = A.RHY[o.rhythm] || A.RHY.mid, phi = t / FR * 6.2832 * R.cyc; snap(spec);
+    const m = o.climax ? ((t % 2) ? 1 : -1) * 0.6 : (o.rhythm === 'slow' ? Math.sin(phi) * 1.0 : o.rhythm === 'mid' ? Math.sin(phi) * 2.0 : Math.sin(phi) * 1.6), mv = spec.mover === 'him' ? spec.him : spec.her, ax = spec.axis || [0, 1]; mv.x += ax[0] * m; mv.y += ax[1] * m; ['him', 'her'].forEach(w => reachFix(spec[w])); spec.o = o; spec.phi = phi; spec.def = def; return spec;
+  }
   function renderPose(id, t, o) {
-    o = Object.assign({ rhythm: 'mid', outfit: 'half', heat: 55, hair: 'brown', climax: false }, o || {}); const def = POSES.find(p => p.id === id); if (!def) throw new Error('no pose ' + id); PAL[8] = A.HAIRS[o.hair] || A.HAIRS.brown;
-    const spec = def.fn(t), g = new Uint8Array(W * H), c = ctxFor(g), R = A.RHY[o.rhythm] || A.RHY.mid, phi = t / FR * 6.2832 * R.cyc, e = o.climax ? 2 : o.heat < 40 ? 0 : o.heat < 75 ? 1 : 2;
-    let m = o.climax ? ((t % 2) ? 1 : -1) * 0.6 : (o.rhythm === 'slow' ? Math.sin(phi) * 1.0 : o.rhythm === 'mid' ? Math.sin(phi) * 2.0 : Math.sin(phi) * 1.6);
-    const mv = spec.mover === 'him' ? spec.him : spec.her, ax = spec.axis || [0, 1]; mv.x += ax[0] * m; mv.y += ax[1] * m;
-    snap(spec);
-    scene(c, spec.sc, t); const st = { e, lag: Math.sin(phi - 0.9), outfit: o.outfit };
+    const spec = buildSpec(id, t, o); o = spec.o; PAL[8] = A.HAIRS[o.hair] || A.HAIRS.brown;
+    const g = new Uint8Array(W * H), c = ctxFor(g), e = o.climax ? 2 : o.heat < 40 ? 0 : o.heat < 75 ? 1 : 2;
+    scene(c, spec.sc, t); const st = { e, lag: Math.sin(spec.phi - 0.9), outfit: o.outfit };
     person(c, spec.him, 'him', st); const g2 = new Uint8Array(W * H).fill(255), c2 = ctxFor(g2); person(c2, spec.her, 'her', st);
     for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i = y * W + x; if (g2[i] === 255) { if ((x > 0 && g2[i - 1] !== 255) || (x < W - 1 && g2[i + 1] !== 255) || (y > 0 && g2[i - W] !== 255) || (y < H - 1 && g2[i + W] !== 255)) { const q = g[i]; if (q === 6 || q === 7 || q === 19 || q === 9) g[i] = 11; } } }
     for (let i = 0; i < g.length; i++) if (g2[i] !== 255) g[i] = g2[i];
@@ -179,6 +208,25 @@
     if (o.climax) for (let i = 0; i < 6; i++) { const x = 28 + i * 14, y = 20 - ((t * 3 + i * 4) % 16); [[0, 0], [2, 0], [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2], [1, 2], [2, 2], [1, 3]].forEach(p => c.px(x + p[0], y + p[1] + 6, 13)); }
     return g;
   }
+  /* skeleton view: bones as lines, spine with rib ticks, joints as squares, amber = touching a surface, red = rule broken, small amber arrow = which way the front faces */
+  function renderStick(id, t, o) {
+    const spec = buildSpec(id, t, Object.assign({}, o || {}, { rhythm: (o && o.rhythm) || 'mid' })), g = new Uint8Array(W * H), c = ctxFor(g); scene(c, spec.sc, t);
+    for (let i = 0; i < g.length; i++) if (g[i] !== 3 && g[i] !== 2 && g[i] !== 1 && g[i] !== 0) { } // keep scene
+    const px = c.px, line = (a, b, k) => { const n = Math.ceil(Math.hypot(b[0] - a[0], b[1] - a[1]) * 2) || 1; for (let i = 0; i <= n; i++) px(a[0] + (b[0] - a[0]) * i / n, a[1] + (b[1] - a[1]) * i / n, k); };
+    const sq = (p, k) => { for (let j = -1; j <= 1; j++) for (let i = -1; i <= 1; i++) px(p[0] + i, p[1] + j, k); };
+    ['him', 'her'].forEach(who => { const sp = spec[who], J = solveFigure(sp), her = who === 'her', col = her ? 16 : 19, colF = her ? 17 : 15;
+      // spine polyline + ribs + pelvis bar
+      line(J.P0, J.L1, col); line(J.L1, J.S, col); line(J.S, J.N, col); const u = nrm(sub(J.S, J.P0)), pv = [-u[1], u[0]]; for (let k = 0; k < 4; k++) { const p = [J.L1[0] + (J.S[0] - J.L1[0]) * k / 3, J.L1[1] + (J.S[1] - J.L1[1]) * k / 3]; line([p[0] - pv[0] * 2.5, p[1] - pv[1] * 2.5], [p[0] + pv[0] * 2.5, p[1] + pv[1] * 2.5], col); } line([J.P0[0] - pv[0] * 4, J.P0[1] - pv[1] * 4], [J.P0[0] + pv[0] * 4, J.P0[1] + pv[1] * 4], col);
+      for (let a = 0; a < 40; a++) px(J.Hd[0] + Math.cos(a / 40 * 6.283) * 4.7, J.Hd[1] + Math.sin(a / 40 * 6.283) * 4.7, col);
+      const eye = [J.Hd[0] + J.V[0] * 3, J.Hd[1] + J.V[1] * 3]; px(eye[0], eye[1], 10);
+      J.legs.forEach(l => { if (!l) return; const cc = l.far ? colF : col; line(l.hip, l.knee, cc); line(l.knee, l.ankle, cc); line(l.ankle, l.toe, cc); [l.hip, l.knee, l.ankle].forEach((p, i) => { const sy = surfaceY(spec.sc, p[0]), touch = Math.abs(p[1] - sy) <= 2.8 && i > 0, bad = i === 1 && (l.kneeFlex > 14 && dot(sub(l.knee, [(l.hip[0] + l.ankle[0]) / 2, (l.hip[1] + l.ankle[1]) / 2]), J.Vp) < -0.6); sq(p, bad ? 13 : touch ? 18 : 10); }); sq(l.toe, 10); });
+      J.arms.forEach(r => { if (!r) return; const cc = r.far ? colF : col; line(r.shoulder, r.elbow, cc); line(r.elbow, r.wrist, cc); [r.shoulder, r.elbow, r.wrist].forEach((p, i) => { const sy = surfaceY(spec.sc, p[0]); sq(p, i === 2 && Math.abs(p[1] - sy) <= 2.8 ? 18 : 10); }); });
+      sq(J.P0, 10); sq(J.L1, 10); sq(J.S, 10); sq(J.N, 10);
+      line(J.P0, [J.P0[0] + J.Vp[0] * 8, J.P0[1] + J.Vp[1] * 8], 18); px(J.P0[0] + J.Vp[0] * 8, J.P0[1] + J.Vp[1] * 8, 22); });
+    return g;
+  }
+  function analyzePose(id, t) { const spec = buildSpec(id, t || 0, {}); return analyze(spec); }
+  A.renderStick = renderStick; A.analyzePose = analyzePose;
   A.POSES2 = POSES; A.renderPose = renderPose;
   if (typeof module !== 'undefined') module.exports = A;
 })(typeof window !== 'undefined' ? window : globalThis);
