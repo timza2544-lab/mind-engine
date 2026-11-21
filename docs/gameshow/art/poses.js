@@ -34,10 +34,13 @@
     if (her) { const bx = (L1[0] + S[0]) / 2 + ff * 3.6 * (sp.prone ? -1 : 1), by = (L1[1] + S[1]) / 2 - 0.5; disc(bx, by, 3.3, SK); px(bx + ff * 2.5, by + 2, SKS); if (st.outfit === 'dress') { cap(hx, hy, S[0], S[1], 4.8, 4.8, 16, 17); disc(bx, by, 3.4, 16); } else if (st.outfit === 'half') { cap(S[0], S[1] + 1, S[0] - ff * 2, S[1] + 3, 4.6, 4.6, 16, 17); } }
     leg(L[0], false); armf(Ar[0], false);
     cap(S[0], S[1], N[0], N[1], 2, 2, SK); disc(Hd[0], Hd[1], 4.7, SK);
-    if (her) { cap(Hd[0] - ff * 2, Hd[1] - 1, Hd[0] - ff * 6 + Math.round(st.lag * 2), Hd[1] + 11, 3.2, 2.6, hairK); rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff, Hd[1] - 3, 4, hairK); } else { rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff * 1, Hd[1] - 3, 3.6, hairK); }
-    px(Hd[0] + ff * 5, Hd[1] + 1, SK); const ex = Hd[0] + ff * 2, ey = Hd[1] - 0.5, e = her ? st.e : 0;
-    if (e === 0) { px(ex, ey, 11); px(ex + ff, ey - 1, 11); } else if (e === 1) { px(ex, ey, 11); px(ex - ff, ey, 11); px(ex + ff, ey - 1, 11); } else { px(ex - ff, ey, 11); px(ex, ey - 1, 11); px(ex + ff, ey, 11); }
-    if (her && e >= 1) { px(ex - ff * 2, ey + 2, 12); px(ex - ff * 3, ey + 2, 12); } const mx = Hd[0] + ff * 3, my = Hd[1] + 3; if (e === 2) { rect(Math.round(mx - (ff > 0 ? 0 : 1)), Math.round(my), 2, 2, 11); px(mx, my + 1, 13); } else if (e === 1) { px(mx, my, 13); px(mx - ff, my, 13); } else px(mx, my, SKS);
+    const hmode = sp.face || (sp.prone ? 'profile' : a[1] >= 70 ? 'up' : 'profile'); if (hmode === 'profile') { if (her) { cap(Hd[0] - ff * 2, Hd[1] - 1, Hd[0] - ff * 6 + Math.round(st.lag * 2), Hd[1] + 11, 3.2, 2.6, hairK); rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff, Hd[1] - 3, 4, hairK); } else { rect(Math.round(Hd[0] - 5), Math.round(Hd[1] - 6), 11, 3, hairK); disc(Hd[0] - ff * 1, Hd[1] - 3, 3.6, hairK); } } else if (!her) { disc(Hd[0] + (hmode === 'up' ? ff * 2.5 : -ff * 2), Hd[1] + (hmode === 'up' ? 0 : -3), 3.6, hairK); }
+    const horiz = a[1] >= 70, mode = sp.face || (sp.prone ? 'profile' : horiz ? 'up' : 'profile'), F = mode === 'up' ? [0, -1] : mode === 'down' ? [0.4 * ff, 0.9] : [ff, 0], U = mode === 'up' ? [ff, 0] : mode === 'down' ? [-0.9 * ff, 0.4] : [0, -1], at = (fa, ub) => [Hd[0] + F[0] * fa + U[0] * ub, Hd[1] + F[1] * fa + U[1] * ub], e = her ? st.e : 0;
+    if (her && mode !== 'profile') { if (mode === 'up') cap(Hd[0], Hd[1] + 1, Hd[0] + U[0] * 11, Hd[1] + 3, 3.4, 2.8, hairK); else cap(Hd[0], Hd[1], Hd[0] + 1, Hd[1] + 10, 3.2, 2.4, hairK); disc(Hd[0] + U[0] * 2.5 - F[0] * 0.5, Hd[1] + U[1] * 2.5 - F[1] * 0.5, 3.6, hairK); }
+    const nose = at(5, -1.2); px(nose[0], nose[1], SK); const eye = at(2, -0.3), ey2 = at(2, 1.2);
+    if (e === 0) { px(eye[0], eye[1], 11); } else if (e === 1) { px(eye[0], eye[1], 11); px(ey2[0], ey2[1], 11); } else { px(eye[0], eye[1], 11); px(ey2[0], ey2[1], 11); px(at(1, 0.5)[0], at(1, 0.5)[1], 11); }
+    if (her && e >= 1) { const ch = at(1, -2.2); px(ch[0], ch[1], 12); const ch2 = at(0, -2.2); px(ch2[0], ch2[1], 12); }
+    const mo = at(3, -3.2); if (e === 2) { rect(Math.round(mo[0]), Math.round(mo[1]), 2, 2, 11); px(mo[0], mo[1] + 1, 13); } else if (e === 1) { px(mo[0], mo[1], 13); px(at(2, -3.2)[0], at(2, -3.2)[1], 13); } else px(mo[0], mo[1], SKS);
     return { Hd, S };
   }
   /* ---------- catalogue ---------- */
@@ -46,7 +49,7 @@
   const himKU = () => Object.assign(lie(54, 49.5, -1), { legs: legX(54, 49.5, 66, 52.5, -1, 68, 52.5), arms: arm(22, 44, -1) });
   const hold = (hx, hy) => arm(hx, hy, 1); // his hands on her hips
   // --- A: she on top, he lies on his back
-  const cow = (o) => (t) => { const h = o.him ? o.him() : him0(); const x = o.x || 57, y = (o.y || 41), her = { x, y, f: o.f || -1, a: o.a, legs: o.legs || legK(x, o.f || -1), arms: o.arms, prone: o.prone }; if (o.hhand) h.arms = o.hhand(x, y); return { sc: 'bed', her, him: h, mover: 'her', axis: o.axis || [0.15, 1], sheet: [66, 100] }; };
+  const cow = (o) => (t) => { const h = o.him ? o.him() : him0(); const x = o.x || 57, y = (o.y || 41), her = { x, y, f: o.f || -1, a: o.a, legs: o.legs || legK(x, o.f || -1), arms: o.arms, prone: o.prone, face: o.face }; if (o.hhand) h.arms = o.hhand(x, y); return { sc: 'bed', her, him: h, mover: 'her', axis: o.axis || [0.15, 1], sheet: [66, 100] }; };
   add('A-face-thighs', 'คร่อมหันหน้า มือวางที่ต้นขาตัวเอง', 'บนตัวเขา', 'bed', cow({ a: [4, 8, 8], arms: arm(53, 46, 1) }));
   add('A-face-behind-head', 'คร่อมหันหน้า มือประสานหลังศีรษะ', 'บนตัวเขา', 'bed', cow({ a: [2, 4, 0], arms: [{ h: [60, 17], b: -1 }, { h: [58, 18], b: -1 }] }));
   add('A-face-clasped', 'คร่อมหันหน้า จับมือเขาโน้มตัว', 'บนตัวเขา', 'bed', cow({ a: [12, 24, 22], arms: arm(41, 47, 1), hhand: (x, y) => arm(41, 46, -1) }));
@@ -58,10 +61,10 @@
   add('A-squat-knees', 'นั่งยอง มือเท้าเข่าตัวเอง', 'บนตัวเขา', 'bed', cow({ x: 59, y: 37, a: [14, 26, 22], legs: legP(59, 37, -1, 3, 52.8, 1).map(l => Object.assign(l, { l1: 10, l2: 14 })), arms: [{ h: [49, 43], b: 1 }, { h: [51, 43], b: 1 }] }));
   add('A-squat-lean', 'นั่งยอง โน้มตัวมือยันอกเขา', 'บนตัวเขา', 'bed', cow({ x: 59, y: 38, a: [20, 36, 32], legs: legP(59, 38, -1, 3, 52.8, 1).map(l => Object.assign(l, { l1: 10, l2: 14 })), arms: arm(46, 44.5, 1) }));
   add('A-squat-upright-hair', 'นั่งยอง ยืดตัว มือเสยผม', 'บนตัวเขา', 'bed', cow({ x: 59, y: 36, a: [2, 4, 0], legs: legP(59, 36, -1, 3, 52.8, 1).map(l => Object.assign(l, { l1: 10, l2: 14 })), arms: [{ h: [58, 14], b: -1 }, { h: [60, 15], b: -1 }] }));
-  add('A-kiss', 'นอนทับ จูบ', 'บนตัวเขา', 'bed', cow({ x: 62, y: 44, a: [52, 76, 70], legs: legK(62, -1), arms: [{ h: [34, 52.5], b: -1 }, { h: [31, 52.5], b: -1 }], axis: [0.3, 1] }));
-  add('A-neck', 'นอนทับ ซบซอกคอ', 'บนตัวเขา', 'bed', cow({ x: 62, y: 44, a: [60, 82, 80], legs: legK(62, -1), arms: [{ h: [40, 49], b: -1 }, { h: [36, 51], b: -1 }], axis: [0.3, 1] }));
-  add('A-forearms', 'นอนทับ ยันศอกสองข้างศีรษะเขา', 'บนตัวเขา', 'bed', cow({ x: 61, y: 43, a: [44, 66, 60], legs: legK(61, -1), arms: [{ h: [30, 52.5], b: -1 }, { h: [27, 52.5], b: -1 }], axis: [0.3, 1] }));
-  add('A-chest-to-chest', 'นอนทับตัวเขา ขาชิดกัน', 'บนตัวเขา', 'bed', cow({ x: 60, y: 45, a: [70, 84, 82], legs: legX(60, 45, 90, 50, 1), arms: [{ h: [38, 51], b: -1 }, { h: [35, 52], b: -1 }], axis: [0.5, 0.5] }));
+  add('A-kiss', 'นอนทับ จูบ', 'บนตัวเขา', 'bed', cow({ x: 62, y: 44, a: [52, 76, 70], legs: legK(62, -1), arms: [{ h: [34, 52.5], b: -1 }, { h: [31, 52.5], b: -1 }], axis: [0.3, 1], face: 'down' }));
+  add('A-neck', 'นอนทับ ซบซอกคอ', 'บนตัวเขา', 'bed', cow({ x: 62, y: 44, a: [60, 82, 80], legs: legK(62, -1), arms: [{ h: [40, 49], b: -1 }, { h: [36, 51], b: -1 }], axis: [0.3, 1], face: 'down' }));
+  add('A-forearms', 'นอนทับ ยันศอกสองข้างศีรษะเขา', 'บนตัวเขา', 'bed', cow({ x: 61, y: 43, a: [44, 66, 60], legs: legK(61, -1), arms: [{ h: [30, 52.5], b: -1 }, { h: [27, 52.5], b: -1 }], axis: [0.3, 1], face: 'down' }));
+  add('A-chest-to-chest', 'นอนทับตัวเขา ขาชิดกัน', 'บนตัวเขา', 'bed', cow({ x: 60, y: 45, a: [70, 84, 82], legs: legX(60, 45, 90, 50, 1), arms: [{ h: [38, 51], b: -1 }, { h: [35, 52], b: -1 }], axis: [0.5, 0.5], face: 'down' }));
   add('A-back-thighs', 'คร่อมหันหลัง มือวางต้นขาตัวเอง', 'บนตัวเขา', 'bed', cow({ f: 1, x: 56, a: [8, 12, 10], legs: legK(56, 1), arms: arm(62, 46, -1) }));
   add('A-back-shins', 'คร่อมหันหลัง โน้มตัวมือยันหน้าแข้งเขา', 'บนตัวเขา', 'bed', cow({ f: 1, x: 56, a: [30, 48, 42], legs: legK(56, 1), arms: arm(80, 51, -1) }));
   add('A-back-far', 'คร่อมหันหลัง โน้มไปข้างหน้ามากสุด', 'บนตัวเขา', 'bed', cow({ f: 1, x: 56, y: 42, a: [48, 66, 58], legs: legK(56, 1), arms: arm(84, 52, -1) }));
@@ -73,7 +76,7 @@
   // --- B: seated and lap
   const sit = (x, y) => Object.assign(lie(x, y, -1, [4, 6, 8]), { legs: legX(x, y, x + 32, 52, 1), arms: arm(x - 8, 40, 1) });
   const lapHim = () => Object.assign(lie(31, 52, -1, [6, 8, 8]), { legs: legX(31, 52, 62, 53, 1), arms: arm(44, 42, 1) });
-  const lap = (o) => (t) => { const him = lapHim(); const her = { x: 43, y: 46, f: -1, a: o.a || [6, 12, 12], legs: o.legs || [{ k: [40, 51], a: [36, 52.6] }, { k: [42.5, 49.6], a: [37, 51.2] }], arms: o.arms || arm(29, 33.5, -1) }; if (o.hhand) him.arms = o.hhand; if (o.him) Object.assign(him, o.him); return { sc: 'bed', her, him, mover: 'her', axis: [0.2, 1], sheet: null }; };
+  const lap = (o) => (t) => { const him = lapHim(); const her = { x: 45, y: 46, f: -1, a: o.a || [6, 12, 12], legs: o.legs || [{ k: [40, 51], a: [36, 52.6] }, { k: [42.5, 49.6], a: [37, 51.2] }], arms: o.arms || arm(29, 33.5, -1) }; if (o.hhand) him.arms = o.hhand; if (o.him) Object.assign(him, o.him); return { sc: 'bed', her, him, mover: 'her', axis: [0.2, 1], sheet: null, gap: 15 }; };
   add('B-lap-lotus', 'นั่งตัก ไขว้ขาโอบเอวเขา', 'นั่งและตัก', 'bed', lap({ legs: [{ k: [41, 51], a: [35, 52] }, { k: [43, 49], a: [34, 50.5] }] }));
   add('B-lap-leanback', 'นั่งตัก เอนหลัง เขาประคองหลัง', 'นั่งและตัก', 'bed', lap({ a: [-16, -30, -28], arms: arm(52, 38, 1), hhand: arm(48, 42, 1) }));
   add('B-lap-kiss', 'นั่งตัก จูบ', 'นั่งและตัก', 'bed', lap({ a: [8, 16, 18], arms: arm(30, 28, -1) }));
@@ -90,27 +93,28 @@
   add('B-edge-face', 'ปลายเตียง หันหน้า', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 56, y: 38, f: -1, a: [6, 12, 12], legs: [{ k: [52, 47], a: [60, 48.5] }, { k: [54, 45.5], a: [62, 47] }], arms: arm(44, 29, -1) }, him: edgeHim(), mover: 'her', axis: [0.1, 1] }));
   add('B-edge-reverse', 'ปลายเตียง หันหลัง', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 54, y: 38, f: 1, a: [8, 14, 12], legs: [{ k: [58, 47], a: [46, 48.5] }, { k: [60, 45.5], a: [48, 47] }], arms: arm(62, 48, -1) }, him: edgeHim(), mover: 'her', axis: [0.1, 1] }));
   add('B-edge-she-sits', 'เธอนั่งขอบเตียง เขายืนระหว่างขา', 'นั่งและตัก', 'edge', () => ({ sc: 'edge', her: { x: 50, y: 45, f: 1, a: [-14, -24, -22], legs: [{ ft: [64, 49], b: -1 }, { ft: [66, 47], b: -1 }], arms: arm(40, 46, 1) }, him: { x: 66, y: 41, f: -1, a: [14, 26, 24], legs: legX(66, 41, 70, 70, 1), arms: arm(54, 46, 1) }, mover: 'him', axis: [1, 0] }));
-  // --- C: he on top, she lies on her back
+  // --- C: he on top, she lies on her back (her legs given as knee + ankle points: hip flexion, then the shin, so they read anatomically)
+  const KA = (kx, ky, ax, ay) => ({ k: [kx, ky], a: [ax, ay] });
   const herLie = (legs, arms, a) => Object.assign(lie(54, 49.5, -1, a), { legs, arms });
   const miss = (o) => () => ({ sc: 'bed', her: herLie(o.legs, o.arms || arm(22, 44, -1), o.herA), him: Object.assign({ x: o.hx || 62, y: o.hy || 43, f: -1, a: o.a || [34, 56, 50], legs: legK(o.hx || 62, -1), arms: [{ h: [34, 52.5], b: -1 }, { h: [31, 52.5], b: -1 }] }, o.him || {}), mover: 'him', axis: [0.8, 0.5] });
-  add('C-wrap', 'ท่ามิชชันนารี เธอใช้ขาโอบเอว', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 70, 46, -1, 72, 47, -1) }));
-  add('C-apart', 'เธอกางเข่าราบ', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 76, 52.5, 1, 78, 52.5, -1) }));
-  add('C-shoulder', 'ยกขาพาดไหล่เขา', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 41, a: [20, 36, 30], legs: legX(54, 49.5, 62, 22, 1, 64, 21, 1), him: { arms: [{ h: [38, 52], b: -1 }, { h: [35, 52], b: -1 }] } }));
-  add('C-knees-chest', 'ชันเข่าชิดอก', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 62, hy: 41, a: [24, 40, 36], legs: legX(54, 49.5, 58, 32, -1, 60, 31, -1) }));
-  add('C-pillow', 'หนุนสะโพกด้วยหมอน', 'เขาอยู่ข้างบน', 'bed', miss({ hy: 41, legs: legX(54, 46, 72, 46, 1, 74, 47, -1), herA: [80, 88, 90] }));
-  add('C-ankles', 'ไขว้ข้อเท้าที่หลังเขา', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 68, 44, -1, 69, 45, -1) }));
+  add('C-wrap', 'ท่ามิชชันนารี เธอใช้ขาโอบเอว', 'เขาอยู่ข้างบน', 'bed', miss({ legs: [KA(62, 38, 70, 47), KA(64, 40, 71.5, 48.5)] }));
+  add('C-apart', 'เธอกางเข่าขึ้น เท้าราบ', 'เขาอยู่ข้างบน', 'bed', miss({ legs: [KA(66, 41, 76, 52), KA(62, 44, 72, 52.5)] }));
+  add('C-shoulder', 'ยกขาพาดไหล่เขา', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 41, a: [20, 36, 30], legs: [{ ft: [58, 26], force: false }, KA(64, 44, 76, 52)], him: { arms: [{ h: [38, 52], b: -1 }, { h: [35, 52], b: -1 }] } }));
+  add('C-knees-chest', 'ชันเข่าชิดอก', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 62, hy: 41, a: [24, 40, 36], legs: [KA(58, 35, 66, 42), KA(60, 37, 68, 43.5)] }));
+  add('C-pillow', 'หนุนสะโพกด้วยหมอน', 'เขาอยู่ข้างบน', 'bed', miss({ hy: 41, legs: [KA(64, 40, 74, 48), KA(66, 42, 76, 50)], herA: [80, 88, 90] }));
+  add('C-ankles', 'ไขว้ข้อเท้าที่หลังเขา', 'เขาอยู่ข้างบน', 'bed', miss({ legs: [KA(61, 37, 69, 46), KA(63, 39, 69, 46.5)] }));
   add('C-straight', 'ขาชิดเหยียดตรง', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 86, 52, 1), hx: 66, hy: 44 }));
-  add('C-one-shoulder', 'ยกขาข้างเดียวพาดไหล่', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 63, hy: 42, legs: [{ ft: [62, 25], b: 1 }, { ft: [74, 52], b: 1 }] }));
-  add('C-low', 'เขาก้มต่ำ ศอกยันที่นอน', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 63, hy: 45, a: [56, 76, 72], legs: legX(54, 49.5, 76, 52.5, 1), him: { arms: [{ h: [34, 52], b: -1 }, { h: [31, 52], b: -1 }] } }));
-  add('C-pushup', 'เขายันแขนตรง', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 66, hy: 40, a: [20, 32, 28], legs: legX(54, 49.5, 72, 46, -1), him: { arms: [{ h: [38, 52], b: -1 }, { h: [36, 52], b: -1 }] } }));
-  add('C-kneel-hips', 'เขาคุกเข่าตัวตรง ยกสะโพกเธอวางบนต้นขา', 'เขาอยู่ข้างบน', 'bed', () => ({ sc: 'bed', her: herLie(legX(54, 46, 66, 38, -1, 68, 39, -1), arm(22, 44, -1), [72, 84, 88]), him: { x: 68, y: 40, f: -1, a: [4, 8, 8], legs: legK(68, -1), arms: arm(58, 44, -1) }, mover: 'him', axis: [1, 0.3] }));
-  add('C-hands-up', 'เธอยกมือเหนือศีรษะ', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 70, 46, -1), arms: arm(12, 46, 1) }));
-  add('C-hug', 'เธอกอดหลังเขา', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 70, 46, -1), arms: arm(60, 36, -1), a: [46, 66, 60] }));
-  add('C-wide', 'เธอกางขาออกกว้าง', 'เขาอยู่ข้างบน', 'bed', miss({ legs: legX(54, 49.5, 80, 44, 1, 82, 46, -1) }));
-  add('C-bridge', 'เธอเกร็งแอ่นสะโพก', 'เขาอยู่ข้างบน', 'bed', miss({ herA: [70, 84, 88], legs: legX(54, 44, 66, 52.5, -1, 68, 52.5, -1) }));
-  add('C-foot-chest', 'เท้าเธอยันอกเขา', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 42, a: [18, 32, 28], legs: [{ ft: [52, 36], b: -1 }, { ft: [76, 52], b: 1 }] }));
-  add('C-over-arms', 'เขาคล้องขาเธอไว้ที่แขน', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 41, a: [26, 44, 38], legs: legX(54, 49.5, 62, 34, -1, 64, 35, -1) }));
-  add('C-edge', 'เธอนอนที่ขอบเตียง เขายืน', 'เขาอยู่ข้างบน', 'edge', () => ({ sc: 'edge', her: { x: 46, y: 47, f: -1, a: [86, 90, 92], legs: legX(46, 47, 66, 40, 1, 68, 41, 1), arms: arm(12, 46, 1) }, him: { x: 70, y: 41, f: -1, a: [8, 14, 12], legs: legX(70, 41, 70, 70, 1), arms: arm(58, 43, 1) }, mover: 'him', axis: [1, 0] }));
+  add('C-one-shoulder', 'ยกขาข้างเดียวพาดไหล่', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 63, hy: 42, legs: [{ ft: [62, 25] }, KA(66, 44, 76, 52)] }));
+  add('C-low', 'เขาก้มต่ำ ศอกยันที่นอน', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 63, hy: 45, a: [56, 76, 72], legs: [KA(64, 43, 74, 51), KA(62, 45, 72, 52.5)], him: { arms: [{ h: [34, 52], b: -1 }, { h: [31, 52], b: -1 }] } }));
+  add('C-pushup', 'เขายันแขนตรง', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 66, hy: 40, a: [20, 32, 28], legs: [KA(62, 38, 70, 47), KA(64, 40, 71.5, 48.5)], him: { arms: [{ h: [38, 52], b: -1 }, { h: [36, 52], b: -1 }] } }));
+  add('C-kneel-hips', 'เขาคุกเข่าตัวตรง ยกสะโพกเธอวางบนต้นขา', 'เขาอยู่ข้างบน', 'bed', () => ({ sc: 'bed', her: herLie([KA(62, 38, 69, 45), KA(64, 40, 70, 46.5)], arm(22, 44, -1), [72, 84, 88]), him: { x: 68, y: 40, f: -1, a: [4, 8, 8], legs: legK(68, -1), arms: arm(58, 44, -1) }, mover: 'him', axis: [1, 0.3] }));
+  add('C-hands-up', 'เธอยกมือเหนือศีรษะ', 'เขาอยู่ข้างบน', 'bed', miss({ legs: [KA(62, 38, 70, 47), KA(64, 40, 71.5, 48.5)], arms: arm(12, 46, 1) }));
+  add('C-hug', 'เธอกอดหลังเขา', 'เขาอยู่ข้างบน', 'bed', miss({ legs: [KA(62, 38, 70, 47), KA(64, 40, 71.5, 48.5)], arms: arm(60, 36, -1), a: [46, 66, 60] }));
+  add('C-wide', 'เธอกางขาออกกว้าง', 'เขาอยู่ข้างบน', 'bed', miss({ legs: [KA(68, 41, 80, 51), KA(63, 44, 77, 52.5)] }));
+  add('C-bridge', 'เธอเกร็งแอ่นสะโพก', 'เขาอยู่ข้างบน', 'bed', miss({ herA: [70, 84, 88], legs: [KA(63, 38, 66, 52.5), KA(65, 40, 69, 52)] }));
+  add('C-foot-chest', 'เท้าเธอยันอกเขา', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 42, a: [18, 32, 28], legs: [{ ft: [58, 33] }, KA(66, 44, 76, 52)] }));
+  add('C-over-arms', 'เขาคล้องขาเธอไว้ที่แขน', 'เขาอยู่ข้างบน', 'bed', miss({ hx: 64, hy: 41, a: [26, 44, 38], legs: [KA(60, 35, 66, 42), KA(62, 37, 68, 43.5)] }));
+  add('C-edge', 'เธอนอนที่ขอบเตียง เขายืน', 'เขาอยู่ข้างบน', 'edge', () => ({ sc: 'edge', her: { x: 46, y: 47, f: -1, a: [86, 90, 92], legs: [KA(56, 40, 62, 48), KA(58, 42, 64, 49.5)], arms: arm(12, 46, 1) }, him: { x: 62, y: 41, f: -1, a: [8, 14, 12], legs: legX(62, 41, 62, 70, 1), arms: arm(52, 43, 1) }, mover: 'him', axis: [1, 0] }));
   // --- D: from behind
   const allf = (o) => () => { const x = o.x || 52, y = o.y || 36; return { sc: 'bed', her: { x, y, f: -1, a: o.a || [84, 88, 86], prone: true, legs: o.legs || [{ k: [x + 12, 50], a: [x + 26, 52.5] }, { k: [x + 14, 48.5], a: [x + 28, 51] }], arms: o.arms || [{ h: [x - 20, 52.5], b: 1 }, { h: [x - 22, 52.5], b: 1 }] }, him: o.him || { x: x + 22, y: 38, f: -1, a: [10, 18, 16], legs: legK(x + 22, -1), arms: arm(x + 8, 38, -1) }, mover: 'him', axis: [1, 0] }; };
   add('D-allfours', 'คุกเข่าสี่เท้า มือใต้ไหล่', 'จากด้านหลัง', 'bed', allf({}));
@@ -129,7 +133,7 @@
   add('D-wall-bent', 'ก้มตัว มือยันกำแพง', 'จากด้านหลัง', 'wall', () => ({ sc: 'wall', her: { x: 58, y: 40, f: 1, a: [66, 76, 72], prone: true, legs: legX(58, 40, 52, 70, 1), arms: arm(94, 34, 1) }, him: { x: 42, y: 41, f: 1, a: [8, 12, 10], legs: legX(42, 41, 42, 70, -1), arms: arm(54, 41, 1) }, mover: 'him', axis: [1, 0] }));
   add('D-table', 'ก้มตัวคว่ำบนโต๊ะ', 'จากด้านหลัง', 'table', () => ({ sc: 'table', her: { x: 90, y: 41, f: 1, a: [80, 86, 84], prone: true, legs: legX(90, 41, 84, 70, 1), arms: arm(112, 44, 1) }, him: { x: 72, y: 41, f: 1, a: [8, 12, 10], legs: legX(72, 41, 72, 70, -1), arms: arm(84, 41, 1) }, mover: 'him', axis: [1, 0] }));
   // --- E: side-lying (both on their sides facing right; viewed from the side)
-  const side = (o) => () => ({ sc: 'bed', her: Object.assign({ x: 58, y: 49, f: -1, a: [84, 88, 90], legs: [{ ft: [78, 50], b: 1 }, { ft: [80, 52], b: 1 }], arms: arm(28, 49, 1) }, o.her || {}), him: Object.assign({ x: 70, y: 49, f: -1, a: [84, 88, 90], legs: [{ ft: [92, 50], b: 1 }, { ft: [94, 52], b: 1 }], arms: arm(44, 46, -1) }, o.him || {}), mover: 'him', axis: [1, 0] });
+  const side = (o) => () => ({ sc: 'bed', her: Object.assign({ face: 'profile', x: 58, y: 49, f: -1, a: [84, 88, 90], legs: [{ ft: [78, 50], b: 1 }, { ft: [80, 52], b: 1 }], arms: arm(28, 49, 1) }, o.her || {}), him: Object.assign({ face: 'profile', x: 70, y: 49, f: -1, a: [84, 88, 90], legs: [{ ft: [92, 50], b: 1 }, { ft: [94, 52], b: 1 }], arms: arm(44, 46, -1) }, o.him || {}), mover: 'him', axis: [1, 0] });
   add('E-spoon', 'นอนตะแคงช้อนหลัง', 'นอนตะแคง', 'bed', side({}));
   add('E-spoon-leg', 'ช้อนหลัง เธอยกขาพาดขาเขา', 'นอนตะแคง', 'bed', side({ her: { legs: [{ ft: [74, 40], b: -1 }, { ft: [80, 52], b: 1 }] } }));
   add('E-spoon-hip', 'ช้อนหลัง เขากอดเอว', 'นอนตะแคง', 'bed', side({ him: { arms: arm(52, 44, -1) } }));
@@ -167,7 +171,9 @@
     const mv = spec.mover === 'him' ? spec.him : spec.her, ax = spec.axis || [0, 1]; mv.x += ax[0] * m; mv.y += ax[1] * m;
     snap(spec);
     scene(c, spec.sc, t); const st = { e, lag: Math.sin(phi - 0.9), outfit: o.outfit };
-    person(c, spec.him, 'him', st); person(c, spec.her, 'her', st);
+    person(c, spec.him, 'him', st); const g2 = new Uint8Array(W * H).fill(255), c2 = ctxFor(g2); person(c2, spec.her, 'her', st);
+    for (let y = 0; y < H; y++) for (let x = 0; x < W; x++) { const i = y * W + x; if (g2[i] === 255) { if ((x > 0 && g2[i - 1] !== 255) || (x < W - 1 && g2[i + 1] !== 255) || (y > 0 && g2[i - W] !== 255) || (y < H - 1 && g2[i + W] !== 255)) { const q = g[i]; if (q === 6 || q === 7 || q === 19 || q === 9) g[i] = 11; } } }
+    for (let i = 0; i < g.length; i++) if (g2[i] !== 255) g[i] = g2[i];
     if (spec.sc === 'bed' || spec.sc === 'edge') { const x0 = spec.sheet === null ? 0 : spec.sheet ? spec.sheet[0] : 0, x1 = spec.sheet === null ? 0 : spec.sheet ? spec.sheet[1] : 0; for (let x = x0; x < x1; x++) { const yy = 49 + Math.round(Math.sin((x + t) / 4) * 0.7); for (let y = yy; y < 56; y++) c.px(x, y, 15); c.px(x, yy, 14); } }
     if (e >= 1) { c.px(spec.her.x + 4 - (t % 2), spec.her.y - 16 + (t * 2) % 8, 23); }
     if (o.climax) for (let i = 0; i < 6; i++) { const x = 28 + i * 14, y = 20 - ((t * 3 + i * 4) % 16); [[0, 0], [2, 0], [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2], [1, 2], [2, 2], [1, 3]].forEach(p => c.px(x + p[0], y + p[1] + 6, 13)); }
