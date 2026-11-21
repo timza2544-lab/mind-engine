@@ -109,10 +109,68 @@ canvas{display:block;width:100%;max-width:100%;aspect-ratio:3/2;image-rendering:
     b.push(0x3B); return new Uint8Array(b);
   }
 
+
+  /* ---------- core scene: the main act, played beat by beat ---------- */
+  const POS = [
+    { id: 'face', t: 'คร่อมหันหน้า', d: 'เธอนั่งคร่อมหันหน้าเข้าหาเขา มือยันไหล่เขา ขยับเป็นวงกลมช้าๆ ก่อน', amp: 2 },
+    { id: 'back', t: 'คร่อมหันหลัง', d: 'เธอนั่งคร่อมหันหลังให้เขา มือยันเข่าเขา เอนตัวไปข้างหน้าให้เห็นสะโพกขยับ', amp: 2 },
+    { id: 'squat', t: 'นั่งยอง', d: 'เธอนั่งยองๆ เท้าราบกับที่นอน คุมความลึกและความเร็วเอง', amp: 3 },
+    { id: 'lean', t: 'โน้มตัวกระซิบ', d: 'เธอโน้มตัวลงให้หน้าอกชิดอกเขา กระซิบข้างหู แล้วเร่งจังหวะ', amp: 1 },
+    { id: 'grip', t: 'ยึดหัวเตียง', d: 'เธอยึดหัวเตียงไว้ เอนหลังเล็กน้อยแล้วขยับขึ้นลงเป็นจังหวะยาว', amp: 3 },
+    { id: 'lap', t: 'นั่งตักพิงหัวเตียง', d: 'เขานั่งพิงหัวเตียง เธอนั่งบนตักหันหน้าเข้าหา กอดคอ ขยับช้าๆ ให้ลึกที่สุด', amp: 1 },
+    { id: 'turn', t: 'หมุนตัวครึ่งรอบ', d: 'เธอหมุนตัวครึ่งรอบโดยไม่ถอนออก จากหันหน้าเป็นหันหลัง', amp: 1 }
+  ];
+  const RHY = { slow: { t: 'ช้าและลึก', gain: 6, per: 6 }, mid: { t: 'ปานกลาง', gain: 9, per: 4 }, fast: { t: 'เร็ว', gain: 13, per: 2 } };
+  const phaseOf = c => c.done ? 'หลังจบ' : c.climax ? 'จุดสูงสุด' : c.beats === 0 ? 'เริ่ม' : c.beats === 1 ? 'ถามหรือตั้งกติกา' : c.beats === 2 ? 'ขึ้นคร่อม' : c.heat < 40 ? 'เข้าจังหวะ' : c.heat < 75 ? 'เร่งขึ้น เปลี่ยนท่าได้' : 'ใกล้จุดสูงสุด';
+  function coreFrame(c, t) {
+    const g = new Uint8Array(W * H), px = (x, y, k) => { x |= 0; y |= 0; if (x >= 0 && x < W && y >= 0 && y < H) g[y * W + x] = k; }, rect = (x, y, w, h, k) => { for (let j = 0; j < h; j++) for (let i = 0; i < w; i++) px(x + i, y + j, k); }, disc = (cx, cy, r, k) => { for (let j = -r; j <= r; j++) for (let i = -r; i <= r; i++) if (i * i + j * j <= r * r + 1) px(cx + i, cy + j, k); };
+    const r = RHY[c.rhythm] || RHY.mid, p = POS.find(q => q.id === c.pos) || POS[0], ph = Math.sin(t / r.per * 6.283 * (r.per === 6 ? 1 : r.per === 4 ? 1.5 : 3)), bob = Math.round(ph * p.amp), still = c.climax;
+    rect(0, 0, W, 36, 2); rect(0, 36, W, 28, 1); for (let x = 0; x < W; x += 12) rect(x, 8, 1, 28, 0);
+    rect(2, 18, 5, 30, 11); rect(2, 18, 5, 2, 15); rect(8, 38, 4, 5, 10); rect(8, 38, 4, 1, 4); rect(2, 44, 90, 5, 14); rect(2, 49, 90, 9, 11);
+    const him = (x, y) => { disc(x, y, 4, 4); rect(x - 4, y - 5, 9, 3, 11); rect(x + 4, y + 1, 26, 6, 5); rect(x + 30, y + 3, 8, 4, 5); };
+    const her = (hx, hy, lean, armsX, armsY) => { rect(hx - 3, hy - 14 + lean, 7, 14, 4); disc(hx + lean, hy - 18 + lean, 4, 4); rect(hx - 5 + lean, hy - 23 + lean, 10, 3, 6); rect(hx - 6 + lean, hy - 21 + lean, 2, 9, 6); rect(hx - 2, hy, 9, 4, 4); rect(hx - 12, hy + 2, 12, 3, 4); rect(hx + 5, hy + 2, 12, 3, 4); rect(armsX, armsY, 2, 12, 4); };
+    if (c.pos === 'lap') { rect(8, 22, 8, 22, 5); disc(12, 17, 4, 4); rect(8, 12, 8, 3, 11); const hy = 40 + bob; rect(17, hy - 13, 7, 13, 4); disc(21, hy - 17, 4, 4); rect(16, hy - 22, 10, 3, 6); rect(16, hy - 20, 2, 9, 6); rect(14, hy - 12, 3, 8, 4); rect(24, hy - 12, 2, 8, 4); rect(17, hy, 10, 4, 4); rect(26, hy + 3, 12, 3, 4); }
+    else { him(14, 41); const hx = c.pos === 'turn' ? 40 : 40, ly = bob; if (c.pos === 'face') her(hx, 38 + ly, 0, 34, 28 + ly); else if (c.pos === 'back') her(hx, 38 + ly, 3, 46, 30 + ly); else if (c.pos === 'squat') { her(hx, 35 + ly, 0, 33, 26 + ly); rect(hx - 8, 38, 3, 6, 4); rect(hx + 8, 38, 3, 6, 4); } else if (c.pos === 'lean') { rect(hx - 6, 32 + ly, 14, 6, 4); disc(hx - 8, 33 + ly, 4, 4); rect(hx - 13, 29 + ly, 10, 3, 6); rect(hx - 2, 38 + ly, 9, 4, 4); rect(hx + 5, 40, 12, 3, 4); } else if (c.pos === 'grip') { her(hx, 38 + ly, -2, 8, 14); rect(8, 14, 2, 3, 15); } else if (t % 2) her(hx, 38 + ly, 0, 34, 28 + ly); else her(hx, 38 + ly, 3, 46, 30 + ly); }
+    rect(24, 46, 34, 3, 3);
+    const fx = c.fx || []; if (c.heat > 55 || fx.includes('sweat')) px(60 - t % 2, 20 + t % 4, 10);
+    if (fx.includes('blush') || c.heat > 35) { px(c.pos === 'lap' ? 22 : 38, 24 + bob, 12); }
+    if (fx.includes('heart') || c.climax) for (let i = 0; i < 4; i++) { const hx = 30 + i * 12, hy = 14 - (t * 2 + i * 3) % 14; [[0, 0], [2, 0], [-1, 1], [0, 1], [1, 1], [2, 1], [3, 1], [0, 2], [1, 2], [2, 2], [1, 3]].forEach(q => px(hx + q[0], hy + q[1] + 6, 13)); }
+    if (fx.includes('spark') || c.climax) for (let i = 0; i < 8; i++) px((i * 41 + t * 13) % W, (i * 17 + t * 7) % 30, 15);
+    rect(66, 54, 26, 6, 11); rect(67, 55, Math.round(c.heat / 100 * 24), 4, c.heat > 75 ? 13 : 15); rect(66, 61, 26, 2, 11); rect(67, 61, Math.round(c.control / 100 * 24), 2, 9);
+    return g;
+  }
+  const newCore = () => ({ phase: 0, beats: 0, pos: 'face', rhythm: 'slow', heat: 12, control: 80, climax: false, done: false, edges: 0, fx: [] });
+  function coreFallback(c) { const ph = phaseOf(c); return { text: `${ph}: ` + (POS.find(p => p.id === c.pos) || POS[0]).d + `\n\n(เปิดหน้านี้ใน Claude เพื่อให้ Claude เขียนฉากเต็ม)`, choices: [{ t: 'ถามเขาเบาๆ ว่าชอบไหม', heat: 4, control: 4 }, { t: 'จับมือเขาพาไปวางบนสะโพก', heat: 8, control: -2 }, { t: 'หยุดค้างไว้ให้เขารอ', heat: -6, control: 8, rhythm: 'slow' }], art: { fx: ['blush'] } }; }
+  function coreBrief(c) { const s = st.setup, ps = POS.find(p => p.id === c.pos) || POS[0], r = RHY[c.rhythm]; return `ท่าปัจจุบัน: ${ps.t} — ${ps.d} · จังหวะ: ${r.t} · ความร้อน ${Math.round(c.heat)}/100 · ที่เธอคุมตัวเองได้ ${Math.round(c.control)}/100 · ช่วง: ${phaseOf(c)}`; }
+  function corePrompt(c, choice, kind) {
+    const s = st.setup, lvl = st.lvl, head = `คุณคือนักเขียนนวนิยายผู้ใหญ่แนวตลกที่ซื่อสัตย์ ฉากนี้คือช่วงหลักของเรื่อง: ${s.her} (อายุ ${s.age} ปี ผู้ใหญ่) กับ ${s.him} (ผู้ใหญ่) ทั้งคู่เต็มใจและสมัครใจ`;
+    const rules = `กติกาการเขียน
+1. ภาษาไทย บุรุษที่หนึ่ง "ฉัน" คือ ${s.her} เปิดด้วยการกระทำหรือบทพูดกลางจังหวะ ห้ามเปิดด้วยอากาศหรือแสง
+2. เซ็กส์ตรงๆ ตามระดับ ${lvl}/5 (${LV[lvl]}) ใช้คำตรงตามสไตล์ผู้ใหญ่ เธอเป็นฝ่ายนำและคุมจังหวะ บรรยายสิ่งที่ร่างกายเธอทำจริง: มือวางที่ไหน น้ำหนักตัวอยู่ที่ไหน สะโพกขยับอย่างไร ลมหายใจ สีหน้า เสียง
+3. ใจกับคำพูดของเธอขัดกันได้ แต่ตัวเธอเต็มใจ ความขัดแย้งเปลี่ยนไประหว่างฉาก ไม่คงที่ ${s.arc ? 'ท่าทีของเธอ: ' + s.arc : ''}
+4. เธอเลือกเองทุกขั้น ไม่มีใครบังคับ ขู่ วางยา รุม หรือถ่ายโดยเธอไม่ยินยอม ถ้าเธอบอก "พอก่อน" ทุกอย่างหยุดทันที ไม่มีเด็กหรือกลิ่นเด็ก ไม่เขียนผลการตั้งครรภ์
+5. มีเสียงที่สามได้นิดเดียว (เสียงในหัว หรือเสียงจากข้างนอก) เป็นมุกสั้นๆ ไม่ข่มเธอ`;
+    const log = `ที่ผ่านมา: ${(c.log || []).slice(-3).join(' / ') || 'เพิ่งเริ่ม'}`;
+    if (kind === 'climax') return `${head}\n${rules}\n${coreBrief(c)}\n${log}\nเขียนจุดสูงสุด 160–260 คำ ${c.accident ? 'เธอคุมตัวเองไม่อยู่ เกิดขึ้นก่อนที่เธอตั้งใจ ตัวไม่ฟังเธอ' : 'เธอเป็นคนเลือกจังหวะนี้'} เล่าให้ชัดทั้งสองฝั่ง ตอบเป็น JSON: {"text":"..."}`;
+    if (kind === 'after') return `${head}\n${rules}\n${log}\nเขียนช่วงหลังจบ 100–180 คำ อบอุ่น ตลกเล็กน้อย เธอยังคุมบรรยากาศ ตอบเป็น JSON: {"text":"..."}`;
+    return `${head}\n${rules}\n${coreBrief(c)}\n${log}\nผู้เล่นเพิ่งเลือก: ${choice}\nเขียนจังหวะถัดไป 130–230 คำ ให้สอดคล้องกับช่วง "${phaseOf(c)}" และท่าปัจจุบัน แล้วเสนอ 3 ทางเลือกที่ต่างกัน (กล้า, ระวัง, ขี้เล่น) เป็นการกระทำของเธอ ไม่เกิน 40 ตัวอักษร พร้อมผลต่อค่า heat และ control (จำนวนเต็ม -15 ถึง 15) ตอบเป็น JSON: {"text":"...","choices":[{"t":"...","heat":0,"control":0}],"art":{"fx":["blush"|"heart"|"sweat"|"spark"]}}`;
+  }
+  async function coreStep(choice, delta, kind) {
+    if (busy) return; busy = true; render(); const c = st.core;
+    try {
+      if (delta) { const r = RHY[c.rhythm]; c.heat = clamp(c.heat + r.gain * 0.6 + (delta.heat || 0), 0, 100); c.control = clamp(c.control + (delta.control || 0) - (c.rhythm === 'fast' ? 6 : c.rhythm === 'mid' ? 2 : 0) - (c.heat > 70 ? 5 : 0), 0, 100); if (delta.rhythm && RHY[delta.rhythm]) c.rhythm = delta.rhythm; c.beats++; c.log = (c.log || []).concat(choice).slice(-6); }
+      if (kind === 'climax' || (!kind && (c.heat >= 100 || (c.control <= 0 && c.heat >= 80)))) { c.accident = !kind && c.control <= 0; c.climax = true; c.fx = ['heart', 'spark']; let t; try { t = String((await ask2(corePrompt(c, choice, 'climax'))).text || ''); } catch (e) { t = c.accident ? 'ตัวเธอไม่ฟังเธออีกแล้ว จังหวะสะดุด ลมหายใจหลุด และทุกอย่างถึงจุดสูงสุดก่อนที่เธอจะทันตั้งตัว' : 'เธอเลือกจังหวะนี้เอง ค้างไว้ลึกที่สุด แล้วปล่อยให้ทุกอย่างผ่านไป'; } st.scene = { text: t.slice(0, 3000), choices: [], art: { fx: c.fx } }; }
+      else if (kind === 'after') { c.done = true; st.over = true; let t; try { t = String((await ask2(corePrompt(c, choice, 'after'))).text || ''); } catch (e) { t = 'เธอเอนตัวลงข้างเขา หายใจช้าลง แล้วหัวเราะเบาๆ ที่ลืมไปหมดว่าตั้งใจจะนับจังหวะ'; } st.scene = { text: t.slice(0, 3000), choices: [], art: { fx: ['heart'] } }; }
+      else { let o; try { const res = await ask2(corePrompt(c, choice)); o = cleanCore(res); } catch (e) { o = coreFallback(c); } st.scene = o; c.fx = o.art.fx; }
+    } finally { busy = false; save(); render(); if (wantStop) { wantStop = false; step('stop', null); } }
+  }
+  async function ask2(p) { if (!cap) throw new Error('nocap'); ctl = new AbortController(); return cap.json(p, { signal: ctl.signal, cache: false }); }
+  function cleanCore(o) { const ch = (Array.isArray(o && o.choices) ? o.choices : []).slice(0, 3).map(x => ({ t: String(x && x.t || '').slice(0, 60), heat: num(x && x.heat), control: num(x && x.control) })).filter(x => x.t), okFx = ['blush', 'heart', 'sweat', 'spark']; return { text: String(o && o.text || '').slice(0, 4000), choices: ch.length >= 2 ? ch : coreFallback(st.core).choices, art: { fx: ((o && o.art && o.art.fx) || []).filter(x => okFx.includes(x)).slice(0, 3) } }; }
+
   /* ---------- state ---------- */
   const fresh = s => ({ setup: s, act: 0, v: { nerve: 50, trust: 50, time: 90, score: 0 }, scene: null, log: [], over: false, lvl: s.lvl });
   function save() { try { localStorage.setItem(KEY, JSON.stringify(st)); } catch (e) {} }
-  function load() { try { const o = JSON.parse(localStorage.getItem(KEY) || 'null'); if (o && o.setup && o.v && o.setup.age >= 20 && !MINOR_RX.test(o.setup.her + ' ' + o.setup.him)) st = o; } catch (e) {} }
+  function load() { try { const o = JSON.parse(localStorage.getItem(KEY) || 'null'); if (o && o.setup && o.v && (o.setup.mode !== 'core' || o.core) && o.setup.age >= 20 && !MINOR_RX.test(o.setup.her + ' ' + o.setup.him)) st = o; } catch (e) {} }
   const sceneArt = (a, art) => Object.assign({ bg: ACTS[Math.min(a, 7)].bg, gap: ACTS[Math.min(a, 7)].gap, host: ACTS[Math.min(a, 7)].host, fx: [], pose: 'stand', time: st.v.time }, art || {});
 
   /* ---------- story ---------- */
@@ -141,6 +199,7 @@ canvas{display:block;width:100%;max-width:100%;aspect-ratio:3/2;image-rendering:
     return res;
   }
   async function step(choice, delta) {
+    if (st.setup.mode === 'core' && choice === 'stop') { if (busy) return; busy = true; render(); st.over = true; st.core.done = true; let t; try { t = String((await ask2(prompt('end', 'stop').replace('เขียนฉากจบรายการ', 'เขียนฉากปิดอย่างอบอุ่น'))).text || ''); } catch (e) { t = 'เธอบอกว่าพอก่อน ทุกอย่างหยุดทันที เขาถอยออก ห่มผ้าให้เธอ แล้วถามว่าอยากให้อยู่ข้างๆ หรืออยากอยู่คนเดียว'; } st.scene = { text: t.slice(0, 3000), choices: [], art: { fx: [] } }; busy = false; save(); render(); return; }
     if (busy) return; busy = true; render();
     try {
       if (delta) { const v = st.v; v.nerve = clamp(v.nerve + delta.nerve, 0, 100); v.trust = clamp(v.trust + delta.trust, 0, 100); v.time = clamp(v.time - 10 + delta.time, 0, 99); v.score += delta.score; st.log.push(`ด่าน ${st.act}: ${choice}`); }
@@ -154,19 +213,43 @@ canvas{display:block;width:100%;max-width:100%;aspect-ratio:3/2;image-rendering:
   function el(tag, props, kids) { const e = document.createElement(tag); Object.entries(props || {}).forEach(([k, v]) => { if (k === 'class') e.className = v; else if (k === 'text') e.textContent = v; else if (k.startsWith('on')) e.addEventListener(k.slice(2), v); else e.setAttribute(k, v); }); (kids || []).forEach(c => e.append(c)); return e; }
   function meter(label, v, cls, shown) { return el('div', { class: 'meter ' + (cls || '') }, [document.createTextNode(label + ' ' + (shown != null ? shown : Math.round(v))), el('i', {}, [el('b', { style: 'width:' + clamp(v, 0, 100) + '%' })])]); }
   function setupView() {
-    const f = { her: 'ฟ้า', him: 'ภัทร', host: 'พิธีกรโอ๋', age: 27, hair: 'brown', lvl: 3 };
+    const f = { her: 'ฟ้า', him: 'ภัทร', host: 'พิธีกรโอ๋', age: 27, hair: 'brown', lvl: 3, mode: 'core', arc: 'ไม่ชอบตอนแรก แล้วค่อยติดใจ' };
     const inp = (id, label, val, type) => el('div', {}, [el('label', { for: id, text: label }), el('input', { id, type: type || 'text', value: val, maxlength: 24 })]);
     const lvlRow = el('div', { class: 'row', id: 'lvl' }); [1, 2, 3, 4, 5].forEach(n => lvlRow.append(el('button', { type: 'button', 'aria-pressed': String(n === f.lvl), 'data-n': n, text: String(n), onclick(e) { f.lvl = n; lvlRow.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(Number(b.dataset.n) === n))); } })));
     const hairRow = el('div', { class: 'row' }); Object.keys(HAIR).forEach(k => hairRow.append(el('button', { type: 'button', 'aria-pressed': String(k === f.hair), 'data-k': k, text: { brown: 'น้ำตาล', black: 'ดำ', blonde: 'บลอนด์' }[k], onclick() { f.hair = k; hairRow.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === k))); } })));
+    const modeRow = el('div', { class: 'row' }); [['core', 'ฉากหลักเท่านั้น (แนะนำ)'], ['show', 'เกมโชว์ครบ 8 ด่าน']].forEach(m => modeRow.append(el('button', { type: 'button', 'aria-pressed': String(m[0] === f.mode), 'data-k': m[0], text: m[1], onclick() { f.mode = m[0]; modeRow.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === m[0]))); } })));
+    const arcRow = el('div', { class: 'row' }); ['ไม่ชอบตอนแรก แล้วค่อยติดใจ', 'เฉยๆ แต่ชอบบางจุด', 'เธออยากเอง', 'ยอมเพราะเดิมพัน แต่ใจสู้'].forEach(a => arcRow.append(el('button', { type: 'button', 'aria-pressed': String(a === f.arc), 'data-k': a, text: a, onclick() { f.arc = a; arcRow.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.k === a))); } })));
     const msg = el('p', { class: 'muted', id: 'smsg' });
-    const p = el('section', { class: 'panel' }, [el('div', { class: 'grid' }, [inp('fHer', 'ชื่อของเธอ (ผู้เล่น)', f.her), inp('fAge', 'อายุของเธอ (20 ขึ้นไป)', f.age, 'number'), inp('fHim', 'ชื่อคู่แข่ง', f.him), inp('fHost', 'ชื่อพิธีกร', f.host)]), el('label', { text: 'สีผมของเธอ', style: 'margin-top:12px' }), hairRow, el('label', { text: 'ระดับความเข้มสูงสุดที่ยอมให้เขียน (1 เบา ถึง 5 เข้มที่สุด)', style: 'margin-top:12px' }), lvlRow, el('p', { class: 'muted', text: 'ทุกคนในเรื่องเป็นผู้ใหญ่ เต็มใจ ปัดภารกิจได้ทุกข้อ และปุ่ม "พอก่อน" หยุดรายการทันทีเสมอ' }), msg, el('div', { class: 'row', style: 'margin-top:8px' }, [el('button', { class: 'go', type: 'button', text: 'เริ่มรายการ', onclick() {
+    const p = el('section', { class: 'panel' }, [el('div', { class: 'grid' }, [inp('fHer', 'ชื่อของเธอ (ผู้เล่น)', f.her), inp('fAge', 'อายุของเธอ (20 ขึ้นไป)', f.age, 'number'), inp('fHim', 'ชื่อคู่แข่ง', f.him), inp('fHost', 'ชื่อพิธีกร', f.host)]), el('label', { text: 'โหมด', style: 'margin-top:12px' }), modeRow, el('label', { text: 'ท่าทีของเธอในฉากหลัก', style: 'margin-top:12px' }), arcRow, el('label', { text: 'สีผมของเธอ', style: 'margin-top:12px' }), hairRow, el('label', { text: 'ระดับความเข้มสูงสุดที่ยอมให้เขียน (1 เบา ถึง 5 เข้มที่สุด)', style: 'margin-top:12px' }), lvlRow, el('p', { class: 'muted', text: 'ทุกคนในเรื่องเป็นผู้ใหญ่ เต็มใจ ปัดภารกิจได้ทุกข้อ และปุ่ม "พอก่อน" หยุดรายการทันทีเสมอ' }), msg, el('div', { class: 'row', style: 'margin-top:8px' }, [el('button', { class: 'go', type: 'button', text: 'เริ่มรายการ', onclick() {
       const her = $('#fHer').value.trim(), him = $('#fHim').value.trim(), host = $('#fHost').value.trim(), age = parseInt($('#fAge').value, 10);
       if (!her || !him || !host) { msg.textContent = 'ใส่ชื่อให้ครบทั้งสามช่อง'; return; } if (!(age >= 20 && age <= 90)) { msg.textContent = 'ผู้เล่นต้องเป็นผู้ใหญ่ อายุ 20–90 ปี'; return; } if (MINOR_RX.test(her + ' ' + him + ' ' + host)) { msg.textContent = 'ชื่อนี้ใช้ไม่ได้'; return; }
-      st = fresh({ her, him, host, age, hair: f.hair, lvl: f.lvl }); PAL[6] = HAIR[f.hair]; save(); step('เริ่มรายการ', null);
+      st = fresh({ her, him, host, age, hair: f.hair, lvl: f.lvl, arc: f.arc, mode: f.mode }); PAL[6] = HAIR[f.hair]; if (f.mode === 'core') { st.core = newCore(); save(); coreStep('เริ่มฉาก', null); } else { save(); step('เริ่มรายการ', null); }
     } })])]);
     return p;
   }
+  const frm = (cv, t) => cv._core ? coreFrame(cv._core, t) : frame(cv._art, t);
+  function coreView() {
+    const c = st.core, sc = st.scene || coreFallback(c), cv = el('canvas', { width: W, height: H, role: 'img', 'aria-label': 'ภาพพิกเซลของฉากหลัก ท่าและจังหวะตามที่เลือก' }); cv.id = 'cv'; cv._core = c;
+    const kids = [cv, el('div', { class: 'meters', style: 'grid-template-columns:repeat(2,1fr)' }, [meter('ความร้อน', c.heat, 'n', Math.round(c.heat)), meter('ที่เธอคุมตัวเองได้', c.control, 't', Math.round(c.control))]), el('div', { class: 'act', text: 'ช่วง: ' + phaseOf(c) + ' · ครั้งที่ ' + (c.beats + 1) })];
+    if (!busy && !st.over) {
+      const pr = el('div', { class: 'row' }); POS.forEach(p => pr.append(el('button', { type: 'button', 'aria-pressed': String(c.pos === p.id), text: p.t, onclick() { c.pos = p.id; save(); render(); } })));
+      const rr = el('div', { class: 'row' }); Object.keys(RHY).forEach(k => rr.append(el('button', { type: 'button', 'aria-pressed': String(c.rhythm === k), text: RHY[k].t, onclick() { c.rhythm = k; save(); render(); } })));
+      kids.push(el('label', { text: 'ท่า (เปลี่ยนได้ทุกจังหวะ ภาพเปลี่ยนทันที)' }), pr, el('label', { text: 'จังหวะ' }), rr);
+    }
+    if (busy) kids.push(el('p', { class: 'muted' }, [el('span', { class: 'spin' }), document.createTextNode('กำลังเขียนฉาก…')]));
+    else { kids.push(el('div', { class: 'story', text: sc.text })); if (!cap) kids.push(el('div', { class: 'hint', text: 'ยังไม่ได้เชื่อม Claude ตอนนี้เป็นข้อความย่อ เปิดหน้านี้ในแอป Claude เพื่อให้เขียนฉากเต็ม' })); }
+    if (!busy && !st.over && !c.climax) { const ch = el('div', { class: 'choices' }); sc.choices.forEach(x => ch.append(el('button', { type: 'button', text: x.t + `   (ร้อน ${x.heat >= 0 ? '+' : ''}${x.heat} · คุม ${x.control >= 0 ? '+' : ''}${x.control})`, onclick() { coreStep(x.t, x); } })));
+      ch.append(el('button', { type: 'button', text: 'ค้างไว้ ชะลอให้ใจเย็น (ร้อนลด คุมตัวเองคืนมา)', onclick() { c.edges++; c.rhythm = 'slow'; coreStep('ค้างไว้ ชะลอจังหวะ', { heat: -14, control: 14, rhythm: 'slow' }); } }));
+      if (c.heat >= 60) ch.append(el('button', { class: 'go', type: 'button', text: 'ไปให้ถึงจุดสูงสุดตามที่ตั้งใจ', onclick() { coreStep('ไปให้ถึงจุดสูงสุด', { heat: 20, control: -10 }, 'climax'); } })); kids.push(ch); }
+    if (!busy && c.climax && !c.done) kids.push(el('div', { class: 'choices' }, [el('button', { class: 'go', type: 'button', text: 'ต่อ: ช่วงหลังจบ', onclick() { coreStep('หลังจบ', null, 'after'); } })]));
+    const bar = el('div', { class: 'row' }); if (!st.over) bar.append(el('button', { class: 'stop', type: 'button', text: 'พอก่อน', onclick() { if (busy) { wantStop = true; if (ctl) ctl.abort(); } else step('stop', null); } }));
+    bar.append(el('button', { type: 'button', text: 'บันทึก GIF ของท่านี้', onclick: saveGif }), el('button', { type: 'button', text: 'เริ่มเรื่องใหม่', onclick() { st = null; try { localStorage.removeItem(KEY); } catch (e) {} render(); } })); kids.push(bar);
+    if (c.log && c.log.length) kids.push(el('details', {}, [el('summary', { class: 'muted', text: 'เส้นทางที่เลือกมา' }), el('ol', { class: 'log' }, c.log.map(l => el('li', { text: l })))]));
+    if (tmsg) { kids.push(el('p', { class: 'muted', text: tmsg })); tmsg = ''; }
+    return el('section', { class: 'panel', style: 'display:flex;flex-direction:column;gap:12px' }, kids);
+  }
   function gameView() {
+    if (st.setup.mode === 'core') return coreView();
     const A = ACTS[Math.min(Math.max(st.act - 1, 0), 7)], sc = st.scene || fallback(0), art = sceneArt(Math.max(st.act - 1, 0), sc.art);
     const cv = el('canvas', { width: W, height: H, role: 'img', 'aria-label': 'ภาพพิกเซลของฉากในสตูดิโอ' }); cv.id = 'cv'; cv._art = art;
     const kids = [cv, el('div', { class: 'meters' }, [meter('ความกล้า', st.v.nerve, 'n'), meter('ความไว้ใจ', st.v.trust, 't'), meter('เวลา (นาที)', st.v.time * 100 / 90, '', st.v.time), meter('คะแนน', clamp(50 + st.v.score * 2, 0, 100), '', st.v.score)]),
@@ -182,19 +265,19 @@ canvas{display:block;width:100%;max-width:100%;aspect-ratio:3/2;image-rendering:
   }
   async function saveGif() {
     const cv = $('#cv'); if (!cv) return; const dl = await window.claude?.use?.('downloads'); if (!dl) { toast('เปิดหน้านี้ในแอป Claude เพื่อบันทึกไฟล์'); return; }
-    const fr = []; for (let t = 0; t < FR; t++) fr.push(frame(cv._art, t));
-    try { await dl.save({ filename: 'secret-gameshow-act' + st.act + '.gif', data: new Blob([gif(fr, 5)], { type: 'image/gif' }) }); } catch (e) { toast('ยังไม่ได้บันทึก'); }
+    const fr = []; for (let t = 0; t < FR; t++) fr.push(frm(cv, t));
+    try { await dl.save({ filename: 'secret-gameshow-' + (cv._core ? 'core-' + cv._core.pos : 'act' + st.act) + '.gif', data: new Blob([gif(fr, 5)], { type: 'image/gif' }) }); } catch (e) { toast('ยังไม่ได้บันทึก'); }
   }
   function render() {
     app.replaceChildren(el('h1', { text: 'เกมโชว์ลับ' }, [el('small', { text: 'เล่นเป็นผู้เข้าแข่งขันและเลือกทางเอง ผู้ใหญ่ทุกคน ปัดภารกิจได้ทุกข้อ' })]));
     app.append(st ? gameView() : setupView());
-    const cv = $('#cv'); if (cv) { cv.getContext('2d'); paint(cv, frame(cv._art, tick % FR)); }
+    const cv = $('#cv'); if (cv) { cv.getContext('2d'); paint(cv, frm(cv, tick % FR)); }
   }
-  function loop() { const cv = $('#cv'); if (cv) { tick++; paint(cv, frame(cv._art, tick % FR)); } }
+  function loop() { const cv = $('#cv'); if (cv) { tick++; paint(cv, frm(cv, tick % FR)); } }
   load(); if (st) PAL[6] = HAIR[st.setup.hair] || PAL[6];
   render();
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(loop, 230);
   window.claude?.use?.('sample').then(s => { cap = s || null; if (st && st.scene && !busy) render(); }).catch(() => {});
-  if (st && !st.scene && !busy) step('ต่อจากเดิม', null);
+  if (st && !st.scene && !busy) { if (st.setup.mode === 'core') coreStep('ต่อจากเดิม', null); else step('ต่อจากเดิม', null); }
 })();
 </script>
