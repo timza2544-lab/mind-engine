@@ -1,0 +1,63 @@
+<title>คลังคลิปฉากหลัก</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600&family=Noto+Sans+Thai:wght@400;500&display=swap">
+<style>
+/* layout: a review wall. filters on top, a responsive grid of clip cards, each with three verdict buttons and a note. single deliberate dark look */
+:root{color-scheme:dark;--bg:#14101c;--panel:#201a2c;--line:#3a3150;--ink:#f1ecf7;--ink2:#b4a9c6;--amber:#ffb000;--ok:#3fb27f;--fix:#e0a030;--no:#d9674a;--f-d:"Prompt","Noto Sans Thai",system-ui,sans-serif;--f-b:"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:15px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 48px}
+main{max-width:1100px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font-family:var(--f-d);font-weight:600;font-size:26px;margin:0;color:var(--amber)}
+.muted{color:var(--ink2);font-size:14px;margin:0}
+.bar{position:sticky;top:env(safe-area-inset-top,0px);background:var(--bg);padding:10px 0;display:flex;flex-direction:column;gap:8px;z-index:5;border-bottom:1px solid var(--line)}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 12px;min-height:36px}
+button:focus-visible,textarea:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+button[aria-pressed=true]{background:var(--amber);border-color:var(--amber);color:#1b1306}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:10px;display:flex;flex-direction:column;gap:8px;min-width:0}
+.card.ok{border-color:var(--ok)}.card.fix{border-color:var(--fix)}.card.no{border-color:var(--no)}
+.card img{width:100%;aspect-ratio:8/5;image-rendering:pixelated;border-radius:6px;display:block;background:#000}
+.id{font-family:var(--f-d);font-size:14px;overflow-wrap:anywhere}
+.v button{flex:1;padding:6px 4px}
+.v button[aria-pressed=true].ok{background:var(--ok);border-color:var(--ok);color:#06180f}.v button[aria-pressed=true].fix{background:var(--fix);border-color:var(--fix);color:#201400}.v button[aria-pressed=true].no{background:var(--no);border-color:var(--no);color:#200a05}
+textarea{width:100%;background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;font:inherit;font-size:14px;padding:6px 8px;min-height:36px;resize:vertical}
+.tag{font-size:12px;color:var(--ink2)}
+#out{white-space:pre-wrap;background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:13px;max-height:260px;overflow:auto}
+</style>
+<main>
+<h1>คลังคลิปฉากหลัก</h1>
+<p class="muted">คลิปพิกเซลทุกท่า ทุกจังหวะ ทุกสภาพชุด ดูให้ครบแล้วกดตัดสินแต่ละใบ: ใช้ได้ / ต้องแก้ (เขียนโน้ตได้) / ตัดทิ้ง ผลเก็บในเบราว์เซอร์นี้ แล้วกด "คัดลอกสรุป" ส่งให้ Claude ได้</p>
+<div class="bar">
+  <div class="row" id="fg"></div><div class="row" id="fp"></div><div class="row" id="fr"></div><div class="row" id="fo"></div><div class="row" id="fv"></div>
+  <div class="row"><span class="muted" id="cnt"></span><button type="button" id="copy">คัดลอกสรุป</button><button type="button" id="clear">ล้างการตัดสินทั้งหมด</button></div>
+</div>
+<div class="grid" id="grid"></div>
+<pre id="out" hidden></pre>
+</main>
+<script>
+(async function () {
+  'use strict';
+  const KEY = 'clipwall.v1', $ = s => document.querySelector(s);
+  let man; try { man = await (await fetch('manifest.json')).json(); } catch (e) { $('#grid').textContent = 'โหลดรายการคลิปไม่ได้'; return; }
+  let marks = {}; try { marks = JSON.parse(localStorage.getItem(KEY) || '{}') || {}; } catch (e) {}
+  const save = () => { try { localStorage.setItem(KEY, JSON.stringify(marks)); } catch (e) {} };
+  const L = { group: { pose: 'ท่าปกติ', climax: 'จุดสูงสุด', after: 'หลังจบ' }, pos: { face: 'คร่อมหันหน้า', back: 'คร่อมหันหลัง', squat: 'นั่งยอง', lean: 'โน้มตัวกระซิบ', brace: 'เอนหลังยันต้นขา', lap: 'นั่งตักพิงหัวเตียง', turn: 'หมุนตัวครึ่งรอบ' }, rhythm: { slow: 'ช้า', mid: 'กลาง', fast: 'เร็ว' }, outfit: { dress: 'ชุดสวมอยู่', half: 'เปิดบางส่วน', bare: 'เปลือย+ผ้าห่ม' }, v: { '': 'ทุกสถานะ', ok: 'ใช้ได้', fix: 'ต้องแก้', no: 'ตัดทิ้ง', none: 'ยังไม่ตัดสิน' } };
+  const flt = { group: '', pos: '', rhythm: '', outfit: '', v: '' };
+  function chips(host, key) { const box = $(host); box.replaceChildren(); const vals = key === 'v' ? Object.keys(L.v) : [''].concat(Object.keys(L[key])); vals.forEach(v => { const b = document.createElement('button'); b.type = 'button'; b.textContent = v === '' ? (key === 'v' ? 'ทุกสถานะ' : 'ทั้งหมด') : L[key][v]; if (key === 'v' && v === '') b.textContent = 'ทุกสถานะ'; b.setAttribute('aria-pressed', String(flt[key] === v)); b.addEventListener('click', () => { flt[key] = v; draw(); }); box.append(b); }); }
+  function vis(it) { const t = it.tags; if (flt.group && t.group !== flt.group) return false; if (flt.pos && t.pos !== flt.pos) return false; if (flt.rhythm && t.rhythm !== flt.rhythm) return false; if (flt.outfit && t.outfit !== flt.outfit) return false; const m = (marks[it.id] || {}).v || 'none'; if (flt.v && flt.v !== m) return false; return true; }
+  function draw() {
+    ['#fg', '#fp', '#fr', '#fo', '#fv'].forEach((h, i) => chips(h, ['group', 'pos', 'rhythm', 'outfit', 'v'][i]));
+    const g = $('#grid'); g.replaceChildren(); let shown = 0;
+    man.items.filter(vis).forEach(it => { shown++; const mk = marks[it.id] || {}, c = document.createElement('div'); c.className = 'card ' + (mk.v || ''); const img = document.createElement('img'); img.src = it.data || it.file; img.alt = it.id; img.loading = 'lazy'; const id = document.createElement('div'); id.className = 'id'; id.textContent = it.id; const tg = document.createElement('div'); tg.className = 'tag'; tg.textContent = [L.group[it.tags.group], L.pos[it.tags.pos], L.rhythm[it.tags.rhythm], L.outfit[it.tags.outfit]].filter(Boolean).join(' · ');
+      const v = document.createElement('div'); v.className = 'row v'; [['ok', 'ใช้ได้'], ['fix', 'ต้องแก้'], ['no', 'ตัดทิ้ง']].forEach(([k, t]) => { const b = document.createElement('button'); b.type = 'button'; b.className = k; b.textContent = t; b.setAttribute('aria-pressed', String(mk.v === k)); b.addEventListener('click', () => { marks[it.id] = Object.assign({}, marks[it.id], { v: mk.v === k ? '' : k }); save(); draw(); }); v.append(b); });
+      const ta = document.createElement('textarea'); ta.placeholder = 'โน้ต เช่น ท่านี้ไหล่ลอย ขาไม่ตรง'; ta.value = mk.n || ''; ta.id = 'n-' + it.id; ta.addEventListener('change', () => { marks[it.id] = Object.assign({}, marks[it.id], { n: ta.value }); save(); });
+      c.append(img, id, tg, v, ta); g.append(c); });
+    const n = { ok: 0, fix: 0, no: 0 }; man.items.forEach(i => { const v = (marks[i.id] || {}).v; if (n[v] !== undefined) n[v]++; });
+    $('#cnt').textContent = `แสดง ${shown}/${man.items.length} · ใช้ได้ ${n.ok} · ต้องแก้ ${n.fix} · ตัดทิ้ง ${n.no} · ยังไม่ดู ${man.items.length - n.ok - n.fix - n.no}`;
+  }
+  $('#copy').addEventListener('click', async () => { const lines = man.items.map(i => { const m = marks[i.id] || {}; return m.v || m.n ? `${i.id}: ${m.v || '-'}${m.n ? ' — ' + m.n : ''}` : null; }).filter(Boolean); const txt = lines.length ? lines.join('\n') : 'ยังไม่ได้ตัดสินคลิปไหน'; const out = $('#out'); out.hidden = false; out.textContent = txt; try { await navigator.clipboard.writeText(txt); } catch (e) { const r = document.createRange(); r.selectNodeContents(out); const s = getSelection(); s.removeAllRanges(); s.addRange(r); } });
+  $('#clear').addEventListener('click', () => { if ($('#clear').dataset.arm === '1') { marks = {}; save(); $('#clear').dataset.arm = ''; $('#clear').textContent = 'ล้างการตัดสินทั้งหมด'; draw(); } else { $('#clear').dataset.arm = '1'; $('#clear').textContent = 'กดอีกครั้งเพื่อยืนยันล้าง'; } });
+  draw();
+})();
+</script>

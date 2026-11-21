@@ -1,0 +1,719 @@
+{
+ "size": [
+  128,
+  80
+ ],
+ "scale": 5,
+ "items": [
+  {
+   "id": "face-slow-dress",
+   "file": "gifs/face-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "face-slow-half",
+   "file": "gifs/face-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "face-slow-bare",
+   "file": "gifs/face-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "face-mid-dress",
+   "file": "gifs/face-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "face-mid-half",
+   "file": "gifs/face-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "face-mid-bare",
+   "file": "gifs/face-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "face-fast-dress",
+   "file": "gifs/face-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "face-fast-half",
+   "file": "gifs/face-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "face-fast-bare",
+   "file": "gifs/face-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "back-slow-dress",
+   "file": "gifs/back-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "back-slow-half",
+   "file": "gifs/back-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "back-slow-bare",
+   "file": "gifs/back-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "back-mid-dress",
+   "file": "gifs/back-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "back-mid-half",
+   "file": "gifs/back-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "back-mid-bare",
+   "file": "gifs/back-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "back-fast-dress",
+   "file": "gifs/back-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "back-fast-half",
+   "file": "gifs/back-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "back-fast-bare",
+   "file": "gifs/back-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "squat-slow-dress",
+   "file": "gifs/squat-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "squat-slow-half",
+   "file": "gifs/squat-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "squat-slow-bare",
+   "file": "gifs/squat-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "squat-mid-dress",
+   "file": "gifs/squat-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "squat-mid-half",
+   "file": "gifs/squat-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "squat-mid-bare",
+   "file": "gifs/squat-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "squat-fast-dress",
+   "file": "gifs/squat-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "squat-fast-half",
+   "file": "gifs/squat-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "squat-fast-bare",
+   "file": "gifs/squat-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lean-slow-dress",
+   "file": "gifs/lean-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lean-slow-half",
+   "file": "gifs/lean-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lean-slow-bare",
+   "file": "gifs/lean-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lean-mid-dress",
+   "file": "gifs/lean-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lean-mid-half",
+   "file": "gifs/lean-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lean-mid-bare",
+   "file": "gifs/lean-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lean-fast-dress",
+   "file": "gifs/lean-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lean-fast-half",
+   "file": "gifs/lean-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lean-fast-bare",
+   "file": "gifs/lean-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "brace-slow-dress",
+   "file": "gifs/brace-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "brace-slow-half",
+   "file": "gifs/brace-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "brace-slow-bare",
+   "file": "gifs/brace-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "brace-mid-dress",
+   "file": "gifs/brace-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "brace-mid-half",
+   "file": "gifs/brace-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "brace-mid-bare",
+   "file": "gifs/brace-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "brace-fast-dress",
+   "file": "gifs/brace-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "brace-fast-half",
+   "file": "gifs/brace-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "brace-fast-bare",
+   "file": "gifs/brace-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lap-slow-dress",
+   "file": "gifs/lap-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lap-slow-half",
+   "file": "gifs/lap-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lap-slow-bare",
+   "file": "gifs/lap-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lap-mid-dress",
+   "file": "gifs/lap-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lap-mid-half",
+   "file": "gifs/lap-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lap-mid-bare",
+   "file": "gifs/lap-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lap-fast-dress",
+   "file": "gifs/lap-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lap-fast-half",
+   "file": "gifs/lap-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lap-fast-bare",
+   "file": "gifs/lap-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "turn-slow-dress",
+   "file": "gifs/turn-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "turn-slow-half",
+   "file": "gifs/turn-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "turn-slow-bare",
+   "file": "gifs/turn-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "turn-mid-dress",
+   "file": "gifs/turn-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "turn-mid-half",
+   "file": "gifs/turn-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "mid",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "turn-mid-bare",
+   "file": "gifs/turn-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "turn-fast-dress",
+   "file": "gifs/turn-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "turn-fast-half",
+   "file": "gifs/turn-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "turn-fast-bare",
+   "file": "gifs/turn-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "climax-face",
+   "file": "gifs/climax-face.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "face"
+   }
+  },
+  {
+   "id": "climax-back",
+   "file": "gifs/climax-back.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "back"
+   }
+  },
+  {
+   "id": "climax-squat",
+   "file": "gifs/climax-squat.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "squat"
+   }
+  },
+  {
+   "id": "climax-lean",
+   "file": "gifs/climax-lean.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "lean"
+   }
+  },
+  {
+   "id": "climax-brace",
+   "file": "gifs/climax-brace.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "brace"
+   }
+  },
+  {
+   "id": "climax-lap",
+   "file": "gifs/climax-lap.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "lap"
+   }
+  },
+  {
+   "id": "climax-turn",
+   "file": "gifs/climax-turn.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "turn"
+   }
+  },
+  {
+   "id": "after-hug",
+   "file": "gifs/after-hug.gif",
+   "tags": {
+    "group": "after",
+    "kind": "hug"
+   }
+  },
+  {
+   "id": "after-laugh",
+   "file": "gifs/after-laugh.gif",
+   "tags": {
+    "group": "after",
+    "kind": "laugh"
+   }
+  },
+  {
+   "id": "after-cover",
+   "file": "gifs/after-cover.gif",
+   "tags": {
+    "group": "after",
+    "kind": "cover"
+   }
+  }
+ ]
+}
