@@ -1,0 +1,10 @@
+const { chromium } = require('playwright');const fs=require('fs');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1100,height:900}});const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(/fonts\./,r=>r.abort());
+await p.addInitScript(()=>{window.claude={use:async()=>null}});
+const html=fs.readFileSync(process.argv[2],'utf8');
+await p.route('http://t.test/',r=>r.fulfill({contentType:'text/html; charset=utf-8',body:html}));await p.goto('http://t.test/');await p.waitForTimeout(300);
+const url=await p.evaluate(()=>{const T=window.__t,O=T.OPT,V=s=>O.vulva.findIndex(x=>x.includes(s)),D=s=>O.vulvaDetail.findIndex(x=>x.includes(s));
+const vs=[{spread:.95},{skin:6,vulva:[V('ยื่นพ้น'),V('ไม่เท่ากัน')],detail:[D('ขอบหยัก'),D('สีเข้มกว่า')],vulvaColor:3,spread:.9,minoraMm:80,widthMm:34},{skin:0,pubicHair:0,vulva:[V('อิ่มเต็ม')],vulvaColor:0,spread:.6},{skin:3,vulva:[V('ยื่นพ้น')],arousal:.9,spread:.9,pubicHair:4,detail:[D('ร่องระหว่างแคม')]}];
+const big=document.createElement('canvas');big.width=1120;big.height=1120;const g=big.getContext('2d');
+vs.forEach((o,i)=>{const q=T.norm(Object.assign({seed:7+i},o));if(o.minoraMm===undefined){}const c=document.createElement('canvas');c.width=560;c.height=560;T.drawOut(c,q,0);g.drawImage(c,(i%2)*560,Math.floor(i/2)*560)});return big.toDataURL('image/png')});
+fs.writeFileSync('/tmp/var.png',Buffer.from(url.split(',')[1],'base64'));console.log(errs);await b.close();})();

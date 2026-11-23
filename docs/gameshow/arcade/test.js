@@ -1,0 +1,21 @@
+const { chromium } = require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:1000,height:1400}});const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push(m.text())});await p.route(/fonts\./,r=>r.abort());
+const html=require('fs').readFileSync(process.argv[2],'utf8');
+await p.addInitScript(()=>{let n=0;window.claude={use:async name=>{if(name==='sample'){const f=async()=>({});f.json=async(pr)=>{n++;(window.__p=window.__p||[]).push(pr);if(/เขียนจุดสูงสุด/.test(pr))return{text:'เธอเกร็งทั้งตัว หายใจสะดุด แล้วค่อยๆ ผ่อนลง ♥ จุดสูงสุดผ่านไปพร้อมเสียงหัวเราะเบาๆ'};if(/ช่วงหลังจบ/.test(pr))return{text:'เธอเอนตัวลงข้างเขา หายใจช้าลง แล้วหัวเราะเบาๆ ที่ลืมไปหมดว่าเมื่อกี้ตั้งใจอะไร'};return{text:'จังหวะที่ '+n+': เธอขยับช้าลงจนเกือบหยุด โน้มตัวไปกระซิบข้างหูว่ายังไม่ได้นะคะ แล้วเริ่มใหม่ด้วยจังหวะที่นุ่มกว่าเดิม ฝ่ามือเขาจับเอวเธอไว้เบาๆ',choices:[{t:'ถามเขาเบาๆ ว่าชอบไหม',heat:12,control:-3},{t:'ชะลอแล้วสบตา',heat:3,control:8},{t:'เร่งขึ้นอีกขั้น',heat:15,control:-6}],art:{fx:['blush']}}};return f}if(name==='downloads'){return{save:async o=>{window.__saved=o.filename+':'+o.data.size}}}return null}}});
+await p.route('http://t.test/',r=>r.fulfill({contentType:'text/html; charset=utf-8',body:html}));await p.goto('http://t.test/');await p.waitForTimeout(500);
+const o={};await p.screenshot({path:'/tmp/ar_setup.png',fullPage:true});
+await p.click('text=START');await p.waitForTimeout(1500);o.menu=await p.locator('.mi').count();o.phase=await p.locator('.dlg-h').first().innerText();
+await p.screenshot({path:'/tmp/ar_game1.png',fullPage:true});
+await p.click('button:has-text("ORDER")');await p.locator('.chip',{hasText:'นั่งยอง'}).click();await p.waitForTimeout(250);
+await p.click('.mi >> nth=2');await p.waitForTimeout(1500);await p.click('.mi >> nth=2');await p.waitForTimeout(1200);
+await p.click('button:has-text("X-RAY")');await p.waitForTimeout(500);await p.screenshot({path:'/tmp/ar_xray.png',fullPage:true});
+await p.click('button:has-text("X-RAY")');
+let g=0;while(!(await p.locator('text=ต่อ: ช่วงหลังจบ').count())&&g++<20){await p.locator('.mi >> nth=0').click();await p.waitForTimeout(900);}
+o.beats=g;await p.screenshot({path:'/tmp/ar_climax.png',fullPage:true});
+await p.click('text=ต่อ: ช่วงหลังจบ');await p.waitForTimeout(1500);o.after=(await p.locator('#dlgt').innerText()).slice(0,60);
+await p.click('button:has-text("SHOT")');await p.waitForTimeout(300);o.saved=await p.evaluate(()=>window.__saved);
+o.overflow=await p.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth);
+await p.setViewportSize({width:390,height:900});await p.waitForTimeout(300);o.overflowM=await p.evaluate(()=>document.documentElement.scrollWidth>document.documentElement.clientWidth);await p.screenshot({path:'/tmp/ar_mobile.png',fullPage:true});
+await p.click('text=เริ่มเรื่องใหม่');await p.waitForTimeout(200);await p.click('.chip:has-text("ออนเซ็น")');await p.selectOption?.call;await p.click('.chip:has-text("เกมโชว์ครบ 8 ด่าน")');await p.click('text=START');await p.waitForTimeout(1500);o.show=await p.locator('.dlg-h').first().innerText();await p.screenshot({path:'/tmp/ar_show.png',fullPage:true});
+await p.click('button:has-text("STOP")');await p.waitForTimeout(800);o.stop=(await p.locator('#dlgt').innerText()).slice(0,50);
+console.log(JSON.stringify(o,null,1));console.log('ERRS',errs);await b.close();})();

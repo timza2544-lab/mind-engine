@@ -1,0 +1,1820 @@
+{
+ "size": [
+  128,
+  80
+ ],
+ "scale": 3,
+ "items": [
+  {
+   "id": "face-slow-dress",
+   "file": "gifs/face-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "face-slow-half",
+   "file": "gifs/face-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "face-slow-bare",
+   "file": "gifs/face-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "face-mid-dress",
+   "file": "gifs/face-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "face-mid-half",
+   "file": "gifs/face-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/face-mid-half-stick.gif",
+   "overlay": "gifs/face-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "face-mid-bare",
+   "file": "gifs/face-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "face-fast-dress",
+   "file": "gifs/face-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "face-fast-half",
+   "file": "gifs/face-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "face-fast-bare",
+   "file": "gifs/face-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "face",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "back-slow-dress",
+   "file": "gifs/back-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "back-slow-half",
+   "file": "gifs/back-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "back-slow-bare",
+   "file": "gifs/back-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "back-mid-dress",
+   "file": "gifs/back-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "back-mid-half",
+   "file": "gifs/back-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/back-mid-half-stick.gif",
+   "overlay": "gifs/back-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "back-mid-bare",
+   "file": "gifs/back-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "back-fast-dress",
+   "file": "gifs/back-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "back-fast-half",
+   "file": "gifs/back-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "back-fast-bare",
+   "file": "gifs/back-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "back",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "squat-slow-dress",
+   "file": "gifs/squat-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "squat-slow-half",
+   "file": "gifs/squat-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "squat-slow-bare",
+   "file": "gifs/squat-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "squat-mid-dress",
+   "file": "gifs/squat-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "squat-mid-half",
+   "file": "gifs/squat-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/squat-mid-half-stick.gif",
+   "overlay": "gifs/squat-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "squat-mid-bare",
+   "file": "gifs/squat-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "squat-fast-dress",
+   "file": "gifs/squat-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "squat-fast-half",
+   "file": "gifs/squat-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "squat-fast-bare",
+   "file": "gifs/squat-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "squat",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lean-slow-dress",
+   "file": "gifs/lean-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lean-slow-half",
+   "file": "gifs/lean-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lean-slow-bare",
+   "file": "gifs/lean-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lean-mid-dress",
+   "file": "gifs/lean-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lean-mid-half",
+   "file": "gifs/lean-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/lean-mid-half-stick.gif",
+   "overlay": "gifs/lean-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "lean-mid-bare",
+   "file": "gifs/lean-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lean-fast-dress",
+   "file": "gifs/lean-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lean-fast-half",
+   "file": "gifs/lean-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lean-fast-bare",
+   "file": "gifs/lean-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lean",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "brace-slow-dress",
+   "file": "gifs/brace-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "brace-slow-half",
+   "file": "gifs/brace-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "brace-slow-bare",
+   "file": "gifs/brace-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "brace-mid-dress",
+   "file": "gifs/brace-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "brace-mid-half",
+   "file": "gifs/brace-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/brace-mid-half-stick.gif",
+   "overlay": "gifs/brace-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "brace-mid-bare",
+   "file": "gifs/brace-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "brace-fast-dress",
+   "file": "gifs/brace-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "brace-fast-half",
+   "file": "gifs/brace-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "brace-fast-bare",
+   "file": "gifs/brace-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "brace",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lap-slow-dress",
+   "file": "gifs/lap-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lap-slow-half",
+   "file": "gifs/lap-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lap-slow-bare",
+   "file": "gifs/lap-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lap-mid-dress",
+   "file": "gifs/lap-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lap-mid-half",
+   "file": "gifs/lap-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/lap-mid-half-stick.gif",
+   "overlay": "gifs/lap-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "lap-mid-bare",
+   "file": "gifs/lap-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "lap-fast-dress",
+   "file": "gifs/lap-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "lap-fast-half",
+   "file": "gifs/lap-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "lap-fast-bare",
+   "file": "gifs/lap-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "lap",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "turn-slow-dress",
+   "file": "gifs/turn-slow-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "slow",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "turn-slow-half",
+   "file": "gifs/turn-slow-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "slow",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "turn-slow-bare",
+   "file": "gifs/turn-slow-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "slow",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "turn-mid-dress",
+   "file": "gifs/turn-mid-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "mid",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "turn-mid-half",
+   "file": "gifs/turn-mid-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "mid",
+    "outfit": "half"
+   },
+   "stick": "gifs/turn-mid-half-stick.gif",
+   "overlay": "gifs/turn-mid-half-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "turn-mid-bare",
+   "file": "gifs/turn-mid-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "mid",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "turn-fast-dress",
+   "file": "gifs/turn-fast-dress.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "fast",
+    "outfit": "dress"
+   }
+  },
+  {
+   "id": "turn-fast-half",
+   "file": "gifs/turn-fast-half.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "fast",
+    "outfit": "half"
+   }
+  },
+  {
+   "id": "turn-fast-bare",
+   "file": "gifs/turn-fast-bare.gif",
+   "tags": {
+    "group": "pose",
+    "pos": "turn",
+    "rhythm": "fast",
+    "outfit": "bare"
+   }
+  },
+  {
+   "id": "climax-face",
+   "file": "gifs/climax-face.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "face"
+   }
+  },
+  {
+   "id": "climax-back",
+   "file": "gifs/climax-back.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "back"
+   }
+  },
+  {
+   "id": "climax-squat",
+   "file": "gifs/climax-squat.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "squat"
+   }
+  },
+  {
+   "id": "climax-lean",
+   "file": "gifs/climax-lean.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "lean"
+   }
+  },
+  {
+   "id": "climax-brace",
+   "file": "gifs/climax-brace.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "brace"
+   }
+  },
+  {
+   "id": "climax-lap",
+   "file": "gifs/climax-lap.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "lap"
+   }
+  },
+  {
+   "id": "climax-turn",
+   "file": "gifs/climax-turn.gif",
+   "tags": {
+    "group": "climax",
+    "pos": "turn"
+   }
+  },
+  {
+   "id": "after-hug",
+   "file": "gifs/after-hug.gif",
+   "tags": {
+    "group": "after",
+    "kind": "hug"
+   }
+  },
+  {
+   "id": "after-laugh",
+   "file": "gifs/after-laugh.gif",
+   "tags": {
+    "group": "after",
+    "kind": "laugh"
+   }
+  },
+  {
+   "id": "after-cover",
+   "file": "gifs/after-cover.gif",
+   "tags": {
+    "group": "after",
+    "kind": "cover"
+   }
+  },
+  {
+   "id": "A-face-thighs",
+   "file": "gifs/A-face-thighs.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า มือวางที่ต้นขาตัวเอง"
+   },
+   "stick": "gifs/A-face-thighs-stick.gif",
+   "overlay": "gifs/A-face-thighs-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-behind-head",
+   "file": "gifs/A-face-behind-head.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า มือประสานหลังศีรษะ"
+   },
+   "stick": "gifs/A-face-behind-head-stick.gif",
+   "overlay": "gifs/A-face-behind-head-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-clasped",
+   "file": "gifs/A-face-clasped.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า จับมือเขาโน้มตัว"
+   },
+   "stick": "gifs/A-face-clasped-stick.gif",
+   "overlay": "gifs/A-face-clasped-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-his-hips",
+   "file": "gifs/A-face-his-hips.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า เขาจับสะโพก"
+   },
+   "stick": "gifs/A-face-his-hips-stick.gif",
+   "overlay": "gifs/A-face-his-hips-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-shoulders",
+   "file": "gifs/A-face-shoulders.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า มือยันไหล่เขา"
+   },
+   "stick": "gifs/A-face-shoulders-stick.gif",
+   "overlay": "gifs/A-face-shoulders-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-arch-knees",
+   "file": "gifs/A-face-arch-knees.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า เอนหลังมือยันเข่าเขา (เขาชันเข่า)"
+   },
+   "stick": "gifs/A-face-arch-knees-stick.gif",
+   "overlay": "gifs/A-face-arch-knees-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-one-knee",
+   "file": "gifs/A-face-one-knee.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหน้า ตั้งเข่าข้างหนึ่ง"
+   },
+   "stick": "gifs/A-face-one-knee-stick.gif",
+   "overlay": "gifs/A-face-one-knee-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-face-feet-leanback",
+   "file": "gifs/A-face-feet-leanback.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยองเอนหลังมือยันต้นขาเขาด้านหลัง"
+   },
+   "stick": "gifs/A-face-feet-leanback-stick.gif",
+   "overlay": "gifs/A-face-feet-leanback-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-squat-knees",
+   "file": "gifs/A-squat-knees.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยอง มือเท้าเข่าตัวเอง"
+   },
+   "stick": "gifs/A-squat-knees-stick.gif",
+   "overlay": "gifs/A-squat-knees-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-squat-lean",
+   "file": "gifs/A-squat-lean.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยอง โน้มตัวมือยันอกเขา"
+   },
+   "stick": "gifs/A-squat-lean-stick.gif",
+   "overlay": "gifs/A-squat-lean-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-squat-upright-hair",
+   "file": "gifs/A-squat-upright-hair.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นั่งยอง ยืดตัว มือเสยผม"
+   },
+   "stick": "gifs/A-squat-upright-hair-stick.gif",
+   "overlay": "gifs/A-squat-upright-hair-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-kiss",
+   "file": "gifs/A-kiss.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับ จูบ"
+   },
+   "stick": "gifs/A-kiss-stick.gif",
+   "overlay": "gifs/A-kiss-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-neck",
+   "file": "gifs/A-neck.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับ ซบซอกคอ"
+   },
+   "stick": "gifs/A-neck-stick.gif",
+   "overlay": "gifs/A-neck-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-forearms",
+   "file": "gifs/A-forearms.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับ ยันศอกสองข้างศีรษะเขา"
+   },
+   "stick": "gifs/A-forearms-stick.gif",
+   "overlay": "gifs/A-forearms-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-chest-to-chest",
+   "file": "gifs/A-chest-to-chest.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "นอนทับตัวเขา ขาชิดกัน"
+   },
+   "stick": "gifs/A-chest-to-chest-stick.gif",
+   "overlay": "gifs/A-chest-to-chest-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-thighs",
+   "file": "gifs/A-back-thighs.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหลัง มือวางต้นขาตัวเอง"
+   },
+   "stick": "gifs/A-back-thighs-stick.gif",
+   "overlay": "gifs/A-back-thighs-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-shins",
+   "file": "gifs/A-back-shins.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหลัง โน้มตัวมือยันหน้าแข้งเขา"
+   },
+   "stick": "gifs/A-back-shins-stick.gif",
+   "overlay": "gifs/A-back-shins-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-far",
+   "file": "gifs/A-back-far.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "คร่อมหันหลัง โน้มไปข้างหน้ามากสุด"
+   },
+   "stick": "gifs/A-back-far-stick.gif",
+   "overlay": "gifs/A-back-far-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-squat",
+   "file": "gifs/A-back-squat.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง นั่งยอง"
+   },
+   "stick": "gifs/A-back-squat-stick.gif",
+   "overlay": "gifs/A-back-squat-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-squat-lean",
+   "file": "gifs/A-back-squat-lean.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง นั่งยอง โน้มหน้า"
+   },
+   "stick": "gifs/A-back-squat-lean-stick.gif",
+   "overlay": "gifs/A-back-squat-lean-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-lie",
+   "file": "gifs/A-back-lie.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง เอนหลังพิงอกเขา"
+   },
+   "stick": "gifs/A-back-lie-stick.gif",
+   "overlay": "gifs/A-back-lie-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-hands-head",
+   "file": "gifs/A-back-hands-head.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง มือประสานหลังศีรษะ"
+   },
+   "stick": "gifs/A-back-hands-head-stick.gif",
+   "overlay": "gifs/A-back-hands-head-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "A-back-one-knee",
+   "file": "gifs/A-back-one-knee.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "บนตัวเขา",
+    "label": "หันหลัง ตั้งเข่าข้างหนึ่ง"
+   },
+   "stick": "gifs/A-back-one-knee-stick.gif",
+   "overlay": "gifs/A-back-one-knee-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-lotus",
+   "file": "gifs/B-lap-lotus.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก ไขว้ขาโอบเอวเขา"
+   },
+   "stick": "gifs/B-lap-lotus-stick.gif",
+   "overlay": "gifs/B-lap-lotus-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-leanback",
+   "file": "gifs/B-lap-leanback.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก เอนหลัง เขาประคองหลัง"
+   },
+   "stick": "gifs/B-lap-leanback-stick.gif",
+   "overlay": "gifs/B-lap-leanback-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-kiss",
+   "file": "gifs/B-lap-kiss.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก จูบ"
+   },
+   "stick": "gifs/B-lap-kiss-stick.gif",
+   "overlay": "gifs/B-lap-kiss-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-reverse",
+   "file": "gifs/B-lap-reverse.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตักหันหลัง พิงอกเขา"
+   },
+   "stick": "gifs/B-lap-reverse-stick.gif",
+   "overlay": "gifs/B-lap-reverse-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-reverse-lean",
+   "file": "gifs/B-lap-reverse-lean.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตักหันหลัง โน้มหน้ามือยันเข่า"
+   },
+   "stick": "gifs/B-lap-reverse-lean-stick.gif",
+   "overlay": "gifs/B-lap-reverse-lean-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-kneel",
+   "file": "gifs/B-lap-kneel.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก คุกเข่าตัวตรง"
+   },
+   "stick": "gifs/B-lap-kneel-stick.gif",
+   "overlay": "gifs/B-lap-kneel-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-lap-side",
+   "file": "gifs/B-lap-side.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "นั่งตัก นั่งตะแคง"
+   },
+   "stick": "gifs/B-lap-side-stick.gif",
+   "overlay": "gifs/B-lap-side-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-chair-face",
+   "file": "gifs/B-chair-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "บนเก้าอี้ หันหน้า"
+   },
+   "stick": "gifs/B-chair-face-stick.gif",
+   "overlay": "gifs/B-chair-face-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-chair-reverse",
+   "file": "gifs/B-chair-reverse.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "บนเก้าอี้ หันหลัง"
+   },
+   "stick": "gifs/B-chair-reverse-stick.gif",
+   "overlay": "gifs/B-chair-reverse-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-chair-leanback",
+   "file": "gifs/B-chair-leanback.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "บนเก้าอี้ เอนหลังพิงเขา"
+   },
+   "stick": "gifs/B-chair-leanback-stick.gif",
+   "overlay": "gifs/B-chair-leanback-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-edge-face",
+   "file": "gifs/B-edge-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "ปลายเตียง หันหน้า"
+   },
+   "stick": "gifs/B-edge-face-stick.gif",
+   "overlay": "gifs/B-edge-face-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-edge-reverse",
+   "file": "gifs/B-edge-reverse.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "ปลายเตียง หันหลัง"
+   },
+   "stick": "gifs/B-edge-reverse-stick.gif",
+   "overlay": "gifs/B-edge-reverse-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "B-edge-she-sits",
+   "file": "gifs/B-edge-she-sits.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นั่งและตัก",
+    "label": "เธอนั่งขอบเตียง เขายืนระหว่างขา"
+   },
+   "stick": "gifs/B-edge-she-sits-stick.gif",
+   "overlay": "gifs/B-edge-she-sits-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-wrap",
+   "file": "gifs/C-wrap.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ท่ามิชชันนารี เธอใช้ขาโอบเอว"
+   },
+   "stick": "gifs/C-wrap-stick.gif",
+   "overlay": "gifs/C-wrap-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-apart",
+   "file": "gifs/C-apart.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอกางเข่าขึ้น เท้าราบ"
+   },
+   "stick": "gifs/C-apart-stick.gif",
+   "overlay": "gifs/C-apart-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-shoulder",
+   "file": "gifs/C-shoulder.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ยกขาพาดไหล่เขา"
+   },
+   "stick": "gifs/C-shoulder-stick.gif",
+   "overlay": "gifs/C-shoulder-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-knees-chest",
+   "file": "gifs/C-knees-chest.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ชันเข่าชิดอก"
+   },
+   "stick": "gifs/C-knees-chest-stick.gif",
+   "overlay": "gifs/C-knees-chest-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-pillow",
+   "file": "gifs/C-pillow.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "หนุนสะโพกด้วยหมอน"
+   },
+   "stick": "gifs/C-pillow-stick.gif",
+   "overlay": "gifs/C-pillow-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-ankles",
+   "file": "gifs/C-ankles.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ไขว้ข้อเท้าที่หลังเขา"
+   },
+   "stick": "gifs/C-ankles-stick.gif",
+   "overlay": "gifs/C-ankles-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-straight",
+   "file": "gifs/C-straight.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ขาชิดเหยียดตรง"
+   },
+   "stick": "gifs/C-straight-stick.gif",
+   "overlay": "gifs/C-straight-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-one-shoulder",
+   "file": "gifs/C-one-shoulder.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "ยกขาข้างเดียวพาดไหล่"
+   },
+   "stick": "gifs/C-one-shoulder-stick.gif",
+   "overlay": "gifs/C-one-shoulder-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-low",
+   "file": "gifs/C-low.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขาก้มต่ำ ศอกยันที่นอน"
+   },
+   "stick": "gifs/C-low-stick.gif",
+   "overlay": "gifs/C-low-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-pushup",
+   "file": "gifs/C-pushup.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขายันแขนตรง"
+   },
+   "stick": "gifs/C-pushup-stick.gif",
+   "overlay": "gifs/C-pushup-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-kneel-hips",
+   "file": "gifs/C-kneel-hips.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขาคุกเข่าตัวตรง ยกสะโพกเธอวางบนต้นขา"
+   },
+   "stick": "gifs/C-kneel-hips-stick.gif",
+   "overlay": "gifs/C-kneel-hips-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-hands-up",
+   "file": "gifs/C-hands-up.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอยกมือเหนือศีรษะ"
+   },
+   "stick": "gifs/C-hands-up-stick.gif",
+   "overlay": "gifs/C-hands-up-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-hug",
+   "file": "gifs/C-hug.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอกอดหลังเขา"
+   },
+   "stick": "gifs/C-hug-stick.gif",
+   "overlay": "gifs/C-hug-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-wide",
+   "file": "gifs/C-wide.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอกางขาออกกว้าง"
+   },
+   "stick": "gifs/C-wide-stick.gif",
+   "overlay": "gifs/C-wide-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-bridge",
+   "file": "gifs/C-bridge.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอเกร็งแอ่นสะโพก"
+   },
+   "stick": "gifs/C-bridge-stick.gif",
+   "overlay": "gifs/C-bridge-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-foot-chest",
+   "file": "gifs/C-foot-chest.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เท้าเธอยันอกเขา"
+   },
+   "stick": "gifs/C-foot-chest-stick.gif",
+   "overlay": "gifs/C-foot-chest-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-over-arms",
+   "file": "gifs/C-over-arms.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เขาคล้องขาเธอไว้ที่แขน"
+   },
+   "stick": "gifs/C-over-arms-stick.gif",
+   "overlay": "gifs/C-over-arms-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "C-edge",
+   "file": "gifs/C-edge.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "เขาอยู่ข้างบน",
+    "label": "เธอนอนที่ขอบเตียง เขายืน"
+   },
+   "stick": "gifs/C-edge-stick.gif",
+   "overlay": "gifs/C-edge-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-allfours",
+   "file": "gifs/D-allfours.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่าสี่เท้า มือใต้ไหล่"
+   },
+   "stick": "gifs/D-allfours-stick.gif",
+   "overlay": "gifs/D-allfours-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-elbows",
+   "file": "gifs/D-elbows.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ศอกยัน อกต่ำ สะโพกสูง"
+   },
+   "stick": "gifs/D-elbows-stick.gif",
+   "overlay": "gifs/D-elbows-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-prone",
+   "file": "gifs/D-prone.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "นอนคว่ำราบ"
+   },
+   "stick": "gifs/D-prone-stick.gif",
+   "overlay": "gifs/D-prone-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-prone-pillow",
+   "file": "gifs/D-prone-pillow.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "นอนคว่ำ หมอนรองสะโพก"
+   },
+   "stick": "gifs/D-prone-pillow-stick.gif",
+   "overlay": "gifs/D-prone-pillow-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-arch",
+   "file": "gifs/D-arch.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า แอ่นหลัง เงยหน้า"
+   },
+   "stick": "gifs/D-arch-stick.gif",
+   "overlay": "gifs/D-arch-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-look-back",
+   "file": "gifs/D-look-back.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า หันมองข้างหลัง"
+   },
+   "stick": "gifs/D-look-back-stick.gif",
+   "overlay": "gifs/D-look-back-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-leg-up",
+   "file": "gifs/D-leg-up.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า ยกขาข้างหนึ่ง"
+   },
+   "stick": "gifs/D-leg-up-stick.gif",
+   "overlay": "gifs/D-leg-up-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-kneel-up",
+   "file": "gifs/D-kneel-up.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่าตัวตรงทั้งคู่ เธอเอนพิงเขา"
+   },
+   "stick": "gifs/D-kneel-up-stick.gif",
+   "overlay": "gifs/D-kneel-up-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-kneel-headboard",
+   "file": "gifs/D-kneel-headboard.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่า มือยึดหัวเตียง"
+   },
+   "stick": "gifs/D-kneel-headboard-stick.gif",
+   "overlay": "gifs/D-kneel-headboard-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-edge-bent",
+   "file": "gifs/D-edge-bent.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มตัวบนขอบเตียง เขายืนด้านหลัง"
+   },
+   "stick": "gifs/D-edge-bent-stick.gif",
+   "overlay": "gifs/D-edge-bent-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-edge-onefoot",
+   "file": "gifs/D-edge-onefoot.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มขอบเตียง ยกเท้าข้างหนึ่ง"
+   },
+   "stick": "gifs/D-edge-onefoot-stick.gif",
+   "overlay": "gifs/D-edge-onefoot-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-edge-kneel",
+   "file": "gifs/D-edge-kneel.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "คุกเข่าบนขอบเตียง เขายืน"
+   },
+   "stick": "gifs/D-edge-kneel-stick.gif",
+   "overlay": "gifs/D-edge-kneel-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-wall-bent",
+   "file": "gifs/D-wall-bent.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มตัว มือยันกำแพง"
+   },
+   "stick": "gifs/D-wall-bent-stick.gif",
+   "overlay": "gifs/D-wall-bent-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "D-table",
+   "file": "gifs/D-table.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "จากด้านหลัง",
+    "label": "ก้มตัวคว่ำบนโต๊ะ"
+   },
+   "stick": "gifs/D-table-stick.gif",
+   "overlay": "gifs/D-table-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-spoon",
+   "file": "gifs/E-spoon.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคงช้อนหลัง"
+   },
+   "stick": "gifs/E-spoon-stick.gif",
+   "overlay": "gifs/E-spoon-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-spoon-leg",
+   "file": "gifs/E-spoon-leg.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ช้อนหลัง เธอยกขาพาดขาเขา"
+   },
+   "stick": "gifs/E-spoon-leg-stick.gif",
+   "overlay": "gifs/E-spoon-leg-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-spoon-hip",
+   "file": "gifs/E-spoon-hip.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ช้อนหลัง เขากอดเอว"
+   },
+   "stick": "gifs/E-spoon-hip-stick.gif",
+   "overlay": "gifs/E-spoon-hip-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-spoon-curl",
+   "file": "gifs/E-spoon-curl.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ช้อนหลัง เธอขดตัว"
+   },
+   "stick": "gifs/E-spoon-curl-stick.gif",
+   "overlay": "gifs/E-spoon-curl-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-scissor",
+   "file": "gifs/E-scissor.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "ท่ากรรไกร ขาไขว้"
+   },
+   "stick": "gifs/E-scissor-stick.gif",
+   "overlay": "gifs/E-scissor-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-her-on-arm",
+   "file": "gifs/E-her-on-arm.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคง ศีรษะหนุนแขนเขา"
+   },
+   "stick": "gifs/E-her-on-arm-stick.gif",
+   "overlay": "gifs/E-her-on-arm-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "E-leg-over",
+   "file": "gifs/E-leg-over.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "นอนตะแคง",
+    "label": "นอนตะแคง เธอพาดขาเหนือสะโพกเขา"
+   },
+   "stick": "gifs/E-leg-over-stick.gif",
+   "overlay": "gifs/E-leg-over-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-face",
+   "file": "gifs/F-face.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนหันหน้ากอดกัน"
+   },
+   "stick": "gifs/F-face-stick.gif",
+   "overlay": "gifs/F-face-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-lift",
+   "file": "gifs/F-lift.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "เขาอุ้มเธอ เธอเกี่ยวขาโอบเอว"
+   },
+   "stick": "gifs/F-lift-stick.gif",
+   "overlay": "gifs/F-lift-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-wall-lift",
+   "file": "gifs/F-wall-lift.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "พิงกำแพง เขาอุ้มเธอ"
+   },
+   "stick": "gifs/F-wall-lift-stick.gif",
+   "overlay": "gifs/F-wall-lift-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-wall-leg",
+   "file": "gifs/F-wall-leg.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "พิงกำแพง เขาประคองขาเธอข้างหนึ่ง"
+   },
+   "stick": "gifs/F-wall-leg-stick.gif",
+   "overlay": "gifs/F-wall-leg-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-back-hug",
+   "file": "gifs/F-back-hug.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนกอดจากด้านหลัง"
+   },
+   "stick": "gifs/F-back-hug-stick.gif",
+   "overlay": "gifs/F-back-hug-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-sit-counter",
+   "file": "gifs/F-sit-counter.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "เธอนั่งบนโต๊ะ เขายืนระหว่างขา"
+   },
+   "stick": "gifs/F-sit-counter-stick.gif",
+   "overlay": "gifs/F-sit-counter-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-wall-kiss",
+   "file": "gifs/F-wall-kiss.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "พิงกำแพง จูบ เท้าเธอยกขึ้นพาดเขา"
+   },
+   "stick": "gifs/F-wall-kiss-stick.gif",
+   "overlay": "gifs/F-wall-kiss-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-chair-bent",
+   "file": "gifs/F-chair-bent.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนก้มพิงพนักเก้าอี้"
+   },
+   "stick": "gifs/F-chair-bent-stick.gif",
+   "overlay": "gifs/F-chair-bent-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-carry-back",
+   "file": "gifs/F-carry-back.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "เขาอุ้มเธอ หันหลังชิดอกเขา"
+   },
+   "stick": "gifs/F-carry-back-stick.gif",
+   "overlay": "gifs/F-carry-back-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "F-lean-chair",
+   "file": "gifs/F-lean-chair.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ยืน",
+    "label": "ยืนยันพนักเก้าอี้ สะโพกยื่นกลับ"
+   },
+   "stick": "gifs/F-lean-chair-stick.gif",
+   "overlay": "gifs/F-lean-chair-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "G-straddle-clothed",
+   "file": "gifs/G-straddle-clothed.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "ขึ้นคร่อมทั้งที่สวมชุด"
+   },
+   "stick": "gifs/G-straddle-clothed-stick.gif",
+   "overlay": "gifs/G-straddle-clothed-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "G-sit-beside",
+   "file": "gifs/G-sit-beside.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "นั่งข้างกัน หันหากัน"
+   },
+   "stick": "gifs/G-sit-beside-stick.gif",
+   "overlay": "gifs/G-sit-beside-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "G-push-down",
+   "file": "gifs/G-push-down.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "เธอดันเขาลงนอน"
+   },
+   "stick": "gifs/G-push-down-stick.gif",
+   "overlay": "gifs/G-push-down-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "G-back-massage",
+   "file": "gifs/G-back-massage.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "เธอนั่งบนหลังเขา นวดไหล่"
+   },
+   "stick": "gifs/G-back-massage-stick.gif",
+   "overlay": "gifs/G-back-massage-overlay.gif",
+   "warn": []
+  },
+  {
+   "id": "G-kneel-over",
+   "file": "gifs/G-kneel-over.gif",
+   "tags": {
+    "group": "pose2",
+    "fam": "ช่วงเริ่ม",
+    "label": "คุกเข่าคร่อมเหนือเขา ยังไม่ลง"
+   },
+   "stick": "gifs/G-kneel-over-stick.gif",
+   "overlay": "gifs/G-kneel-over-overlay.gif",
+   "warn": []
+  }
+ ]
+}

@@ -1,0 +1,12 @@
+const { chromium } = require('playwright');
+(async()=>{const b=await chromium.launch();const p=await b.newPage({viewport:{width:430,height:900}});const errs=[];p.on('pageerror',e=>errs.push(e.message));await p.route(/fonts\./,r=>r.abort());
+await p.goto('file://'+process.argv[2]+'/index.html');await p.waitForTimeout(1800);
+const r=await p.evaluate(()=>{try{const A=ANIMA,S=A.state,U=A.ui;S.me=S.me||{id:'me-profile',data:{age:34,nickname:'ต้น',firstName:'ต้น',sex:'ชาย'},chat:[]};S.view='game';S.meMode=false;S.game=S.game||{};S.game.mode=null;U.renderMain();
+const hub=document.querySelector('[data-hub="pact"]');return 'hub card '+!!hub+' text '+(hub?hub.textContent.slice(0,60):'')}catch(e){return 'THROW '+e.message}});
+console.log(r);
+const ok=await p.evaluate(()=>{const c=document.querySelector('[data-hub="pact"]');if(c){c.click();return true}return false});await p.waitForTimeout(500);
+const info=await p.evaluate(()=>({mode:ANIMA.state.game&&ANIMA.state.game.mode,hasSetup:/พร · ราคาบนเตียง|พบผู้หญิงคนใหม่/.test(document.body.innerText)}));console.log('clicked',ok,JSON.stringify(info));
+const clicked=await p.evaluate(()=>{const b=[...document.querySelectorAll('button')].find(x=>/พบผู้หญิงคนใหม่/.test(x.textContent));if(b){b.click();return true}return false});await p.waitForTimeout(500);
+console.log('new person clicked',clicked,'stage',await p.evaluate(()=>ANIMA.state.pact&&ANIMA.state.pact.stage));
+await p.screenshot({path:'/tmp/pact-meet.png',fullPage:false});
+console.log('ERRS',errs.join('|')||'none');await b.close()})();
