@@ -45,6 +45,10 @@ select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border
     <div id="warns"></div></div>
   <div class="panel"><div id="ctl"></div></div>
 </div>
+<div class="panel"><h2>นำเข้าจากตัวละครใน Anima</h2><p class="muted">ใน Anima กดส่งออก (JSON) แล้วเลือกไฟล์ที่นี่ หรือวางข้อความ JSON ลงช่อง ระบบอ่านสีผิว สีผม ขน รูปทรง สี ขนาด และรายละเอียดของตัวละครมาวาดเป็นภาพ ช่องไหนว่างจะเติมด้วยค่าตามสูตรเดียวกับ Anima รับเฉพาะตัวละครหญิงที่อายุ 18 ปีขึ้นไป</p>
+<div class="row"><label class="go" style="cursor:pointer">เลือกไฟล์ JSON<input type="file" id="impf" accept=".json,application/json,text/plain" hidden></label><select id="impsel" aria-label="เลือกตัวละคร" hidden></select><span class="muted" id="impinfo" role="status"></span></div>
+<textarea id="impt" rows="3" placeholder="หรือวาง JSON ที่ส่งออกจาก Anima ตรงนี้" style="width:100%;margin-top:8px;box-sizing:border-box;background:var(--bg2,#1a1522);color:inherit;border:1px solid #4a4058;border-radius:8px;padding:8px;font:inherit"></textarea>
+<div class="row" style="margin-top:6px"><button id="impgo" type="button">อ่านข้อความที่วาง</button></div></div>
 <div class="panel"><h2>คำบรรยาย (ภาษาเดียวกับ Anima)</h2><div id="desc"></div><div class="row" style="margin-top:8px"><button id="cd" type="button">คัดลอกคำบรรยาย</button><button id="cf" type="button">คัดลอกเป็นรายช่อง (ไว้ใส่ใน Anima)</button><button id="cj" type="button">คัดลอก JSON</button><span class="muted" id="msg" role="status"></span></div></div>
 <div class="panel"><h2>แบบสำเร็จรูป (ทุกแบบเป็นค่าที่ Anima รับได้)</h2><div class="wall" id="presets"></div></div>
 <div class="panel"><h2>ที่เก็บไว้</h2><div class="wall" id="favs"></div><p class="muted" id="favnote">ยังไม่มี กด "⭐ เก็บไว้" ที่แบบที่ชอบ</p></div>
@@ -54,7 +58,8 @@ select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border
   'use strict';
   const OPT = {"pubicHair": ["ปล่อยตามธรรมชาติ ขนดก (ราว 1 ใน 6 ไม่เคยจัดการเลย)", "ปล่อยตามธรรมชาติ ขนบาง", "เล็มสั้นเป็นประจำ", "กำจัดเฉพาะขอบ ปล่อยด้านบน", "โกนเกลี้ยงตลอด", "แว็กซ์เกลี้ยงเป็นครั้งคราว", "เลเซอร์ถาวร", "แล้วแต่ช่วง ไม่มีแบบประจำ"], "pubicPattern": ["สามเหลี่ยมคว่ำตามปกติ", "ขึ้นสูงเป็นแนวถึงสะดือ", "กระจายถึงต้นขาด้านใน (พบบ่อย)", "บางและน้อยมาก", "เส้นตรงนุ่ม ไม่หยิก", "สีอ่อนกว่าผมบนหัว", "เริ่มมีเส้นขาวแซม"], "vulva": ["แคมนอกอิ่มเต็ม ปิดแคมในมิด", "แคมในยื่นพ้นแคมนอกเห็นได้ (พบบ่อยมาก)", "แคมในสองข้างยาวไม่เท่ากัน (พบบ่อยมาก)", "แคมในยาวชัดเจน", "แคมนอกบาง แบนราบ", "เนินหัวหน่าวสูงอิ่ม", "เนินหัวหน่าวแบน", "ปุ่มกระสันถูกหนังหุ้มมิด", "ปุ่มกระสันเห็นชัดกว่าทั่วไป", "ทั้งหมดอยู่ในเกณฑ์ที่หมอเรียกว่าธรรมดา"], "vulvaColor": ["ชมพูอ่อน", "ชมพูอมน้ำตาล", "น้ำตาลเข้มกว่าผิวรอบ ๆ (พบมากที่สุด)", "ม่วงอมน้ำตาล", "สองโทนชัดเจน"], "vulvaDetail": ["แคมในขอบหยักเป็นลอน", "แคมในขอบเรียบบาง", "แคมในสีเข้มกว่าแคมนอกชัด", "ปลายแคมในเข้มกว่าโคน ไล่สี", "หนังหุ้มคลิตอริสยาว คลุมเม็ดมิดแม้ตื่นตัว", "หนังหุ้มสั้น เม็ดโผล่พ้นเมื่อตื่นตัว", "เนินหัวหน่าวมีไขมันหนา นุ่ม", "รูเปิดช่องคลอดเห็นชัดเมื่อแยกแคม", "เศษเยื่อพรหมจารีเหลือเป็นติ่งเล็ก ๆ รอบรูเปิด (ปกติ)", "ร่องระหว่างแคมนอกกับแคมในลึก เก็บความชื้น", "ผิวแคมนอกมีรูขุมขนชัดและขนขึ้นถึงขอบ", "ฝีเย็บสั้น (ระยะช่องคลอดถึงทวารใกล้)", "ฝีเย็บมีแผลเป็นจากการคลอด"]};
   const S = 96, KEY = 'bodydesigner.v2', $ = s => document.querySelector(s), clamp = (v, a, b) => Math.max(a, Math.min(b, v));
-  const SKINS = [['#f6d9c2', 'ขาวอมชมพู'], ['#f0c8a0', 'ขาวเหลือง'], ['#e0a878', 'ผิวสองสี'], ['#c98a5c', 'แทน'], ['#9a6540', 'น้ำผึ้งเข้ม'], ['#6a4430', 'ผิวเข้ม']];
+  const SKINS = [['#F6DCD0', 'ขาวอมชมพู'], ['#F3D9B8', 'ขาวเหลือง'], ['#EECDA8', 'ขาวนวล'], ['#DDB28A', 'สองสี'], ['#C99364', 'สีน้ำผึ้ง'], ['#B07A50', 'ผิวแทน'], ['#8C5A3A', 'ผิวคล้ำ'], ['#64402A', 'น้ำตาลเข้ม'], ['#3E2A1E', 'เข้มมาก']];
+  const BODYHAIR = ['สีเดียวกับผม', 'อ่อนกว่าผม เห็นเป็นทอง/น้ำตาลอ่อนเมื่อโดนแดด', 'เข้มกว่าผมบนหัว', 'เส้นบางนุ่มทั้งตัว', 'เส้นแข็งและหยิก'];
   const HAIRC = [['#15101a', 'ดำ'], ['#3b2418', 'น้ำตาลเข้ม'], ['#8a5a30', 'น้ำตาลอ่อน'], ['#d9b060', 'บลอนด์'], ['#b8502a', 'แดงทองแดง'], ['#8a8a98', 'เทา']];
   const COLORS = ['#f3a9b8', '#d98a8c', null, '#8c5260', null];
   const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)], toHex = c => '#' + c.map(v => clamp(Math.round(v), 0, 255).toString(16).padStart(2, '0')).join('');
@@ -72,21 +77,22 @@ select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border
     return out; }
   function addVulva(p, i) { const o = OPT.vulva, NORMAL = 9; if (p.vulva.includes(i)) { p.vulva = p.vulva.filter(x => x !== i); if (!p.vulva.length) p.vulva = [NORMAL]; return; } if (i === NORMAL) { p.vulva = [NORMAL]; return; } p.vulva = p.vulva.filter(x => x !== NORMAL); PAIRS.forEach(([a, b]) => { const hit = (re) => re.test(o[i]); if (hit(a)) p.vulva = p.vulva.filter(x => !b.test(o[x])); else if (hit(b)) p.vulva = p.vulva.filter(x => !a.test(o[x])); }); p.vulva = p.vulva.concat(i).slice(-3); }
   /* ---- state ---- */
-  const DEF = { skin: 1, hairCol: 1, arousal: 0.15, pubicHair: 2, pubicPattern: 0, vulva: [9], vulvaColor: 2, minoraMm: 60, widthMm: 22, clitMm: 5.5, detail: [], seed: 5 };
-  const norm = o => { const p = JSON.parse(JSON.stringify(DEF)); if (!o || typeof o !== 'object') return p; const ri = (k, n) => { const v = parseInt(o[k], 10); if (v >= 0 && v < n) p[k] = v; }; ri('skin', SKINS.length); ri('hairCol', HAIRC.length); ri('pubicHair', OPT.pubicHair.length); ri('pubicPattern', OPT.pubicPattern.length); ri('vulvaColor', OPT.vulvaColor.length); const rl = (k, n, m) => { if (Array.isArray(o[k])) p[k] = Array.from(new Set(o[k].map(x => parseInt(x, 10)).filter(x => x >= 0 && x < n))).slice(0, m); }; rl('vulva', OPT.vulva.length, 3); rl('detail', OPT.vulvaDetail.length, 3); if (!p.vulva.length) p.vulva = [9]; const rn = (k, a, b) => { const v = Number(o[k]); if (isFinite(v)) p[k] = clamp(v, a, b); }; rn('minoraMm', 15, 110); rn('widthMm', 5, 60); rn('clitMm', 2, 14); rn('arousal', 0, 1); const sd = parseInt(o.seed, 10); if (sd >= 0 && sd < 1e6) p.seed = sd; return p; };
+  const DEF = { skin: 1, hairCol: 1, hairHex: '', hairBody: 0, arousal: 0.15, pubicHair: 2, pubicPattern: 0, vulva: [9], vulvaColor: 2, minoraMm: 60, widthMm: 22, clitMm: 5.5, detail: [], seed: 5 };
+  const norm = o => { const p = JSON.parse(JSON.stringify(DEF)); if (!o || typeof o !== 'object') return p; const ri = (k, n) => { const v = parseInt(o[k], 10); if (v >= 0 && v < n) p[k] = v; }; ri('skin', SKINS.length); ri('hairCol', HAIRC.length); ri('hairBody', BODYHAIR.length); if (typeof o.hairHex === 'string' && /^#[0-9a-fA-F]{6}$/.test(o.hairHex)) p.hairHex = o.hairHex; ri('pubicHair', OPT.pubicHair.length); ri('pubicPattern', OPT.pubicPattern.length); ri('vulvaColor', OPT.vulvaColor.length); const rl = (k, n, m) => { if (Array.isArray(o[k])) p[k] = Array.from(new Set(o[k].map(x => parseInt(x, 10)).filter(x => x >= 0 && x < n))).slice(0, m); }; rl('vulva', OPT.vulva.length, 3); rl('detail', OPT.vulvaDetail.length, 3); if (!p.vulva.length) p.vulva = [9]; const rn = (k, a, b) => { const v = Number(o[k]); if (isFinite(v)) p[k] = clamp(v, a, b); }; rn('minoraMm', 15, 110); rn('widthMm', 5, 60); rn('clitMm', 2, 14); rn('arousal', 0, 1); const sd = parseInt(o.seed, 10); if (sd >= 0 && sd < 1e6) p.seed = sd; return p; };
   let P = norm(null), favs = [];
   /* ---- visual parameters derived from Anima's fields ---- */
   function look(p) { const v = vtxt(p), d = dtxt(p), ph = OPT.pubicHair[p.pubicHair], pt = OPT.pubicPattern[p.pubicPattern];
     const bare = /โกนเกลี้ยง|แว็กซ์เกลี้ยง|เลเซอร์/.test(ph);
     const hair = bare ? { style: 0, dens: 0 } : /ขนดก/.test(ph) ? { style: 5, dens: 0.95 } : /ขนบาง/.test(ph) ? { style: 4, dens: 0.4 } : /เล็มสั้น/.test(ph) ? { style: 1, dens: 0.55 } : /กำจัดเฉพาะขอบ/.test(ph) ? { style: 3, dens: 0.6 } : { style: 1, dens: 0.3 };
     if (!bare) { if (/บางและน้อย/.test(pt)) hair.dens *= 0.4; }
-    return { hair, high: !bare && /ถึงสะดือ/.test(pt), thighs: !bare && /ต้นขาด้านใน/.test(pt), straight: /เส้นตรงนุ่ม/.test(pt), pale: /อ่อนกว่าผม/.test(pt), grey: /เส้นขาวแซม/.test(pt), poreHair: /รูขุมขนชัด/.test(d),
+    if (p.hairBody === 3) { hair.dens *= 0.8; } if (p.hairBody === 4) { hair.dens = Math.min(1, hair.dens * 1.15); }
+    return { curl: p.hairBody === 4 ? 1.35 : p.hairBody === 3 ? 0.25 : 0.9, hair, high: !bare && /ถึงสะดือ/.test(pt), thighs: !bare && /ต้นขาด้านใน/.test(pt), straight: /เส้นตรงนุ่ม/.test(pt), pale: /อ่อนกว่าผม/.test(pt), grey: /เส้นขาวแซม/.test(pt), poreHair: /รูขุมขนชัด/.test(d),
       mons: /สูงอิ่ม/.test(v) ? 0.9 : /แบน/.test(v) ? 0.1 : /ไขมันหนา/.test(d) ? 0.75 : 0.5, majF: /อิ่มเต็ม/.test(v) ? 0.95 : /บาง แบนราบ/.test(v) ? 0.15 : 0.55, closed: /ปิดแคมในมิด/.test(v),
       ruffle: /หยักเป็นลอน/.test(d) ? 0.85 : /ขอบเรียบบาง/.test(d) ? 0 : 0.22, thinEdge: /ขอบเรียบบาง/.test(d), asym: /ยาวไม่เท่ากัน/.test(v) ? 0.5 : 0.08, minDark: /สีเข้มกว่าแคมนอก/.test(d), tip: /ปลายแคมในเข้มกว่าโคน/.test(d), deepGroove: /ร่องระหว่างแคมนอกกับแคมในลึก/.test(d), opening: /รูเปิดช่องคลอดเห็นชัด/.test(d),
       hoodCover: /ถูกหนังหุ้มมิด/.test(v) || /คลุมเม็ดมิด/.test(d), clitShow: /เห็นชัดกว่าทั่วไป/.test(v) || /เม็ดโผล่/.test(d) }; }
-  function pal(p, L) { const sk = SKINS[p.skin][0], co = OPT.vulvaColor[p.vulvaColor], base = p.vulvaColor === 2 ? mix(sk, '#7a2f3a', 0.5) : p.vulvaColor === 4 ? mix(COLORS[0], '#7a3a46', 0.55) : COLORS[p.vulvaColor], inn = mix(base, '#7a2030', p.arousal * 0.3), hair0 = HAIRC[p.hairCol][0], h = L.pale ? mix(hair0, sk, 0.4) : hair0;
+  function pal(p, L) { const sk = SKINS[p.skin][0], co = OPT.vulvaColor[p.vulvaColor], base = p.vulvaColor === 2 ? mix(sk, '#7a2f3a', 0.5) : p.vulvaColor === 4 ? mix(COLORS[0], '#7a3a46', 0.55) : COLORS[p.vulvaColor], inn = mix(base, '#7a2030', p.arousal * 0.3), hair0 = p.hairHex || HAIRC[p.hairCol][0], h = L.pale || p.hairBody === 1 ? mix(hair0, sk, 0.4) : p.hairBody === 2 ? mix(hair0, '#000000', 0.35) : hair0;
     return ['#14101c', mix(sk, '#1a0c10', 0.6), sk, mix(sk, '#3a1a1a', 0.22), mix(sk, '#ffffff', 0.2), mix(sk, '#3a1a1a', 0.42), mix(inn, '#2a0a14', 0.6), inn, mix(inn, '#ffffff', 0.32), mix(inn, '#2a0a14', 0.36), mix(sk, inn, 0.5), mix(inn, '#ffffff', 0.55), h, mix(h, '#000000', 0.45), '#fff6ff', mix(sk, '#ffffff', 0.34), mix(h, '#ffffff', 0.45), mix(inn, '#2a0a14', 0.28), mix(sk, inn, 0.25), mix(sk, '#3a1a1a', 0.34), mix(inn, '#ffffff', 0.15), mix(sk, '#ffffff', 0.1), '#9a9aa8', mix(inn, '#3a0a1a', 0.7)]; }
-  const BAY = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]], lvl = (v, x, y, tones) => { const n = tones.length - 1, f = clamp(v, 0, 0.999) * n, i = Math.floor(f), fr = f - i; return tones[i + (fr > (BAY[y & 3][x & 3] + 0.5) / 16 ? 1 : 0)]; };
+  const BAY = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]], lvl = (v, x, y, tones, soft) => { const n = tones.length - 1, f = clamp(v, 0, 0.999) * n, i = Math.floor(f), fr = f - i; return tones[i + (fr > 0.5 + ((BAY[y & 3][x & 3] + 0.5) / 16 - 0.5) * (soft || 1) ? 1 : 0)]; };
   const hash = (x, y, s) => { let h = (x * 374761393 + y * 668265263 + s * 1274126177) | 0; h = (h ^ (h >>> 13)) * 1274126177 | 0; return ((h ^ (h >>> 16)) >>> 0) / 4294967295; };
   function render(p, t) {
     const L = look(p), g = new Uint8Array(S * S), cls = new Uint8Array(S * S), ar = clamp(p.arousal + Math.sin(t / 6 * 6.283) * 0.05 * (p.arousal > 0.05 ? 1 : 0), 0, 1), CX = 48, u = S / 64;
@@ -94,28 +100,28 @@ select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border
     const protPx = Math.max(0, (p.widthMm - 22) * 0.34 + (p.minoraMm - 66) * 0.12) * (1 + 0.2 * ar), mth = (1.4 + p.widthMm * 0.085 * (1 + 0.4 * ar)) * u * 0.8, mAx = gap / 2 + 0.7 * u, minLen = 0.62 + p.minoraMm / 110 * 0.5;
     const hoodW = (2.4 + p.clitMm * 0.42) * u * (L.hoodCover ? 1.15 : 1), hoodH = (2.4 + p.clitMm * 0.34) * u, hoodY = y0 - ay * 0.86;
     for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const px = x + .5, py = y + .5, i = y * S + x; let c = 0, k = 0;
-      const br = Math.hypot((px - CX) / 46, (py - 54) / 44); if (br <= 1) { c = lvl(0.55 + (-(px - CX) * 0.01 - (py - 40) * 0.012) + (br > 0.84 ? -(br - 0.84) * 2.2 : 0), x, y, [3, 2, 4]); k = 1; }
+      const vig = Math.max(0, (Math.abs(px - CX) - 30) / 22) * 0.5 + Math.max(0, (py - 84) / 24) * 0.35; c = lvl(0.58 + (-(px - CX) * 0.004 - (py - 40) * 0.007) - vig, x, y, [5, 3, 2, 4]); k = 1;
       // inguinal creases and the groove under the mound
       const cr = Math.abs(Math.abs(px - CX) - (24 - (py - 36) * 0.33)); if (k === 1 && py > 36 && py < 70 && cr < 0.9 && Math.abs(px - CX) > 12) c = hash(x, y, 3) < 0.55 ? 19 : c;
       const mdx = (px - CX) / ((14 + 9 * L.mons) * u * 0.9), mdy = (py - 28) / ((8 + 6 * L.mons) * u), mr = mdx * mdx + mdy * mdy; if (mr <= 1) { c = lvl(0.55 + (-(mdx * 0.5) - mdy * 0.6) * 0.4 - (mr > 0.7 ? (mr - 0.7) * 0.6 : 0), x, y, [3, 2, 4, 15]); k = 1; }
       // outer lips
-      for (const s of [-1, 1]) { const cx = CX + s * cxo, dx = (px - cx) / ax, dy = (py - y0) / ay, d = dx * dx + dy * dy; if (d <= 1) { const lt = -(dx * -0.5 * s) - dy * 0.55, fall = Math.exp(-(Math.abs(px - CX) - gap / 2) / (L.deepGroove ? 4 : 2.6)), rim = d > 0.8 ? (d - 0.8) * 2.2 : 0, v = 0.64 + lt * 0.36 - fall * (L.deepGroove ? 0.62 : 0.46) - rim * 0.42; c = lvl(v, x, y, [5, 3, 2, 4, 15]); k = 3; } }
+      for (const s of [-1, 1]) { const cx = CX + s * cxo, dx = (px - cx) / ax, dy = (py - y0) / ay, d = dx * dx + dy * dy; if (d <= 1) { const lt = -(dx * -0.5 * s) - dy * 0.55, fall = Math.exp(-(Math.abs(px - CX) - gap / 2) / (L.deepGroove ? 4 : 2.6)), rim = d > 0.8 ? (d - 0.8) * 2.2 : 0, v = 0.64 + lt * 0.36 - fall * (L.deepGroove ? 0.62 : 0.46) - rim * 0.42; c = lvl(v, x, y, [5, 3, 2, 4, 15], 0.7); k = 3; } }
       // cleft
-      if (Math.abs(px - CX) < gap / 2 && py > y0 - ay * 0.88 && py < y0 + ay * 0.96) { const e = (py - (y0 - ay * 0.88)) / (ay * 1.84); c = e < 0.1 || e > 0.9 ? 6 : e > 0.7 && L.opening ? 23 : lvl(0.45 + Math.sin(e * 3.14) * 0.3, x, y, [6, 7]); k = 4; }
-      // inner lips (length from labiaMinoraMm, width from labiaWidthMm, asymmetry, ruffle, tip/base colour)
-      for (const s of [-1, 1]) { const sz = 1 + (s < 0 ? L.asym : -L.asym) * 0.9, cx = CX + s * (mAx + mth * 0.6), ayM = ay * minLen * 0.92 + protPx * sz * 0.8, cy = y0 - ay * 0.05 + ayM * 0.45 - ay * 0.2 + protPx * sz * 0.3, wob = 1 + L.ruffle * 0.34 * Math.sin((py - cy) * 0.6 + s * 1.7 + t * 0.15), a2 = mth * sz * wob * (L.thinEdge ? 0.7 : 1), dx = (px - cx) / Math.max(a2, 0.7), dy = (py - cy) / ayM, d = dx * dx + dy * dy; if (d <= 1 && py > y0 - ay * 0.72) { const tipF = clamp((py - (y0 - ay * 0.4)) / (ayM * 1.4), 0, 1), v = 0.58 + (-(dx * -0.5 * s) - dy * 0.35) * 0.4 - (d > 0.6 ? (d - 0.6) * 1.3 : 0) - (L.tip ? tipF * 0.28 : 0); c = lvl(v, x, y, L.minDark || L.tip && tipF > 0.6 ? [23, 9, 6] : [9, 7, 8, 20]); k = 5; } }
+      if (Math.abs(px - CX) < gap / 2 && py > y0 - ay * 0.88 && py < y0 + ay * 0.96) { const e = (py - (y0 - ay * 0.88)) / (ay * 1.84); c = e < 0.1 || e > 0.9 ? 6 : e > 0.7 && L.opening ? 23 : lvl(0.45 + Math.sin(e * 3.14) * 0.3, x, y, [6, 7], 0.35); k = 4; }
+      // inner lips: leaf shaped, rooted under the hood, widest in the lower third; width from labiaWidthMm, length from labiaMinoraMm, asymmetry, ruffle, colour toward the tip
+      for (const s of [-1, 1]) { const sz = 1 + (s < 0 ? L.asym : -L.asym) * 0.9, yt = y0 - ay * 0.7, yb = y0 + ay * (0.1 + minLen * 0.8) * 0.9 + protPx * sz * 0.9, tt = (py - yt) / (yb - yt); if (tt < 0 || tt > 1) continue; const off = (px - CX) * s - (gap / 2 + 0.2); if (off < 0) continue; const prof = Math.pow(Math.sin(Math.PI * Math.min(1, tt * 1.12)), 0.7) * (0.3 + 0.7 * Math.min(1, tt * 1.4)), wob = 1 + L.ruffle * 0.34 * Math.sin(tt * 15 + s * 1.7 + t * 0.2), w2 = mth * 2.1 * sz * wob * prof * (L.thinEdge ? 0.7 : 1); if (off > w2 || w2 < 0.4) continue; const nx = off / w2, tipF = clamp((tt - 0.45) / 0.55, 0, 1), v = 0.32 + 0.55 * Math.sin(Math.min(1, nx * 1.05) * 2.2) - (L.tip ? tipF * 0.3 : 0) - (tt > 0.92 ? (tt - 0.92) * 3 : 0); c = lvl(v, x, y, L.minDark || (L.tip && tipF > 0.6) ? [23, 9, 6, 7] : [9, 7, 8, 20], 0.35); k = 5; }
       // hood and clitoris
       const hdx = (px - CX) / hoodW, hdy = (py - hoodY) / hoodH; if (hdx * hdx + hdy * hdy <= 1) { c = hdy < -0.15 ? 15 : lvl(0.5 - hdy * 0.3, x, y, [18, 10]); k = 6; if (hdy > 0.55 && Math.abs(hdx) < 0.5) c = 5; }
       if ((L.clitShow || ar > 0.4) && !L.hoodCover || ar > 0.75) { const cdx = (px - CX) / (1.2 + p.clitMm * 0.16), cdy = (py - (hoodY + hoodH * 0.8)) / (1.2 + p.clitMm * 0.14); if (cdx * cdx + cdy * cdy <= 1) { c = cdy < 0 ? 11 : 8; k = 6; } }
       g[i] = c; cls[i] = k; }
     const e = new Uint8Array(g);
-    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const i = y * S + x, k = cls[i]; if (k < 3 || k === 4) continue; const nb = [x > 0 ? cls[i - 1] : 0, x < S - 1 ? cls[i + 1] : 0, y > 0 ? cls[i - S] : 0, y < S - 1 ? cls[i + S] : 0]; if (nb.some(n => n !== k && !(k === 5 && n === 5) && n !== 4 && n !== 6) || (k === 3 && nb.some(n => n === 1))) e[i] = k === 5 ? 9 : 5; if (k === 5 && nb.some(n => n === 3)) e[i] = 9; }
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const i = y * S + x, k = cls[i]; if (k < 3 || k === 4) continue; const nb = [x > 0 ? cls[i - 1] : 0, x < S - 1 ? cls[i + 1] : 0, y > 0 ? cls[i - S] : 0, y < S - 1 ? cls[i + S] : 0]; if (nb.some(n => n !== k && !(k === 5 && n === 5) && n !== 4 && n !== 6) || (k === 3 && nb.some(n => n === 1))) e[i] = k === 5 ? 9 : (hash(x, y, 4) < 0.65 ? 19 : 3); if (k === 5 && nb.some(n => n === 3)) e[i] = 9; }
     // hair as short strands (straight or curled), clustered, never over the soft parts
     const Hd = L.hair; if (Hd.style > 0) { const tries = Math.round(2400 * Hd.dens * (Hd.style === 5 ? 1.5 : Hd.style === 1 ? 0.5 : 1));
       const inMask = (px, py) => { const mdx = (px - CX) / ((14 + 9 * L.mons) * u * 0.9), mdy = (py - 28) / ((8 + 6 * L.mons) * u), mr = mdx * mdx + mdy * mdy, au = Math.abs(px - CX);
         if (Hd.style === 1) return mr <= 1.15 || (au < ax + gap + 2 && py < y0 - ay * 0.3 && py > 30); if (Hd.style === 3) return py > 14 && py < 38 && au < 16 * (1 - (py - 14) / 24) + 2; if (Hd.style === 4) return mr <= 1.5 || (au < ax * 1.6 + gap && py < y0 - ay * 0.2 && py > 28 && au > gap / 2 + 1.5); return mr <= 2.3 || (au < ax * 2.2 + gap && py < y0 + ay * 0.5 && py > 24 && au > gap / 2 + 1.5); };
       for (let j = 0; j < tries; j++) { const px0 = Math.floor(hash(j, 1, p.seed) * S), py0 = Math.floor(hash(j, 2, p.seed) * 70), cl = hash(px0 >> 2, py0 >> 2, p.seed + 7); if (cl > 0.35 + Hd.dens * 0.65) continue; let hx = px0 + 0.5, hy = py0 + 0.5; if (!inMask(hx, hy)) continue; if (hy > 28 && Math.abs(hx - CX) < gap / 2 + ax * 0.15) continue;
-        const ang0 = Math.atan2(hy - 24, hx - CX), curl = L.straight ? 0.1 : 0.9, len = 2 + Math.floor(hash(j, 4, p.seed) * 3), col = hash(j, 5, p.seed) < 0.3 ? 13 : L.grey && hash(j, 6, p.seed) < 0.18 ? 22 : hash(j, 7, p.seed) < 0.12 ? 16 : 12; let a = ang0 + (hash(j, 8, p.seed) - .5) * 1.4;
+        const ang0 = Math.atan2(hy - 24, hx - CX), curl = L.straight ? 0.1 : L.curl, len = 2 + Math.floor(hash(j, 4, p.seed) * 3), col = hash(j, 5, p.seed) < 0.3 ? 13 : L.grey && hash(j, 6, p.seed) < 0.18 ? 22 : hash(j, 7, p.seed) < 0.12 ? 16 : 12; let a = ang0 + (hash(j, 8, p.seed) - .5) * 1.4;
         for (let q = 0; q < len; q++) { const xi = Math.floor(hx), yi = Math.floor(hy); if (xi < 0 || xi >= S || yi < 0 || yi >= S) break; const kk = cls[yi * S + xi]; if (kk >= 3) break; e[yi * S + xi] = col; a += (hash(j, 9 + q, p.seed) - .5) * curl; hx += Math.cos(a) * 1.0; hy += Math.sin(a) * 1.0 + 0.25; } } }
     if (L.high) for (let y = 0; y < 14; y++) for (let x = CX - 1; x <= CX + 1; x++) if (hash(x, y, p.seed + 2) < 0.5 && cls[y * S + x] === 1) e[y * S + x] = 12;
     if (L.poreHair) for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) if (cls[y * S + x] === 3 && hash(x, y, p.seed + 9) < 0.05) e[y * S + x] = 13;
@@ -169,8 +175,44 @@ select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border
   $('#cd').addEventListener('click', () => copy(describe(P))); $('#cf').addEventListener('click', () => copy(fields(P).map(([k, v]) => `${k} → ${v}`).join('\n'))); $('#cj').addEventListener('click', () => copy(JSON.stringify({ pubicHair: OPT.pubicHair[P.pubicHair], pubicPattern: OPT.pubicPattern[P.pubicPattern], vulva: P.vulva.map(i => OPT.vulva[i]), vulvaColor: OPT.vulvaColor[P.vulvaColor], labiaMinoraMm: P.minoraMm, labiaWidthMm: P.widthMm, clitMm: P.clitMm, vulvaDetail: P.detail.map(i => OPT.vulvaDetail[i]) }, null, 1)));
   $('#fav').addEventListener('click', () => { favs.unshift(JSON.parse(JSON.stringify(P))); favs = favs.slice(0, 40); favs2(); save(); msg('เก็บแล้ว'); });
   $('#gif').addEventListener('click', async () => { const dl = await window.claude?.use?.('downloads'); if (!dl) { msg('เปิดในแอป Claude เพื่อบันทึกไฟล์'); return; } try { await dl.save({ filename: 'body-design.gif', data: new Blob([gifOf(P, 5)], { type: 'image/gif' }) }); } catch (e) { msg('ยังไม่ได้บันทึก'); } });
+
+  /* ---- import from an Anima export ---- */
+  const HAIRN = { 'ดำสนิท': '#141011', 'ดำอมน้ำตาล': '#2B1E18', 'น้ำตาลเข้ม': '#4A3022', 'น้ำตาล': '#6E4A2F', 'น้ำตาลอ่อน': '#9B7350', 'บลอนด์เข้ม': '#B8925F', 'บลอนด์': '#DDBE85', 'แดง/ส้ม': '#A4492A', 'หงอกแซม': '#7D7873', 'ขาวทั้งศีรษะ': '#E6E2DC', 'น้ำตาลหม่น': '#7A5E4E', 'น้ำตาลช็อกโกแลต': '#5A3A2A', 'แดงไวน์': '#6E2232', 'ชมพูพาสเทล': '#E5A9BC', 'ม่วง': '#6B4C8A', 'เทาควันบุหรี่': '#8C8A8E', 'บลอนด์สว่าง': '#EAD7A4', 'น้ำเงินเข้ม': '#2C3A66' };
+  const idxOf = (list, v) => { if (v == null) return -1; v = String(v).trim(); let i = list.indexOf(v); if (i < 0) i = list.findIndex(x => x.startsWith(v.slice(0, 8)) || v.startsWith(x.slice(0, 8))); return i; };
+  const hashS = t => { let h = 7; for (const ch of String(t)) h = (h * 31 + ch.codePointAt(0)) >>> 0; return h; };
+  function fromAnima(d) {
+    const g = (k) => d[k], o = { seed: hashS((d.firstName || '') + (d.nickname || '')) % 99999 }, miss = [];
+    let i = SKINS.findIndex(x => x[1] === g('skinTone')); if (i < 0 && /^#/.test(g('skinTone') || '')) { const t = hex(g('skinTone')); i = SKINS.map((x, n) => [n, hex(x[0]).reduce((a, v, j) => a + Math.abs(v - t[j]), 0)]).sort((a, b) => a[1] - b[1])[0][0]; } if (i < 0) { i = 1; miss.push('สีผิว'); } o.skin = i;
+    const hc = g('hairColor'); if (HAIRN[hc]) o.hairHex = HAIRN[hc]; else if (/^#[0-9a-fA-F]{6}$/.test(hc || '')) o.hairHex = hc; else miss.push('สีผม');
+    const hb = idxOf(BODYHAIR, g('hairColorBody')); if (hb >= 0) o.hairBody = hb;
+    const one = (k, list, key) => { const j = idxOf(list, g(k)); if (j >= 0) o[key || k] = j; else miss.push(k); };
+    one('pubicHair', OPT.pubicHair); one('pubicPattern', OPT.pubicPattern); one('vulvaColor', OPT.vulvaColor);
+    const many = (k, list) => { const arr = asList(g(k)).map(x => idxOf(list, x)).filter(j => j >= 0); if (arr.length || asList(g(k)).length) o[k] = arr; else miss.push(k); };
+    many('vulva', OPT.vulva); { const dv = asList(g('vulvaDetail')); if (dv.length) o.detail = dv.map(x => idxOf(OPT.vulvaDetail, x)).filter(j => j >= 0); else miss.push('vulvaDetail'); }
+    const q = norm(Object.assign({ skin: 1 }, o)); [['labiaMinoraMm', 'minoraMm', baseMinora], ['labiaWidthMm', 'widthMm', baseWidth], ['clitMm', 'clitMm', baseClit]].forEach(([k, kk, f]) => { const v = Number(g(k)); if (g(k) !== undefined && g(k) !== '' && isFinite(v)) q[kk] = clamp(v, kk === 'clitMm' ? 2 : kk === 'widthMm' ? 5 : 15, kk === 'clitMm' ? 14 : kk === 'widthMm' ? 60 : 110); else { q[kk] = kk === 'clitMm' ? f(q) : Math.round(f(q)); miss.push(k); } });
+    return { p: q, miss };
+  }
+  let CHARS = [];
+  function readExport(text) {
+    let j; try { j = JSON.parse(text); } catch (e) { return { err: 'อ่านไม่ได้ ไม่ใช่ JSON ที่ถูกต้อง' }; }
+    const arr = Array.isArray(j) ? j : Array.isArray(j.characters) ? j.characters : j.data ? [j] : (j.firstName || j.nickname) ? [{ data: j }] : [];
+    const ok = [], skip = [];
+    arr.forEach(c => { const d = c.data || c; if (!d || typeof d !== 'object') return; const nm = d.nickname || d.firstName || 'ไม่มีชื่อ', age = Number(d.age); if (d.sex === 'ชาย' || d.sex === 'male') { skip.push(nm + ' (ไม่ใช่ตัวละครหญิง)'); return; } if (!(age >= 18)) { skip.push(nm + ' (ต้องอายุ 18 ขึ้นไป)'); return; } ok.push({ name: nm, age, d }); });
+    return { ok, skip };
+  }
+  function loadChars(text) {
+    const r = readExport(text), info = $('#impinfo'), sel = $('#impsel');
+    if (r.err) { info.textContent = r.err; return; }
+    CHARS = r.ok; sel.replaceChildren(); CHARS.forEach((c, i) => sel.append(mkEl('option', { value: String(i), text: `${c.name} (${c.age} ปี)` }))); sel.hidden = CHARS.length < 2;
+    if (!CHARS.length) { info.textContent = 'ไม่พบตัวละครที่ใช้ได้' + (r.skip.length ? ' — ข้าม: ' + r.skip.join(', ') : ''); return; }
+    pickChar(0); if (r.skip.length) info.textContent += ' · ข้าม: ' + r.skip.join(', ');
+  }
+  function pickChar(i) { const c = CHARS[i]; if (!c) return; const r = fromAnima(c.d); P = r.p; after(); $('#impinfo').textContent = `นำเข้า ${c.name} แล้ว` + (r.miss.length ? ` · ช่องที่ว่างใน Anima เติมตามสูตร: ${r.miss.length} ช่อง` : ' · ครบทุกช่อง'); }
+  $('#impsel').addEventListener('change', e => pickChar(+e.target.value));
+  $('#impf').addEventListener('change', async e => { const f = e.target.files[0]; if (!f) return; loadChars(await f.text()); e.target.value = ''; });
+  $('#impgo').addEventListener('click', () => loadChars($('#impt').value));
   load(); after(); thumbs('#presets', PRE, it => { P = norm(it.p); after(); }); favs2();
   if (!matchMedia('(prefers-reduced-motion: reduce)').matches) setInterval(() => { tick++; frame(); }, 170);
-  window.__t = { P: () => P, norm, problems, PRE, describe, fields, look, render, pal, gifOf, randomAnima, addVulva, OPT };
+  window.__t = { fromAnima, readExport, loadChars, P: () => P, norm, problems, PRE, describe, fields, look, render, pal, gifOf, randomAnima, addVulva, OPT };
 })();
 </script>
