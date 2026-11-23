@@ -1,0 +1,146 @@
+<title>ห้องออกแบบสรีระ</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Prompt:wght@500;600&family=Noto+Sans+Thai:wght@400;500&display=swap">
+<style>
+/* layout: the canvas on top (sticky on wide screens), grouped sliders below it, a wall of presets at the bottom. one deliberate dark look */
+:root{color-scheme:dark;--bg:#14101c;--panel:#201a2c;--line:#3a3150;--ink:#f1ecf7;--ink2:#b4a9c6;--amber:#ffb000;--pink:#e0457b;--f-d:"Prompt","Noto Sans Thai",system-ui,sans-serif;--f-b:"Noto Sans Thai",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:var(--f-b);font-size:15px;line-height:1.6;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));padding-block:20px 56px}
+main{max-width:1000px;margin:0 auto;display:flex;flex-direction:column;gap:16px}
+h1{font-family:var(--f-d);font-weight:600;font-size:26px;margin:0;color:var(--amber)}
+h2{font-family:var(--f-d);font-weight:500;font-size:16px;margin:0 0 8px;color:var(--ink)}
+.muted{color:var(--ink2);font-size:14px;margin:0}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:14px}
+.top{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:16px;align-items:start}
+@media (max-width:760px){.top{grid-template-columns:1fr}}
+canvas{display:block;width:100%;max-width:520px;aspect-ratio:1;image-rendering:pixelated;border:2px solid var(--line);border-radius:8px;background:#000;margin:0 auto}
+.row{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+button{font:inherit;cursor:pointer;border-radius:999px;border:1px solid var(--line);background:var(--panel);color:var(--ink);padding:6px 14px;min-height:38px}
+button:hover{border-color:var(--amber)}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid var(--amber);outline-offset:2px}
+button.go{background:var(--amber);border-color:var(--amber);color:#1b1306;font-weight:500}
+button[aria-pressed=true]{background:var(--pink);border-color:var(--pink);color:#fff}
+.sl{display:grid;grid-template-columns:minmax(110px,150px) 1fr 34px;gap:8px;align-items:center;margin:2px 0}
+.sl label{font-size:14px;color:var(--ink2)}.sl output{font-size:12px;color:var(--ink2);text-align:right}
+input[type=range]{width:100%;accent-color:var(--amber)}
+select{background:var(--bg);color:var(--ink);border:1px solid var(--line);border-radius:8px;padding:7px 10px;font:inherit;max-width:100%}
+.sw{width:30px;height:30px;border-radius:50%;border:2px solid var(--line);padding:0;min-height:0}.sw[aria-pressed=true]{border-color:#fff;box-shadow:0 0 0 2px var(--pink)}
+#desc{white-space:pre-wrap;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px;font-size:14px}
+.wall{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:10px}
+.pc{background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:6px;cursor:pointer;display:flex;flex-direction:column;gap:4px;text-align:center;font-size:12px;color:var(--ink2);min-height:0;border-radius:8px}
+.pc canvas{max-width:100%;border-width:1px}
+.pc[aria-pressed=true]{border-color:var(--pink);color:var(--ink)}
+.lbl{font-size:12px;color:var(--ink2);margin:8px 0 2px}
+</style>
+<main>
+<h1>ห้องออกแบบสรีระ</h1>
+<p class="muted">ปรับรูปร่างแบบการ์ตูนพิกเซลได้ละเอียด: ขน สีผิว สีด้านใน ความหนาของแคม ขอบ ความอวบ และอาการตื่นตัว สำหรับผู้ใหญ่เท่านั้น เลือกแบบสำเร็จรูปหรือสุ่ม แล้วคัดลอกคำบรรยายภาษาไทยไปใส่ใน prompt ได้</p>
+<div class="top">
+  <div class="panel"><canvas id="cv" width="64" height="64" role="img" aria-label="ภาพพิกเซลของแบบที่ออกแบบ"></canvas>
+    <div class="row" style="margin-top:10px;justify-content:center"><button class="go" id="rnd" type="button">🎲 สุ่มแบบใหม่</button><button id="gif" type="button">บันทึก GIF</button><button id="fav" type="button">⭐ เก็บไว้</button></div></div>
+  <div class="panel"><div id="ctl"></div></div>
+</div>
+<div class="panel"><h2>คำบรรยาย (คัดลอกไปใส่ใน prompt ได้)</h2><div id="desc"></div><div class="row" style="margin-top:8px"><button id="cd" type="button">คัดลอกคำบรรยาย</button><button id="cj" type="button">คัดลอกค่า (JSON)</button><span class="muted" id="msg"></span></div></div>
+<div class="panel"><h2>แบบสำเร็จรูป</h2><div class="wall" id="presets"></div></div>
+<div class="panel"><h2>ที่เก็บไว้</h2><div class="wall" id="favs"></div><p class="muted" id="favnote">ยังไม่มี กด "⭐ เก็บไว้" ที่แบบที่ชอบ</p></div>
+</main>
+<script>
+(function () {
+  'use strict';
+  const S = 64, KEY = 'bodydesigner.v1', $ = s => document.querySelector(s), clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const SKINS = [['#f6d9c2', 'ขาวอมชมพู'], ['#f0c8a0', 'ขาวเหลือง'], ['#e0a878', 'ผิวสองสี'], ['#c98a5c', 'แทน'], ['#9a6540', 'น้ำผึ้งเข้ม'], ['#6a4430', 'ผิวเข้ม']];
+  const INNERS = [['#f3a9b8', 'ชมพูอ่อน'], ['#e57a94', 'ชมพูสด'], ['#c9566f', 'กุหลาบเข้ม'], ['#a8505a', 'แดงอมน้ำตาล'], ['#8c4a50', 'น้ำตาลอมชมพู'], ['#6a3a3e', 'น้ำตาลเข้ม']];
+  const HAIRS = [['#15101a', 'ดำ'], ['#3b2418', 'น้ำตาลเข้ม'], ['#8a5a30', 'น้ำตาลอ่อน'], ['#d9b060', 'บลอนด์'], ['#b8502a', 'แดงทองแดง'], ['#9a9aa8', 'เทา'], ['#d85fa0', 'ย้อมชมพู']];
+  const STYLES = ['เกลี้ยงเกลา', 'ตอเล็กน้อย', 'เส้นแคบตรงกลาง', 'สามเหลี่ยมเรียบร้อย', 'ธรรมชาติ', 'ดกเต็ม'];
+  const SL = [['mons', 'เนินหัวเหน่า (อวบ)'], ['hairD', 'ความหนาแน่นของขน'], ['majF', 'แคมนอกอวบ'], ['majL', 'แคมนอกยาว'], ['closure', 'แคมนอกชิดกัน'], ['minP', 'แคมในยื่นเลยแคมนอก'], ['minT', 'แคมในหนา'], ['ruffle', 'ขอบแคมในเป็นลอน'], ['asym', 'สองข้างไม่เท่ากัน'], ['hood', 'หมวกคลิตอริสใหญ่'], ['arousal', 'อาการตื่นตัว (บวม ชุ่ม)']];
+  const hex = h => [parseInt(h.slice(1, 3), 16), parseInt(h.slice(3, 5), 16), parseInt(h.slice(5, 7), 16)], toHex = c => '#' + c.map(v => clamp(Math.round(v), 0, 255).toString(16).padStart(2, '0')).join('');
+  const mix = (a, b, t) => { const x = hex(a), y = hex(b); return toHex(x.map((v, i) => v + (y[i] - v) * t)); };
+  const DEF = { skin: 1, inner: 1, hair: 1, style: 4, seed: 7, mons: .5, hairD: .6, majF: .55, majL: .5, closure: .65, minP: .25, minT: .4, ruffle: .25, asym: .1, hood: .4, arousal: .15 };
+  let P = Object.assign({}, DEF), favs = [];
+  function pal(p) { const sk = SKINS[p.skin][0], inn = mix(INNERS[p.inner][0], '#7a2030', p.arousal * 0.28), h = HAIRS[p.hair][0];
+    return ['#14101c', mix(sk, '#1a0c10', 0.62), sk, mix(sk, '#3a1a1a', 0.26), mix(sk, '#ffffff', 0.2), mix(sk, '#3a1a1a', 0.45), mix(inn, '#2a0a14', 0.55), inn, mix(inn, '#ffffff', 0.35), mix(inn, '#2a0a14', 0.34), mix(sk, inn, 0.5), mix(inn, '#ffffff', 0.55), h, mix(h, '#000000', 0.45), '#fff6ff', mix(sk, '#ffffff', 0.08)]; }
+  const BAY = [[0, 8, 2, 10], [12, 4, 14, 6], [3, 11, 1, 9], [15, 7, 13, 5]], lvl = (v, x, y, tones) => { const n = tones.length - 1, f = clamp(v, 0, 0.999) * n, i = Math.floor(f), fr = f - i; return tones[i + (fr > (BAY[y & 3][x & 3] + 0.5) / 16 ? 1 : 0)]; };
+  const hash = (x, y, s) => { let h = (x * 374761393 + y * 668265263 + s * 1274126177) | 0; h = (h ^ (h >>> 13)) * 1274126177 | 0; return ((h ^ (h >>> 16)) >>> 0) / 4294967295; };
+  function render(p, t) {
+    const g = new Uint8Array(S * S), cls = new Uint8Array(S * S), ar = clamp(p.arousal + Math.sin(t / 6 * 6.283) * 0.06 * (p.arousal > 0.05 ? 1 : 0), 0, 1);
+    const mons = p.mons, gap = 1.2 + (1 - p.closure) * 6, ax = 5.5 + 8 * p.majF * (1 + 0.3 * ar), ay = 13 + 7 * p.majL, y0 = 40, cxo = gap / 2 + ax * 0.9;
+    const prot = p.minP * 9, mth = 1.2 + p.minT * 3.6 * (1 + 0.45 * ar), mAx = gap / 2 + (p.closure > 0.9 ? 0.5 : 0) + 0.6 + p.minT * 1.8;
+    for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const px = x + .5, py = y + .5, i = y * S + x; let c = 0, k = 0;
+      const br = Math.hypot((px - 32) / 31, (py - 36) / 29); if (br <= 1) { c = br > 0.9 ? 3 : 2; k = 1; if ((px - 32) * -0.35 + (py - 28) * -0.5 > 3 && br < 0.7) c = 4; }
+      const mdx = (px - 32) / (13 + 7 * mons), mdy = (py - 17) / (8 + 5 * mons); if (mdx * mdx + mdy * mdy <= 1) { c = (-(mdx * 0.5) - mdy * 0.6) > 0.25 ? 4 : 2; k = 1; }
+      // hair
+      if (k === 1) { let m = false; const u = Math.abs(px - 32), sd = p.style;
+        if (sd === 1) m = (mdx * mdx + mdy * mdy <= 1.15) || (u < ax + gap && py < y0 + ay * 0.3 && py > 22);
+        else if (sd === 2) m = u < 3.2 && py > 8 && py < 25;
+        else if (sd === 3) m = py > 9 && py < 26 && u < (py - 9) * 0.0 + 12 * (1 - (py - 9) / 17) + 1.5;
+        else if (sd === 4) m = (mdx * mdx + mdy * mdy <= 1.35) || (u < ax * 1.5 + gap && py < y0 + ay * 0.5 && py > 20);
+        else if (sd === 5) m = (mdx * mdx + mdy * mdy <= 1.9) || (u < ax * 2 + gap && py < y0 + ay * 0.85 && py > 18);
+        const dens = sd === 1 ? 0.22 * (0.4 + p.hairD) : sd === 5 ? 0.35 + 0.6 * p.hairD : 0.18 + 0.7 * p.hairD;
+        const patch = 0.55 + 0.9 * hash(x >> 1, y >> 1, p.seed + 11); if (m && hash(x, y, p.seed) < dens * patch * 0.8) { c = hash(y, x, p.seed + 3) < 0.35 ? 13 : 12; k = 2; } }
+      // outer lips
+      for (const s of [-1, 1]) { const cx = 32 + s * cxo, dx = (px - cx) / ax, dy = (py - y0) / ay, d = dx * dx + dy * dy; if (d <= 1) { const lt = -(dx * -0.5 * s) - dy * 0.55, fall = Math.exp(-(Math.abs(px - 32) - gap / 2) / 2.6), rim = d > 0.8 ? (d - 0.8) * 2.2 : 0, v = 0.62 + lt * 0.38 - fall * 0.5 - rim * 0.45; c = lvl(v, x, y, [5, 3, 2, 4]); k = 3; } }
+      // cleft
+      if (Math.abs(px - 32) < gap / 2 && py > y0 - ay * 0.88 && py < y0 + ay * 0.95) { const e = (py - (y0 - ay * 0.88)) / (ay * 1.83); c = e < 0.12 || e > 0.88 ? 6 : 7; k = 4; }
+      // inner lips
+      for (const s of [-1, 1]) { const sz = 1 + (s < 0 ? p.asym : -p.asym) * 0.9, cx = 32 + s * (mAx + mth * 0.6), ayM = ay * 0.78 + prot * sz, cy = y0 + (prot * sz) * 0.55 + ay * 0.02, wob = 1 + p.ruffle * 0.3 * Math.sin((py - cy) * 0.55 + s * 1.7 + t * 0.15), a2 = mth * sz * wob, dx = (px - cx) / Math.max(a2, 0.6), dy = (py - cy) / ayM, d = dx * dx + dy * dy; if (d <= 1 && py > y0 - ay * 0.7) { const v = 0.55 + (-(dx * -0.5 * s) - dy * 0.35) * 0.4 - (d > 0.6 ? (d - 0.6) * 1.3 : 0); c = lvl(v, x, y, [9, 7, 8]); k = 5; } }
+      // hood + clitoris
+      const hdx = (px - 32) / (2 + p.hood * 3.2), hdy = (py - (y0 - ay * 0.83)) / (2 + p.hood * 2.6); if (hdx * hdx + hdy * hdy <= 1) { c = hdy < -0.2 ? 15 : 10; k = 6; }
+      if (ar > 0.35 && Math.abs(px - 32) < 1 && Math.abs(py - (y0 - ay * 0.83 + 2.2 + p.hood)) < 1) { c = 11; k = 6; }
+      g[i] = c; cls[i] = k; }
+    // edges of the soft parts
+    const e = new Uint8Array(g); for (let y = 0; y < S; y++) for (let x = 0; x < S; x++) { const i = y * S + x, k = cls[i]; if (k < 3 || k === 4) continue; const nb = [x > 0 ? cls[i - 1] : 0, x < S - 1 ? cls[i + 1] : 0, y > 0 ? cls[i - S] : 0, y < S - 1 ? cls[i + S] : 0]; if (nb.some(n => n !== k && !(k === 5 && n === 5) && n !== 4 && n !== 6) || (k === 3 && nb.some(n => n === 1 || n === 2))) e[i] = k === 5 ? 9 : 5; if (k === 5 && nb.some(n => n === 3)) e[i] = 9; }
+    // moisture
+    const n = Math.round(ar * 12); for (let j = 0; j < n; j++) { const mx = 32 + Math.round((hash(j, 5, p.seed) - .5) * (gap + mth * 2 + 3)), my = y0 - ay * 0.5 + Math.round(hash(j, 9, p.seed) * (ay * 1.4 + prot)) + ((t + j) % 3 === 0 ? 1 : 0), ii = clamp(my, 0, S - 1) * S + clamp(mx, 0, S - 1); if (cls[ii] === 4 || cls[ii] === 5 || cls[ii] === 3) e[ii] = 14; }
+    return e;
+  }
+  function paint(cv, g, palette) { const c = cv.getContext('2d'), im = c.createImageData(S, S), pr = palette.map(hex); for (let i = 0; i < g.length; i++) { const q = pr[g[i]], o = i * 4; im.data[o] = q[0]; im.data[o + 1] = q[1]; im.data[o + 2] = q[2]; im.data[o + 3] = 255; } c.putImageData(im, 0, 0); }
+  /* ---------- gif ---------- */
+  function lzw(idx, minCode) { const clear = 1 << minCode, eoi = clear + 1, out = []; let size = minCode + 1, next = eoi + 1, dict = new Map(), cur = 0, bits = 0; const emit = c => { cur |= c << bits; bits += size; while (bits >= 8) { out.push(cur & 255); cur >>>= 8; bits -= 8; } }; emit(clear); let p = idx[0]; for (let i = 1; i < idx.length; i++) { const k = idx[i], key = p * 256 + k, v = dict.get(key); if (v !== undefined) { p = v; continue; } emit(p); if (next < 4096) { dict.set(key, next++); if (next > (1 << size) && size < 12) size++; } else { emit(clear); dict.clear(); size = minCode + 1; next = eoi + 1; } p = k; } emit(p); emit(eoi); if (bits > 0) out.push(cur & 255); return out; }
+  function gifOf(p, k) { const palette = pal(p), b = [], w = S * k, w16 = v => b.push(v & 255, (v >> 8) & 255); 'GIF89a'.split('').forEach(c => b.push(c.charCodeAt(0))); w16(w); w16(w); b.push(0xF3, 0, 0); palette.forEach(h => b.push(...hex(h))); b.push(0x21, 0xFF, 0x0B); 'NETSCAPE2.0'.split('').forEach(c => b.push(c.charCodeAt(0))); b.push(3, 1, 0, 0, 0);
+    for (let t = 0; t < 6; t++) { const g = render(p, t); b.push(0x21, 0xF9, 4, 0, 14, 0, 0, 0, 0x2C); w16(0); w16(0); w16(w); w16(w); b.push(0); const idx = new Uint8Array(w * w); for (let y = 0; y < w; y++) for (let x = 0; x < w; x++) idx[y * w + x] = g[((y / k) | 0) * S + ((x / k) | 0)]; b.push(4); const d = lzw(idx, 4); for (let i = 0; i < d.length; i += 255) { const n = Math.min(255, d.length - i); b.push(n); for (let j = 0; j < n; j++) b.push(d[i + j]); } b.push(0); } b.push(0x3B); return new Uint8Array(b); }
+  /* ---------- description ---------- */
+  const lv = (v, a) => v < 0.2 ? a[0] : v < 0.4 ? a[1] : v < 0.6 ? a[2] : v < 0.8 ? a[3] : a[4];
+  function describe(p) {
+    const hair = p.style === 0 ? 'ขนถูกกำจัดเกลี้ยงเกลา ผิวเรียบ' : `ขน${STYLES[p.style]} สี${HAIRS[p.hair][1]} ${lv(p.hairD, ['บางมาก', 'บาง', 'หนาพอดี', 'ค่อนข้างหนา', 'ดกหนา'])}`;
+    const lines = [`ผิวโทน${SKINS[p.skin][1]} เนินหัวเหน่า${lv(p.mons, ['แบนเรียบ', 'นูนเล็กน้อย', 'นูนพอดี', 'อวบนูน', 'อวบนูนมาก'])} ${hair}`,
+      `แคมนอก${lv(p.majF, ['บางแบน', 'ค่อนข้างบาง', 'อวบพอดี', 'อวบ', 'อวบหนานุ่ม'])} ${lv(p.majL, ['สั้นมาก', 'สั้น', 'ยาวปานกลาง', 'ยาว', 'ยาวมาก'])} ${lv(p.closure, ['อ้าแยกชัด', 'แยกเล็กน้อย', 'ชิดกันพอควร', 'ชิดกัน', 'ปิดสนิท'])}`,
+      p.minP < 0.15 && p.minT < 0.35 ? 'แคมในซ่อนอยู่ในร่องของแคมนอก เห็นเป็นขอบบางๆ' : `แคมใน${lv(p.minT, ['บางเฉียบ', 'บาง', 'หนาปานกลาง', 'หนา', 'หนาอวบ'])} ${lv(p.minP, ['ไม่เลยแคมนอก', 'โผล่พ้นแคมนอกเล็กน้อย', 'ยื่นพ้นแคมนอกชัดเจน', 'ยื่นยาว', 'ยื่นยาวห้อยลง'])}`,
+      `ขอบแคมใน${lv(p.ruffle, ['เรียบ', 'เรียบเกือบเรียบ', 'เป็นลอนเล็กน้อย', 'เป็นลอนชัด', 'ย่นเป็นลอนมาก'])}${p.asym > 0.35 ? ' สองข้างไม่เท่ากันชัดเจน' : p.asym > 0.15 ? ' สองข้างต่างกันเล็กน้อย' : ' สองข้างสมมาตร'}`,
+      `สีด้านใน${INNERS[p.inner][1]} หมวกคลิตอริส${lv(p.hood, ['เล็กมาก', 'เล็ก', 'ขนาดปานกลาง', 'ใหญ่', 'ใหญ่เด่น'])}`,
+      `สภาพ${p.arousal < 0.2 ? 'ปกติ ผ่อนคลาย แห้งสบาย' : p.arousal < 0.5 ? 'เริ่มตื่นตัว แคมเริ่มอิ่มและชื้น' : p.arousal < 0.8 ? 'ตื่นตัว แคมบวมอิ่ม สีเข้มขึ้น ชุ่มชื้นเป็นเงา' : 'ตื่นตัวเต็มที่ แคมบวมเต่ง สีเข้มจัด เปียกชุ่มเป็นเงา'}`];
+    return lines.join('\n'); }
+  /* ---------- presets ---------- */
+  let PREN = 0;
+  const PRE = [
+    ['เรียบเกลี้ยงสะอาด', { style: 0, majF: .4, majL: .45, closure: .85, minP: .05, minT: .2, ruffle: .1, hood: .25, inner: 0, skin: 0 }], ['แคมนอกอวบนุ่ม', { majF: .9, majL: .55, closure: .85, minP: .05, minT: .3, mons: .8, style: 3, hairD: .5 }], ['แคมในยื่นยาว', { majF: .35, majL: .5, closure: .5, minP: .85, minT: .45, ruffle: .5, hood: .5 }], ['แคมในหนาอวบ', { majF: .5, closure: .5, minP: .55, minT: .95, ruffle: .3, inner: 2 }],
+    ['ขอบเป็นลอนสวย', { minP: .6, minT: .5, ruffle: .95, asym: .15, inner: 1 }], ['ธรรมชาติขนดก', { style: 5, hairD: .9, mons: .75, majF: .6, skin: 3, inner: 3, hair: 1 }], ['เส้นขนแคบตรงกลาง', { style: 2, hairD: .8, majF: .5, closure: .7, inner: 1, hair: 0 }], ['สามเหลี่ยมเรียบร้อย', { style: 3, hairD: .65, majF: .55, inner: 0, hair: 2 }],
+    ['ผิวเข้ม ในชมพูสด', { skin: 5, inner: 1, majF: .6, majL: .55, minP: .4, minT: .5, style: 1, hairD: .5 }], ['ผิวสองสี ในน้ำตาลอมชมพู', { skin: 2, inner: 4, majF: .6, minP: .5, minT: .6, style: 4, hairD: .6 }], ['ผิวขาว ในชมพูอ่อนมาก', { skin: 0, inner: 0, majF: .45, closure: .8, minP: .1, minT: .25, style: 0 }], ['ผิวแทน ในแดงเข้ม', { skin: 4, inner: 3, majF: .65, minP: .45, minT: .55, style: 4, hairD: .5, hair: 0 }],
+    ['ตื่นตัว บวมอิ่ม', { arousal: .8, majF: .75, minT: .7, minP: .5, closure: .4, inner: 2 }], ['ตื่นตัวเต็มที่ ชุ่มเงา', { arousal: 1, majF: .85, minT: .85, minP: .6, closure: .3, ruffle: .5, inner: 2 }], ['เริ่มตื่นตัว', { arousal: .45, closure: .55, minP: .35 }], ['ผ่อนคลายหลังจบ', { arousal: .55, closure: .4, minP: .5, minT: .6, ruffle: .4, inner: 2 }],
+    ['สองข้างไม่เท่ากันชัด', { asym: .9, minP: .6, minT: .55, ruffle: .6 }], ['แคมนอกบางแบน แคมในเด่น', { majF: .15, closure: .25, minP: .7, minT: .6, ruffle: .4 }], ['หมวกคลิตใหญ่เด่น', { hood: .95, minP: .3, majF: .5 }], ['ชิดแน่น ปิดสนิท', { closure: 1, majF: .7, minP: 0, minT: .15, style: 3, hairD: .4 }],
+    ['เนินหัวเหน่านูนเต็ม', { mons: 1, majF: .7, closure: .8, style: 4, hairD: .6 }], ['ขนบลอนด์เส้นบาง', { style: 4, hair: 3, hairD: .35, skin: 0, inner: 0 }], ['ขนสีเทา ผู้ใหญ่ใจดี', { style: 4, hair: 5, hairD: .4, skin: 1, inner: 4, minP: .4, minT: .5 }], ['ย้อมชมพู สายแฟนตาซี', { style: 3, hair: 6, hairD: .7, skin: 0, inner: 1 }]
+  ].map(([name, o]) => ({ name, p: Object.assign({}, DEF, o, { seed: 1 + PREN++ })}));
+  function norm(o) { const p = Object.assign({}, DEF); if (o && typeof o === 'object') { SL.forEach(([k]) => { if (typeof o[k] === 'number') p[k] = clamp(o[k], 0, 1); }); ['skin', 'inner', 'hair'].forEach(k => { const n = parseInt(o[k], 10); if (n >= 0 && n < (k === 'skin' ? SKINS : k === 'inner' ? INNERS : HAIRS).length) p[k] = n; }); const st = parseInt(o.style, 10); if (st >= 0 && st < STYLES.length) p.style = st; const sd = parseInt(o.seed, 10); if (sd >= 0 && sd < 1e6) p.seed = sd; } return p; }
+  /* ---------- ui ---------- */
+  const cv = $('#cv'); let tick = 0, timer = null;
+  function save() { try { localStorage.setItem(KEY, JSON.stringify({ cur: P, favs })); } catch (e) {} }
+  function load() { try { const o = JSON.parse(localStorage.getItem(KEY) || 'null'); if (o) { P = norm(o.cur); favs = (Array.isArray(o.favs) ? o.favs : []).slice(0, 40).map(norm); } } catch (e) {} }
+  function swatches(host, list, key) { const box = $(host); box.replaceChildren(); list.forEach((c, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'sw'; b.style.background = c[0]; b.title = c[1]; b.setAttribute('aria-label', c[1]); b.setAttribute('aria-pressed', String(P[key] === i)); b.addEventListener('click', () => { P[key] = i; update(); }); box.append(b); }); }
+  function buildControls() { const h = $('#ctl'); h.replaceChildren(); const mk = (t, id) => { const l = document.createElement('div'); l.className = 'lbl'; l.textContent = t; const r = document.createElement('div'); r.className = 'row'; r.id = id; h.append(l, r); }; mk('สีผิว', 'skinSw'); mk('สีด้านใน', 'innSw'); mk('สีขน', 'hairSw');
+    const l = document.createElement('div'); l.className = 'lbl'; l.textContent = 'ทรงขน'; const sel = document.createElement('select'); sel.id = 'style'; STYLES.forEach((s, i) => { const o = document.createElement('option'); o.value = i; o.textContent = s; sel.append(o); }); sel.addEventListener('change', () => { P.style = Number(sel.value); update(); }); h.append(l, sel);
+    SL.forEach(([k, t]) => { const d = document.createElement('div'); d.className = 'sl'; const lab = document.createElement('label'); lab.textContent = t; lab.htmlFor = 's-' + k; const inp = document.createElement('input'); inp.type = 'range'; inp.min = 0; inp.max = 100; inp.id = 's-' + k; inp.addEventListener('input', () => { P[k] = inp.value / 100; update(true); }); const o = document.createElement('output'); o.id = 'o-' + k; d.append(lab, inp, o); h.append(d); }); }
+  function sync() { SL.forEach(([k]) => { $('#s-' + k).value = Math.round(P[k] * 100); $('#o-' + k).textContent = Math.round(P[k] * 100); }); $('#style').value = P.style; swatches('#skinSw', SKINS, 'skin'); swatches('#innSw', INNERS, 'inner'); swatches('#hairSw', HAIRS, 'hair'); }
+  function update(light) { if (!light) sync(); else SL.forEach(([k]) => { $('#o-' + k).textContent = Math.round(P[k] * 100); }); $('#desc').textContent = describe(P); frame(); save(); }
+  function frame() { paint(cv, render(P, tick % 6), pal(P)); }
+  function thumbs(host, list, onPick) { const box = $(host); box.replaceChildren(); list.forEach((it, i) => { const b = document.createElement('button'); b.type = 'button'; b.className = 'pc'; const c = document.createElement('canvas'); c.width = S; c.height = S; paint(c, render(it.p, 0), pal(it.p)); const t = document.createElement('span'); t.textContent = it.name; b.append(c, t); b.addEventListener('click', () => onPick(it, i)); box.append(b); }); }
+  function favs2() { thumbs('#favs', favs.map((p, i) => ({ p, name: 'ของฉัน ' + (i + 1) })), (it, i) => { P = norm(it.p); update(); }); $('#favnote').hidden = favs.length > 0; }
+  function msg(t) { $('#msg').textContent = t; setTimeout(() => { $('#msg').textContent = ''; }, 2500); }
+  async function copy(t) { try { await navigator.clipboard.writeText(t); msg('คัดลอกแล้ว'); } catch (e) { const r = document.createRange(); r.selectNodeContents($('#desc')); const s = getSelection(); s.removeAllRanges(); s.addRange(r); msg('เลือกข้อความให้แล้ว กดคัดลอกเอง'); } }
+  $('#rnd').addEventListener('click', () => { const r = Math.random; P = norm({ skin: Math.floor(r() * SKINS.length), inner: Math.floor(r() * INNERS.length), hair: Math.floor(r() * HAIRS.length), style: Math.floor(r() * STYLES.length), seed: Math.floor(r() * 99999), mons: r(), hairD: r(), majF: r(), majL: r(), closure: r(), minP: r() * r(), minT: r(), ruffle: r() * r(), asym: r() * r() * .8, hood: r(), arousal: r() < .3 ? r() : r() * .2 }); update(); });
+  $('#cd').addEventListener('click', () => copy(describe(P))); $('#cj').addEventListener('click', () => copy(JSON.stringify(P)));
+  $('#fav').addEventListener('click', () => { favs.unshift(Object.assign({}, P)); favs = favs.slice(0, 40); favs2(); save(); msg('เก็บแล้ว'); });
+  $('#gif').addEventListener('click', async () => { const dl = await window.claude?.use?.('downloads'); if (!dl) { msg('เปิดในแอป Claude เพื่อบันทึกไฟล์'); return; } try { await dl.save({ filename: 'body-design.gif', data: new Blob([gifOf(P, 6)], { type: 'image/gif' }) }); } catch (e) { msg('ยังไม่ได้บันทึก'); } });
+  load(); buildControls(); update(); thumbs('#presets', PRE, (it) => { P = norm(it.p); update(); }); favs2();
+  if (!matchMedia('(prefers-reduced-motion: reduce)').matches) timer = setInterval(() => { tick++; frame(); }, 170);
+  window.__test = { P: () => P, render, pal, describe, PRE, norm, gifOf };
+})();
+</script>
